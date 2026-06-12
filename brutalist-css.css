@@ -1315,17 +1315,14 @@ body:has(site-nav) {
   .global-nav-links {
     gap: 0.4rem 0.9rem;
   }
-  .global-nav-panel {
-    left: auto;
-    right: 0;
-  }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 430px) {
   .global-nav {
     padding: 0.6rem 0.85rem;
     font-size: 0.65rem;
     gap: 0.35rem 0.75rem;
+    min-height: 3rem;
   }
   .global-nav-folder-trigger {
     font-size: 0.65rem;
