@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Quote Application — Cover Whale</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+    .lc-section { background: hsl(0, 0%, 90%); }
+    .lc-section-head { background: hsl(0, 0%, 90%); color: #000; }
+
+    figure { margin: 3.5rem 0; }
+
+    #dot-first-demo-frame { aspect-ratio: 4 / 3; }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+      .box { padding: 1.25rem; }
+      #dot-first-demo-frame { aspect-ratio: unset; height: 420px; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page contents">
+    <a href="#intro"              class="dot-nav-item" data-label="Outcomes"></a>
+    <a href="#my-role"            class="dot-nav-item" data-label="My Role"></a>
+    <a href="#the-problem"        class="dot-nav-item" data-label="The Problem"></a>
+    <a href="#panel-insight"      class="dot-nav-item" data-label="The Insight"></a>
+    <a href="#panel-dot-first"    class="dot-nav-item" data-label="DOT-First Entry"></a>
+    <a href="#panel-pre-sub"      class="dot-nav-item" data-label="Pre-Submission Gate"></a>
+    <a href="#panel-tabs"         class="dot-nav-item" data-label="Tab Consolidation"></a>
+    <a href="#panel-terminology"  class="dot-nav-item" data-label="Terminology Audit"></a>
+    <a href="#panel-drawer"       class="dot-nav-item" data-label="Side Drawer"></a>
+    <a href="#outcome"            class="dot-nav-item" data-label="Validation"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag">Cover Whale</span>
+            <span class="tag">Senior UX Researcher &amp; Designer</span>
+            <span class="tag">Series · Part 2 of 3</span>
+            <span class="tag">7 Months</span>
+          </div>
+          <h1>The Quote Application</h1>
+          <p>Redesigned a high-stakes form flow where mismatched terminology was causing agents to submit incorrect applications — usability testing surfaced that field names had directly contributed to lost sales. The fix required no new features. Just precision.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate>
+            <img src="assets/application-hero.png" alt="Quote Application — Start Application screen">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">1 Field</div>
+        <div class="label">DOT number lookup pre-populates company details, operating state, and vehicle data before manual entry begins</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">5 → 3</div>
+        <div class="label">Tab count reduced — Coverages, Operations, and Equipment replace five fragmented sections</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">Lost Sales</div>
+        <div class="label">Usability testing finding: inconsistent field names had directly caused incorrect submissions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY ROLE ───────────────────────────────────────── -->
+  <section class="section snap-section" id="my-role">
+    <h2 data-animate>My Role</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What I Owned</p>
+          <p>I led research synthesis, application IA, and design direction. I ran the usability testing that surfaced the field naming issue and drove the terminology audit that followed.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">Who I Worked With</p>
+          <p>Ipek and Dilara (UX, Zurich vendor team), Murat (Front End). Internal stakeholders included the Head of CX, COO, PM, and underwriting leadership.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy box--dark" data-animate>
+      <p class="entry-label">Context Within the Series</p>
+      <p>The Quote Application redesign was the second of three interconnected workstreams. The platform architecture redesign — which reorganized the navigation around the policy lifecycle — ran in parallel, and the account model it established made the form's early-eligibility logic possible.</p>
+    </div>
+  </section>
+
+  <!-- ── THE PROBLEM ────────────────────────────────────── -->
+  <section class="section snap-section" id="the-problem">
+    <h2 data-animate>The Problem</h2>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">The Setup</p>
+      <p>A commercial trucking insurance quote requires a lot of information: DOT numbers, VINs, vehicle classes, cargo types, operating radius, driver histories. For a fleet of ten trucks, that's ten sets of manually entered vehicle data before a price appears. Agents were losing business because of this form — not hypothetically. In usability testing, agents reported that inconsistent field names had <strong>directly contributed to lost sales.</strong></p>
+    </div>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">Two Compounding Problems</p>
+      <p><strong>Speed mattered</strong> because agents compare quotes across carriers in real time. Every minute of manual entry is a minute a competitor's platform isn't wasting. The platform's core value proposition — automated underwriting, real-time quotes — was being undermined by the form that fed it.</p>
+      <p style="margin-top:1rem;"><strong>Accuracy mattered</strong> because errors didn't just slow agents down. They eroded trust with clients. A field labeled 'Business Garaging Address' on the platform meant something different than 'Physical Address' in FMCSA records. Agents were entering data in the wrong fields, submitting incorrect applications, and absorbing the credibility hit when errors surfaced later.</p>
+    </div>
+  </section>
+
+  <!-- ── THE INSIGHT ────────────────────────────────────── -->
+  <section class="section snap-section" id="panel-insight">
+    <div class="entry" data-animate>
+      <p class="entry-label">The Directive</p>
+      <h2 class="h2--flush" style="margin-bottom:1rem;">"Brilliant at the Basics"</h2>
+      <p>From the Head of CX: <em>"Let's get the basics really right, then worry about the rest."</em> The redesign took this literally. Every decision — pre-population, early-eligibility gates, tab consolidation, renamed fields — was measured against one question: does this reduce the cognitive load of data entry under time pressure, for someone managing a client on the phone?</p>
+    </div>
+  </section>
+
+  <!-- ── DECISION 1: DOT-First ──────────────────────────── -->
+  <div class="panel alt snap-section" id="panel-dot-first">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 01</p>
+      <h3 data-animate>DOT-First Entry Point</h3>
+      <p data-animate>The redesigned application opens with a single field: the DOT number. A successful FMCSA lookup pre-populates company details, operating state, and vehicle information — reducing manual entry significantly before the agent has typed a single VIN.</p>
+      <p data-animate style="margin-top: 1rem;">This also front-loads eligibility. Verifying the operating state at entry automatically applies state-specific underwriting rules, which means the system can identify ineligible submissions earlier and surface hard declines before the agent has invested time in a full application.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" id="dot-first-demo-frame" data-animate>
+        <iframe src="start-application-demo.html" style="width:100%; height:100%; border:3px solid #000; display:block; position:relative; z-index:0;" title="DOT-First Entry — Interactive Demo"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 2: Pre-Submission ────────────────────── -->
+  <div class="panel snap-section" id="panel-pre-sub">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 02</p>
+      <h3 data-animate>Pre-Submission Form as a Knockout Gate</h3>
+      <p data-animate>Before reaching the full application, agents pass through a short Pre-Submission Form designed to surface clear ineligibility fast. The business logic: the sooner an ineligible submission is declined, the less time the agent wastes — and the more credibility the platform earns by being accurate rather than stringing the agent along.</p>
+      <p data-animate style="margin-top: 1rem;">Declines generated by the Pre-Submission Form are captured in the Submissions &gt; Declined view, so agents always have a record.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Screen — Pre-Submission Form ]</div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 3: Tab Consolidation ─────────────────── -->
+  <div class="panel alt snap-section" id="panel-tabs">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 03</p>
+      <h3 data-animate>Tab Consolidation to Reduce Switching</h3>
+      <p data-animate>The original application separated related information across multiple tabs, requiring agents to move between screens to see the full picture on a quote. The redesign consolidated five sections into three:</p>
+      <p data-animate style="margin-top: 1rem;"><strong>Coverages</strong> — merged the former Limits section so all coverage details, limits, and fees are visible on one page.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Operations</strong> — consolidated Cargo and Radius with SAFER autofill. Positioned early as a source of knockout questions — ineligible cargo types or radius configurations surface before the agent enters vehicle data.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Equipment</strong> — merged Vehicles and Trailers into a single tab, treating them as parts of a whole.</p>
+    </div>
+    <div class="panel-image">
+      <div class="card-stack" data-animate>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Coverages Tab ]</div>
+        </div>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Operations Tab ]</div>
+        </div>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Equipment Tab ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 4: Terminology ───────────────────────── -->
+  <div class="panel snap-section" id="panel-terminology">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 04</p>
+      <h3 data-animate>Terminology Aligned to FMCSA Standards</h3>
+      <p data-animate>The field naming audit was one of the highest-impact changes in the redesign — and it required no new features. Renaming 'Insured' to 'Business', replacing 'Business Garaging Address' with 'Physical Address', and aligning all terminology to FMCSA language reduced the gap between what agents saw in the platform and what they saw in their other tools.</p>
+      <p data-animate style="margin-top: 1rem;">The usability testing finding was direct: misaligned field names had caused agents to enter data incorrectly, leading to incorrect quotes and lost business. This was a fixable problem that required precision, not engineering.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Before / After — Field Label Comparison ]</div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 5: Side Drawer ───────────────────────── -->
+  <div class="panel alt snap-section" id="panel-drawer">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 05</p>
+      <h3 data-animate>Side Drawer for Vehicle Entry</h3>
+      <p data-animate>Previously, adding a vehicle opened a modal — enter data, save, close, repeat for every vehicle in the fleet. For a ten-truck operation, that's ten modal cycles before the tab is complete.</p>
+      <p data-animate style="margin-top: 1rem;">The side drawer replaced this pattern. It slides in from the right, stays open, and allows the agent to add multiple vehicles in a single session without losing context on the parent page. A small change with a significant reduction in clicks for multi-vehicle submissions.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Screen — Side Drawer Vehicle Entry ]</div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOME ────────────────────────────────────────── -->
+  <section class="section snap-section" id="outcome">
+    <h2 data-animate>Validation</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">How It Tested</p>
+          <p>Usability testing validated the tab consolidation and field naming changes most strongly — both reduced errors and reduced the time agents spent second-guessing their inputs. The Pre-Submission Form's early-decline logic aligned with the stakeholder directive to cut to the chase and reduce time spent on ineligible accounts.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">The Deeper Lesson</p>
+          <p>Form design at this level of complexity isn't about aesthetics. It's about reducing cognitive load under time pressure, for someone managing a client on the phone. Every field that pre-fills, every tab that doesn't require a switch, every label that matches the agent's existing vocabulary — that's the product.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy" data-animate>
+      <p class="entry-label">What This Enabled</p>
+      <p>The terminology audit finding — that field names had directly caused incorrect submissions — became a design principle carried into the rest of the platform redesign. Precision of language was treated as a first-class design decision, not an editorial afterthought.</p>
+    </div>
+  </section>
+
+  <script>
+    // Card stack carousel
+    document.querySelectorAll('.card-stack').forEach(stack => {
+      stack.addEventListener('click', () => {
+        const front = stack.querySelector('.img-frame:first-child');
+        stack.appendChild(front);
+      });
+    });
+
+    // Stagger siblings
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-animate]'));
+      const index = siblings.indexOf(el);
+      if (index > 0) el.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Scroll-in animations
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    // Dot nav active state
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const dotSections = Array.from(dotItems)
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const dotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dotItems.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.dot-nav-item[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    dotSections.forEach(s => dotObserver.observe(s));
+  </script>
+
+</body>
+</html>

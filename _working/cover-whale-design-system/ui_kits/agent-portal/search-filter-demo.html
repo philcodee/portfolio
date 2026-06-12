@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Search — Interactive Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design Tokens ─────────────────────────────────────── */
+    :root {
+      --cw-neutral-white:    #ffffff;
+      --cw-neutral-lightest: #f8f7fa;
+      --cw-neutral-lighter:  #edebf2;
+      --cw-neutral-light:    #c4c0cf;
+      --cw-neutral-default:  #9794a2;
+      --cw-neutral-dark:     #66636e;
+      --cw-neutral-darker:   #484452;
+      --cw-neutral-ink:      #15121a;
+
+      --cw-purple-lighter:   #fbf2ff;
+      --cw-purple-light:     #d99fff;
+      --cw-purple-default:   #81369f;
+      --cw-purple-dark:      #5b0d80;
+
+      --cw-green-light:  #f2fff8;
+      --cw-green-default:#29cc96;
+      --cw-green-dark:   #004d33;
+      --cw-yellow-light: #fff8d5;
+      --cw-yellow-default:#f5cf47;
+      --cw-yellow-dark:  #4a3c00;
+      --cw-orange-lighter:#ffede2;
+      --cw-orange-dark:  #bb4f09;
+      --cw-red-light:    #ffe6e6;
+      --cw-red-default:  #cc3d3d;
+      --cw-blue-light:   #ebeeff;
+      --cw-blue-default: #3f51b5;
+      --cw-blue-dark:    #061459;
+
+      --cw-shadow-1: 0 0 4px 0 rgba(0,0,0,.06);
+      --cw-shadow-2: 0 2px 8px 0 rgba(0,0,0,.06), 0 1px 2px 0 rgba(0,0,0,.04);
+      --cw-shadow-3: 0 8px 24px 0 rgba(0,0,0,.08), 0 2px 6px 0 rgba(0,0,0,.04);
+      --cw-shadow-modal: 0 24px 48px 0 rgba(0,0,0,.16), 0 8px 16px 0 rgba(0,0,0,.08);
+
+      --cw-radius-xs: 2px;
+      --cw-radius-sm: 4px;
+      --cw-radius-md: 8px;
+      --cw-radius-pill: 999px;
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 24px;
+      color: var(--cw-neutral-ink);
+      background: #f0eef4;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 24px 80px;
+    }
+
+    /* ── Frame ─────────────────────────────────────────────── */
+    .frame {
+      width: 100%;
+      max-width: 1200px;
+      background: var(--cw-neutral-white);
+      border-radius: 12px;
+      border: 1px solid var(--cw-neutral-lighter);
+      box-shadow: var(--cw-shadow-modal);
+      overflow: hidden;
+    }
+
+    /* ── App bar ───────────────────────────────────────────── */
+    .appbar {
+      height: 64px;
+      background: var(--cw-neutral-white);
+      border-bottom: 1px solid var(--cw-neutral-lighter);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .appbar__logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .appbar__logo-mark {
+      width: 28px; height: 28px;
+      background: var(--cw-purple-default);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .appbar__logo-mark svg { width: 16px; height: 16px; fill: #fff; }
+    .appbar__logo-word {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--cw-purple-default);
+      letter-spacing: -0.01em;
+    }
+
+    .appbar__search-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Dormant search bar */
+    .search-trigger {
+      width: 100%;
+      max-width: 520px;
+      height: 36px;
+      background: var(--cw-neutral-lightest);
+      border: 1px solid transparent;
+      border-radius: var(--cw-radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px 0 12px;
+      cursor: text;
+      transition: border-color 120ms, background 120ms, box-shadow 120ms;
+      user-select: none;
+    }
+    .search-trigger:hover {
+      background: var(--cw-neutral-lighter);
+    }
+    .search-trigger.is-active {
+      background: var(--cw-neutral-white);
+      border-color: var(--cw-purple-default);
+      box-shadow: 0 0 0 3px rgba(129,54,159,.14);
+    }
+    .search-trigger__placeholder {
+      flex: 1;
+      font: 400 14px/24px var(--font);
+      color: var(--cw-neutral-default);
+      pointer-events: none;
+    }
+    .search-trigger__divider {
+      width: 1px; height: 18px;
+      background: var(--cw-neutral-lighter);
+      flex-shrink: 0;
+    }
+    .search-trigger__filter-btn {
+      width: 28px; height: 28px;
+      border-radius: var(--cw-radius-sm);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cw-neutral-dark);
+      transition: background 120ms, color 120ms;
+      flex-shrink: 0;
+    }
+    .search-trigger__filter-btn:hover {
+      background: var(--cw-neutral-lighter);
+      color: var(--cw-neutral-ink);
+    }
+    .search-trigger__filter-btn.is-active {
+      background: var(--cw-purple-lighter);
+      color: var(--cw-purple-default);
+    }
+
+    /* Hidden actual input */
+    .search-input-real {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ── Search dropdown ───────────────────────────────────── */
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 520px;
+      background: var(--cw-neutral-white);
+      border-radius: var(--cw-radius-md);
+      border: 1px solid var(--cw-neutral-lighter);
+      box-shadow: var(--cw-shadow-modal);
+      z-index: 50;
+      overflow: hidden;
+
+      opacity: 0;
+      transform: translateX(-50%) translateY(-6px);
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+    .search-dropdown.is-open {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Input row inside dropdown */
+    .sd-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px 0 14px;
+      height: 48px;
+      border-bottom: 1px solid var(--cw-neutral-lighter);
+    }
+    .sd-input-row input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font: 400 14px/24px var(--font);
+      color: var(--cw-neutral-ink);
+      background: transparent;
+    }
+    .sd-input-row input::placeholder { color: var(--cw-neutral-default); }
+    .sd-clear-btn {
+      width: 24px; height: 24px;
+      border-radius: var(--cw-radius-sm);
+      background: transparent; border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cw-neutral-dark);
+      opacity: 0;
+      transition: opacity 120ms, background 120ms;
+    }
+    .sd-clear-btn.is-visible { opacity: 1; }
+    .sd-clear-btn:hover { background: var(--cw-neutral-lighter); }
+
+    /* Filter pills row */
+    .sd-filters {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--cw-neutral-lighter);
+      flex-wrap: wrap;
+    }
+    .sd-filter-label {
+      font: 500 11px/16px var(--font);
+      color: var(--cw-neutral-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 2px;
+      flex-shrink: 0;
+    }
+    .sd-pill {
+      height: 24px;
+      padding: 0 10px;
+      border-radius: var(--cw-radius-pill);
+      font: 500 12px/16px var(--font);
+      cursor: pointer;
+      border: 1px solid var(--cw-neutral-lighter);
+      background: var(--cw-neutral-white);
+      color: var(--cw-neutral-darker);
+      transition: all 120ms;
+      display: inline-flex; align-items: center; gap: 4px;
+      white-space: nowrap;
+    }
+    .sd-pill:hover {
+      border-color: var(--cw-purple-light);
+      color: var(--cw-purple-dark);
+      background: var(--cw-purple-lighter);
+    }
+    .sd-pill.is-active {
+      background: var(--cw-purple-default);
+      border-color: var(--cw-purple-default);
+      color: #fff;
+    }
+    .sd-pill .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .6;
+    }
+
+    /* LOB secondary filters */
+    .sd-lob-filters {
+      padding: 8px 14px 10px;
+      border-bottom: 1px solid var(--cw-neutral-lighter);
+      display: none;
+    }
+    .sd-lob-filters.is-open { display: block; }
+    .sd-lob-label {
+      font: 500 11px/16px var(--font);
+      color: var(--cw-neutral-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .sd-lob-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Results / recents body */
+    .sd-body { max-height: 320px; overflow-y: auto; }
+    .sd-section-head {
+      padding: 12px 14px 4px;
+      font: 500 11px/16px var(--font);
+      color: var(--cw-neutral-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sd-result {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background 100ms;
+    }
+    .sd-result:hover { background: var(--cw-neutral-lightest); }
+    .sd-result.is-focused { background: var(--cw-purple-lighter); }
+
+    .sd-result__icon {
+      width: 32px; height: 32px;
+      border-radius: var(--cw-radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sd-result__icon--policy  { background: var(--cw-purple-lighter); color: var(--cw-purple-default); }
+    .sd-result__icon--quote   { background: var(--cw-blue-light); color: var(--cw-blue-default); }
+    .sd-result__icon--submission { background: var(--cw-neutral-lighter); color: var(--cw-neutral-darker); }
+
+    .sd-result__body { flex: 1; min-width: 0; }
+    .sd-result__name {
+      font: 500 14px/20px var(--font);
+      color: var(--cw-neutral-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sd-result__name mark {
+      background: transparent;
+      color: var(--cw-purple-default);
+      font-weight: 600;
+    }
+    .sd-result__meta {
+      font: 400 12px/16px var(--font);
+      color: var(--cw-neutral-dark);
+      margin-top: 1px;
+    }
+
+    .sd-result__right { text-align: right; flex-shrink: 0; }
+    .sd-result__num {
+      font: 400 12px/16px var(--font);
+      color: var(--cw-neutral-dark);
+    }
+
+    /* Status chip mini */
+    .chip {
+      display: inline-flex; align-items: center;
+      height: 20px; padding: 0 8px;
+      border-radius: var(--cw-radius-sm);
+      font: 500 11px/16px var(--font);
+      white-space: nowrap;
+    }
+    .chip--bound          { background: #29cc96; color: #15121a; }
+    .chip--quoted         { background: #d99fff; color: #5b0d80; }
+    .chip--uw-review      { background: #f5cf47; color: #4a3c00; }
+    .chip--in-progress    { background: #ebeeff; color: #061459; }
+    .chip--cancel-req     { background: #ffede2; color: #bb4f09; }
+    .chip--cancelled      { background: #edebf2; color: #484452; }
+    .chip--declined       { background: #ffe6e6; color: #cc3d3d; }
+    .chip--expired        { background: #f8f7fa; color: #66636e; }
+
+    /* Recent search rows */
+    .sd-recent {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: background 100ms;
+    }
+    .sd-recent:hover { background: var(--cw-neutral-lightest); }
+    .sd-recent__text {
+      flex: 1;
+      font: 400 14px/20px var(--font);
+      color: var(--cw-neutral-darker);
+    }
+    .sd-recent__rm {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: transparent; border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cw-neutral-light);
+      opacity: 0;
+      transition: opacity 100ms, background 100ms, color 100ms;
+    }
+    .sd-recent:hover .sd-recent__rm { opacity: 1; }
+    .sd-recent__rm:hover { background: var(--cw-neutral-lighter); color: var(--cw-neutral-dark); }
+
+    /* Empty / no results */
+    .sd-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 24px;
+      gap: 8px;
+      color: var(--cw-neutral-dark);
+    }
+    .sd-empty__icon { opacity: .3; }
+    .sd-empty__label { font: 500 14px/20px var(--font); color: var(--cw-neutral-darker); }
+    .sd-empty__sub { font: 400 12px/18px var(--font); color: var(--cw-neutral-dark); text-align: center; }
+
+    /* Results count footer */
+    .sd-footer {
+      padding: 8px 14px;
+      border-top: 1px solid var(--cw-neutral-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sd-footer__count { font: 400 12px/16px var(--font); color: var(--cw-neutral-dark); }
+    .sd-footer__hint  { font: 400 11px/16px var(--font); color: var(--cw-neutral-light); }
+
+    /* Scrim */
+    .scrim {
+      position: fixed; inset: 0;
+      z-index: 10;
+      display: none;
+    }
+    .scrim.is-open { display: block; }
+
+    /* ── App body below the nav ─────────────────────────────── */
+    .app-body { display: flex; height: 480px; }
+    .app-rail {
+      width: 220px;
+      border-right: 1px solid var(--cw-neutral-lighter);
+      padding: 16px 12px;
+      display: flex; flex-direction: column; gap: 2px;
+      flex-shrink: 0;
+    }
+    .rail-section {
+      font: 500 11px/16px var(--font);
+      color: var(--cw-neutral-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 12px 12px 4px;
+    }
+    .rail-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 12px;
+      border-radius: var(--cw-radius-sm);
+      font: 500 14px/20px var(--font);
+      color: var(--cw-neutral-ink);
+      cursor: pointer;
+      user-select: none;
+      transition: background 120ms;
+    }
+    .rail-item:hover { background: var(--cw-neutral-lightest); }
+    .rail-item.is-active { background: var(--cw-purple-lighter); color: var(--cw-purple-default); }
+    .rail-item.is-active svg { color: var(--cw-purple-default); }
+    .rail-item svg { color: var(--cw-neutral-dark); flex-shrink: 0; }
+
+    .app-main {
+      flex: 1;
+      padding: 32px;
+      background: var(--cw-neutral-white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .app-main__hint {
+      font: 400 14px/24px var(--font);
+      color: var(--cw-neutral-default);
+      text-align: center;
+    }
+    .app-main__cta {
+      display: flex; align-items: center; gap: 8px;
+      font: 500 13px/20px var(--font);
+      color: var(--cw-purple-default);
+      padding: 6px 12px;
+      border-radius: var(--cw-radius-sm);
+      border: 1px dashed var(--cw-purple-light);
+      cursor: pointer;
+      transition: background 120ms;
+    }
+    .app-main__cta:hover { background: var(--cw-purple-lighter); }
+
+    /* Nav right icons */
+    .appbar__right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .nav-btn-primary {
+      height: 36px; padding: 0 16px;
+      border-radius: var(--cw-radius-sm);
+      background: var(--cw-purple-default);
+      color: #fff;
+      border: none; cursor: pointer;
+      font: 600 14px/24px var(--font);
+      transition: background 120ms;
+    }
+    .nav-btn-primary:hover { background: var(--cw-purple-dark); }
+    .nav-icon-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--cw-radius-sm);
+      background: transparent; border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--cw-neutral-dark);
+      transition: background 120ms;
+    }
+    .nav-icon-btn:hover { background: var(--cw-neutral-lightest); }
+    .nav-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--cw-neutral-lighter);
+      color: var(--cw-neutral-darker);
+      display: flex; align-items: center; justify-content: center;
+      font: 600 12px/16px var(--font);
+      cursor: pointer;
+    }
+
+    /* Scrollbar in dropdown */
+    .sd-body::-webkit-scrollbar { width: 4px; }
+    .sd-body::-webkit-scrollbar-track { background: transparent; }
+    .sd-body::-webkit-scrollbar-thumb { background: var(--cw-neutral-lighter); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="frame">
+  <!-- App bar -->
+  <header class="appbar">
+
+    <!-- Logo -->
+    <a class="appbar__logo" href="#">
+      <div class="appbar__logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 4C8 4 5 7 5 11c0 2 .8 3.8 2 5l5 4 5-4c1.2-1.2 2-3 2-5 0-4-3-7-7-7z"/></svg>
+      </div>
+      <span class="appbar__logo-word">Cover Whale</span>
+    </a>
+
+    <!-- Search trigger -->
+    <div class="appbar__search-wrap">
+      <div class="search-trigger" id="searchTrigger" role="button" tabindex="0" aria-label="Search policies, quotes, and submissions">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cw-neutral-default)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+        <span class="search-trigger__placeholder" id="triggerLabel">Search</span>
+        <div class="search-trigger__divider" id="triggerDivider"></div>
+        <button class="search-trigger__filter-btn" id="filterToggleBtn" title="Advanced filters" aria-label="Toggle advanced filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="search-dropdown" id="searchDropdown" role="dialog" aria-label="Search">
+
+        <!-- Input row -->
+        <div class="sd-input-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cw-neutral-default)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search policies, quotes, submissions…" autocomplete="off" spellcheck="false" />
+          <button class="sd-clear-btn" id="clearBtn" title="Clear search" aria-label="Clear search">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Status filters -->
+        <div class="sd-filters" id="statusFilters">
+          <span class="sd-filter-label">Status</span>
+          <button class="sd-pill is-active" data-filter="all">All</button>
+          <button class="sd-pill" data-filter="Bound"><span class="dot"></span>Bound</button>
+          <button class="sd-pill" data-filter="Quoted"><span class="dot"></span>Quoted</button>
+          <button class="sd-pill" data-filter="In Progress"><span class="dot"></span>In Progress</button>
+          <button class="sd-pill" data-filter="Underwriting Review"><span class="dot"></span>UW Review</button>
+          <button class="sd-pill" data-filter="Declined"><span class="dot"></span>Declined</button>
+          <button class="sd-pill" data-filter="Expired"><span class="dot"></span>Expired</button>
+        </div>
+
+        <!-- LOB filters (hidden until filter btn clicked) -->
+        <div class="sd-lob-filters" id="lobFilters">
+          <div class="sd-lob-label">Line of Business</div>
+          <div class="sd-lob-row">
+            <button class="sd-pill is-active" data-lob="all">All Lines</button>
+            <button class="sd-pill" data-lob="Trucking">Trucking</button>
+            <button class="sd-pill" data-lob="Commercial Auto">Commercial Auto</button>
+            <button class="sd-pill" data-lob="Cargo">Cargo</button>
+          </div>
+        </div>
+
+        <!-- Body: recents or results -->
+        <div class="sd-body" id="sdBody"></div>
+
+        <!-- Footer -->
+        <div class="sd-footer" id="sdFooter">
+          <span class="sd-footer__count" id="sdCount"></span>
+          <span class="sd-footer__hint">↑↓ navigate &nbsp;·&nbsp; ↵ open &nbsp;·&nbsp; Esc close</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right actions -->
+    <div class="appbar__right">
+      <button class="nav-btn-primary">New Quote</button>
+      <button class="nav-icon-btn" title="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1z"/><path d="M10 21a2 2 0 0 0 4 0"/>
+        </svg>
+      </button>
+      <div class="nav-avatar">PC</div>
+    </div>
+  </header>
+
+  <!-- App body -->
+  <div class="app-body">
+    <aside class="app-rail">
+      <div class="rail-section">Agent Portal</div>
+      <div class="rail-item" onclick="navTo(this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="rail-item" onclick="navTo(this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 7l3-4h12l3 4"/><path d="M9 12h6"/></svg>
+        Submissions
+      </div>
+      <div class="rail-item" onclick="navTo(this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><path d="M9 14h6M9 17h4"/></svg>
+        Quotes
+      </div>
+      <div class="rail-item is-active" onclick="navTo(this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6z"/></svg>
+        Policies
+      </div>
+      <div class="rail-item" onclick="navTo(this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+        Messages
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--cw-neutral-lighter)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+      </svg>
+      <p class="app-main__hint">Click the search bar above to explore the<br>search and filter interaction</p>
+      <div class="app-main__cta" id="tryItCta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Try it
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Scrim -->
+<div class="scrim" id="scrim"></div>
+
+<script>
+  // ── Data ───────────────────────────────────────────────────────────────────
+  const RECORDS = [
+    { name: 'Johnson Transport LLC',    type: 'Policy',     status: 'Bound',               lob: 'Trucking',        num: 'CW-98234', premium: '$12,400' },
+    { name: 'Summit Hauling Inc.',      type: 'Quote',      status: 'Quoted',              lob: 'Trucking',        num: 'Q-45123',  premium: '$8,900'  },
+    { name: 'Blue Ridge Carriers',      type: 'Submission', status: 'In Progress',         lob: 'Trucking',        num: 'S-12089',  premium: '—'       },
+    { name: 'Apex Logistics Group',     type: 'Policy',     status: 'Bound',               lob: 'Commercial Auto', num: 'CW-91102', premium: '$22,100' },
+    { name: 'Desert Sun Transport',     type: 'Quote',      status: 'Declined',            lob: 'Trucking',        num: 'Q-44801',  premium: '—'       },
+    { name: 'Cascade Fleet Services',   type: 'Policy',     status: 'Expired',             lob: 'Trucking',        num: 'CW-87654', premium: '$9,800'  },
+    { name: 'Metro Courier Co.',        type: 'Submission', status: 'Underwriting Review', lob: 'Commercial Auto', num: 'S-12344',  premium: '—'       },
+    { name: 'Pacific Rim Freight',      type: 'Policy',     status: 'Bound',               lob: 'Commercial Auto', num: 'CW-94567', premium: '$18,200' },
+    { name: 'Great Plains Trucking',    type: 'Quote',      status: 'Quoted',              lob: 'Trucking',        num: 'Q-46001',  premium: '$14,500' },
+    { name: 'Ironwood Express',         type: 'Policy',     status: 'Cancelled',           lob: 'Trucking',        num: 'CW-88123', premium: '—'       },
+    { name: 'Silverline Auto Group',    type: 'Policy',     status: 'Bound',               lob: 'Commercial Auto', num: 'CW-96710', premium: '$31,000' },
+    { name: 'Ridgeline Cargo Partners', type: 'Submission', status: 'In Progress',         lob: 'Cargo',           num: 'S-12500',  premium: '—'       },
+    { name: 'Mesa Delivery Services',   type: 'Quote',      status: 'Underwriting Review', lob: 'Commercial Auto', num: 'Q-45988',  premium: '—'       },
+    { name: 'Northstar Fleet Mgmt',     type: 'Policy',     status: 'Bound',               lob: 'Trucking',        num: 'CW-95001', premium: '$17,600' },
+    { name: 'Lakefront Logistics',      type: 'Quote',      status: 'Declined',            lob: 'Cargo',           num: 'Q-44200',  premium: '—'       },
+  ];
+
+  let recents = ['Johnson Transport', 'Q-45123', 'Bound policies this month'];
+
+  // ── State ──────────────────────────────────────────────────────────────────
+  let isOpen = false;
+  let lobPanelOpen = false;
+  let activeStatus = 'all';
+  let activeLob = 'all';
+  let query = '';
+  let focusedIdx = -1;
+
+  // ── Elements ───────────────────────────────────────────────────────────────
+  const trigger       = document.getElementById('searchTrigger');
+  const dropdown      = document.getElementById('searchDropdown');
+  const input         = document.getElementById('searchInput');
+  const clearBtn      = document.getElementById('clearBtn');
+  const scrim         = document.getElementById('scrim');
+  const sdBody        = document.getElementById('sdBody');
+  const sdCount       = document.getElementById('sdCount');
+  const filterToggle  = document.getElementById('filterToggleBtn');
+  const lobFilters    = document.getElementById('lobFilters');
+  const triggerLabel  = document.getElementById('triggerLabel');
+  const triggerDiv    = document.getElementById('triggerDivider');
+  const cta           = document.getElementById('tryItCta');
+
+  // ── Open / close ───────────────────────────────────────────────────────────
+  function openSearch() {
+    if (isOpen) return;
+    isOpen = true;
+    trigger.classList.add('is-active');
+    dropdown.classList.add('is-open');
+    scrim.classList.add('is-open');
+    input.focus();
+    render();
+  }
+
+  function closeSearch() {
+    if (!isOpen) return;
+    isOpen = false;
+    trigger.classList.remove('is-active');
+    dropdown.classList.remove('is-open');
+    scrim.classList.remove('is-open');
+    focusedIdx = -1;
+    input.blur();
+  }
+
+  // ── Chip status ────────────────────────────────────────────────────────────
+  const STATUS_CHIP = {
+    'Bound':               'chip--bound',
+    'Quoted':              'chip--quoted',
+    'In Progress':         'chip--in-progress',
+    'Underwriting Review': 'chip--uw-review',
+    'Declined':            'chip--declined',
+    'Expired':             'chip--expired',
+    'Cancelled':           'chip--cancelled',
+  };
+
+  const TYPE_ICON = {
+    Policy:     { cls: 'sd-result__icon--policy',     svg: '<path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6z"/>' },
+    Quote:      { cls: 'sd-result__icon--quote',      svg: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/>' },
+    Submission: { cls: 'sd-result__icon--submission', svg: '<rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 7l3-4h12l3 4"/>' },
+  };
+
+  function highlightMatch(text, q) {
+    if (!q) return escHtml(text);
+    const idx = text.toLowerCase().indexOf(q.toLowerCase());
+    if (idx === -1) return escHtml(text);
+    return escHtml(text.slice(0, idx)) +
+      '<mark>' + escHtml(text.slice(idx, idx + q.length)) + '</mark>' +
+      escHtml(text.slice(idx + q.length));
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Filter + search ────────────────────────────────────────────────────────
+  function getFiltered() {
+    return RECORDS.filter(r => {
+      const matchStatus = activeStatus === 'all' || r.status === activeStatus;
+      const matchLob    = activeLob === 'all' || r.lob === activeLob;
+      const q2 = query.toLowerCase();
+      const matchQuery  = !q2 ||
+        r.name.toLowerCase().includes(q2) ||
+        r.num.toLowerCase().includes(q2) ||
+        r.type.toLowerCase().includes(q2) ||
+        r.status.toLowerCase().includes(q2) ||
+        r.lob.toLowerCase().includes(q2);
+      return matchStatus && matchLob && matchQuery;
+    });
+  }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
+  function render() {
+    focusedIdx = -1;
+    const filtered = getFiltered();
+    const showRecents = !query && activeStatus === 'all' && activeLob === 'all';
+
+    let html = '';
+
+    if (showRecents && recents.length) {
+      html += '<div class="sd-section-head">Recent Searches</div>';
+      recents.forEach((r, i) => {
+        html += `
+          <div class="sd-recent" data-recent-idx="${i}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cw-neutral-light)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-7"/></svg>
+            <span class="sd-recent__text">${escHtml(r)}</span>
+            <button class="sd-recent__rm" data-rm-idx="${i}" title="Remove">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>`;
+      });
+      html += '<div class="sd-section-head" style="margin-top:4px">All Records</div>';
+      filtered.slice(0, 5).forEach((r, i) => { html += resultRow(r, i, ''); });
+      sdCount.textContent = `${RECORDS.length} total records`;
+    } else if (filtered.length === 0) {
+      html = `
+        <div class="sd-empty">
+          <svg class="sd-empty__icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <div class="sd-empty__label">No results found</div>
+          <div class="sd-empty__sub">Try adjusting your search or clearing filters</div>
+        </div>`;
+      sdCount.textContent = '0 results';
+    } else {
+      html += `<div class="sd-section-head">Results</div>`;
+      filtered.forEach((r, i) => { html += resultRow(r, i, query); });
+      sdCount.textContent = `${filtered.length} result${filtered.length !== 1 ? 's' : ''}`;
+    }
+
+    sdBody.innerHTML = html;
+    attachBodyEvents();
+  }
+
+  function resultRow(r, i, q) {
+    const icon = TYPE_ICON[r.type] || TYPE_ICON.Submission;
+    const chipCls = STATUS_CHIP[r.status] || 'chip--expired';
+    return `
+      <div class="sd-result" data-result-idx="${i}">
+        <div class="sd-result__icon ${icon.cls}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon.svg}</svg>
+        </div>
+        <div class="sd-result__body">
+          <div class="sd-result__name">${highlightMatch(r.name, q)}</div>
+          <div class="sd-result__meta">${escHtml(r.type)} &nbsp;·&nbsp; ${escHtml(r.lob)}</div>
+        </div>
+        <div class="sd-result__right">
+          <div><span class="chip ${chipCls}">${escHtml(r.status)}</span></div>
+          <div class="sd-result__num" style="margin-top:3px">${escHtml(r.num)}</div>
+        </div>
+      </div>`;
+  }
+
+  function attachBodyEvents() {
+    sdBody.querySelectorAll('[data-recent-idx]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (e.target.closest('[data-rm-idx]')) return;
+        const idx = +el.dataset.recentIdx;
+        input.value = recents[idx];
+        query = recents[idx];
+        clearBtn.classList.add('is-visible');
+        render();
+      });
+    });
+    sdBody.querySelectorAll('[data-rm-idx]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = +el.dataset.rmIdx;
+        recents.splice(idx, 1);
+        render();
+      });
+    });
+    sdBody.querySelectorAll('[data-result-idx]').forEach(el => {
+      el.addEventListener('click', () => { closeSearch(); });
+    });
+  }
+
+  // ── Events ─────────────────────────────────────────────────────────────────
+  trigger.addEventListener('click', (e) => {
+    if (e.target.closest('#filterToggleBtn')) return;
+    openSearch();
+  });
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSearch(); }
+  });
+
+  cta.addEventListener('click', openSearch);
+
+  filterToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    lobPanelOpen = !lobPanelOpen;
+    lobFilters.classList.toggle('is-open', lobPanelOpen);
+    filterToggle.classList.toggle('is-active', lobPanelOpen);
+    if (!isOpen) openSearch();
+  });
+
+  input.addEventListener('input', () => {
+    query = input.value;
+    clearBtn.classList.toggle('is-visible', !!query);
+    // save to recents on meaningful query
+    render();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    query = '';
+    clearBtn.classList.remove('is-visible');
+    input.focus();
+    render();
+  });
+
+  scrim.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', (e) => {
+    if (!isOpen) return;
+    if (e.key === 'Escape') { closeSearch(); return; }
+
+    const results = sdBody.querySelectorAll('.sd-result, .sd-recent');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      focusedIdx = Math.min(focusedIdx + 1, results.length - 1);
+      updateFocused(results);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      focusedIdx = Math.max(focusedIdx - 1, -1);
+      if (focusedIdx === -1) input.focus();
+      updateFocused(results);
+    } else if (e.key === 'Enter') {
+      if (focusedIdx >= 0 && results[focusedIdx]) {
+        results[focusedIdx].click();
+      } else if (query) {
+        if (!recents.includes(query)) recents.unshift(query);
+        closeSearch();
+      }
+    }
+  });
+
+  function updateFocused(results) {
+    results.forEach((el, i) => el.classList.toggle('is-focused', i === focusedIdx));
+    if (focusedIdx >= 0 && results[focusedIdx]) {
+      results[focusedIdx].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  // Status filter pills
+  document.querySelectorAll('#statusFilters .sd-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      activeStatus = pill.dataset.filter;
+      document.querySelectorAll('#statusFilters .sd-pill').forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+      if (!isOpen) openSearch();
+      render();
+    });
+  });
+
+  // LOB filter pills
+  document.querySelectorAll('#lobFilters .sd-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      activeLob = pill.dataset.lob;
+      document.querySelectorAll('#lobFilters .sd-pill').forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+      render();
+    });
+  });
+
+  // Rail nav active state
+  function navTo(el) {
+    document.querySelectorAll('.rail-item').forEach(i => i.classList.remove('is-active'));
+    el.classList.add('is-active');
+  }
+</script>
+</body>
+</html>

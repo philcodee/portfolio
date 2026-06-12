@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { padding: 24px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; }
+  .col { display: flex; flex-direction: column; gap: 8px; }
+  .swatch { flex: 1; min-width: 0; height: 100px; border-radius: 6px; padding: 10px 12px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; line-height: 14px; }
+  .swatch .name { font-weight: 600; font-size: 13px; }
+  .swatch .hex  { opacity: 0.75; font-variant-numeric: tabular-nums; font-size: 11px; }
+  .label-sm { color: var(--cw-text-secondary); font: 500 11px/14px 'Inter', sans-serif; }
+  .pip { width: 32px; height: 32px; border-radius: 6px; }
+  .specimen-row { display: flex; align-items: baseline; gap: 16px; padding: 6px 0; border-bottom: 1px solid var(--cw-border-primary); }
+  .specimen-row:last-child { border-bottom: 0; }
+  .specimen-token { width: 92px; color: var(--cw-text-secondary); font: 500 12px/16px 'Inter', sans-serif; flex-shrink: 0; }
+  .specimen-size  { width: 44px; color: var(--cw-text-secondary); font: 500 11px/16px 'Inter', sans-serif; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .specimen-text  { color: var(--cw-text-primary); font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="row" style="gap:14px;">
+  
+    <div class="col" style="align-items:center; gap:8px; flex:1;">
+      <div style="width:96px; height:60px; background:#fff; border-radius:8px; box-shadow:0 0 4px 0 rgba(0,0,0,0.06);"></div>
+      <span class="label-sm" style="color:#15121A; font-weight:600;">shadow-1</span>
+      <span class="label-sm">hairline</span>
+    </div>
+    <div class="col" style="align-items:center; gap:8px; flex:1;">
+      <div style="width:96px; height:60px; background:#fff; border-radius:8px; box-shadow:0 2px 8px 0 rgba(0,0,0,0.06), 0 1px 2px 0 rgba(0,0,0,0.04);"></div>
+      <span class="label-sm" style="color:#15121A; font-weight:600;">shadow-2</span>
+      <span class="label-sm">card hover</span>
+    </div>
+    <div class="col" style="align-items:center; gap:8px; flex:1;">
+      <div style="width:96px; height:60px; background:#fff; border-radius:8px; box-shadow:0 8px 24px 0 rgba(0,0,0,0.08), 0 2px 6px 0 rgba(0,0,0,0.04);"></div>
+      <span class="label-sm" style="color:#15121A; font-weight:600;">shadow-3</span>
+      <span class="label-sm">dropdown</span>
+    </div>
+    <div class="col" style="align-items:center; gap:8px; flex:1;">
+      <div style="width:96px; height:60px; background:#fff; border-radius:8px; box-shadow:0 24px 48px 0 rgba(0,0,0,0.16), 0 8px 16px 0 rgba(0,0,0,0.08);"></div>
+      <span class="label-sm" style="color:#15121A; font-weight:600;">shadow-modal</span>
+      <span class="label-sm">modal</span>
+    </div>
+</div>
+</body>
+</html>

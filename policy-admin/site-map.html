@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Map — Policy Admin Platform</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #f0f0f0;
+      --border: 3px solid #000;
+      --border-heavy: 6px solid #000;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-y: hidden;
+      overflow-x: auto;
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 1.25rem 1.25rem;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    .sm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: var(--border-heavy);
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.9rem;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .sm-header h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .sm-close-btn {
+      background: var(--black);
+      border: none;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+    }
+
+    .sm-close-btn:hover {
+      background: var(--white);
+      color: var(--black);
+      outline: 2px solid var(--black);
+    }
+
+    /* ── GRID ───────────────────────────────────────── */
+    .sm-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(180px, 1fr));
+      grid-template-rows: 1fr;
+      border: var(--border-heavy);
+      min-height: 0;
+      min-width: 1080px;
+    }
+
+    /* ── COLUMN ─────────────────────────────────────── */
+    .sm-col {
+      display: flex;
+      flex-direction: column;
+      border-right: var(--border-heavy);
+      min-height: 0;
+    }
+
+    .sm-col:last-child { border-right: none; }
+
+    .sm-col-header {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 900;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.75rem 1rem;
+      border-bottom: var(--border-heavy);
+      flex-shrink: 0;
+    }
+
+    /* ── SUB-SECTIONS ───────────────────────────────── */
+    .sm-col-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .sm-node {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.85rem 1rem;
+      border-bottom: var(--border);
+      min-height: 0;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .sm-node:hover { background: var(--gray); }
+    .sm-node.is-active { background: var(--black); color: var(--white); }
+    .sm-node.is-active .sm-node-detail { opacity: 0.7; }
+    .sm-node.is-active .sm-kpi { background: #222; border-color: #fff; color: var(--white); }
+    .sm-node.is-active .sm-global-item { background: #222; border-color: #fff; color: var(--white); }
+    .sm-node.is-active .sm-global-item.indent { background: #333; }
+    .sm-node.is-active .notif-badge { background: var(--white); color: var(--black); }
+
+    .sm-node:last-child { border-bottom: none; }
+
+    .sm-node-name {
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
+    }
+
+    .sm-node-detail {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      opacity: 0.6;
+    }
+
+    .notif-badge {
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--black);
+      color: var(--white);
+      padding: 0.12em 0.45em;
+      white-space: nowrap;
+    }
+
+    /* ── DASHBOARD KPIs ─────────────────────────────── */
+    .sm-kpi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .sm-kpi {
+      background: var(--gray);
+      border: 2px solid var(--black);
+      padding: 0.4rem 0.65rem;
+      font-size: 0.85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+    }
+
+    /* ── GLOBAL ITEMS ───────────────────────────────── */
+    .sm-global-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .sm-global-item {
+      background: var(--gray);
+      border: 2px solid var(--black);
+      padding: 0.4rem 0.65rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .sm-global-item.indent {
+      margin-left: 1rem;
+      border-left: 4px solid var(--black);
+      background: var(--white);
+      font-weight: 400;
+    }
+
+    .sm-global-item.is-notif {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 900;
+    }
+
+    /* ── NOTIFICATION STRIP ─────────────────────────── */
+    .notif-strip {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 1.25rem;
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .notif-strip-label {
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.55;
+      white-space: nowrap;
+    }
+
+    .notif-strip-items {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .notif-strip-sep { opacity: 0.3; }
+
+    /* ── POPUP ──────────────────────────────────────── */
+    .sm-popup-wrap {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .sm-popup-wrap.is-visible {
+      display: block;
+      pointer-events: auto;
+    }
+
+    .sm-popup {
+      position: relative;
+      background: var(--white);
+      border: 6px solid var(--black);
+      max-width: 360px;
+      min-width: 260px;
+    }
+
+    .sm-popup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(18px, 18px);
+      background: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%) 0 0 / 6px 6px;
+      z-index: -1;
+    }
+
+    .sm-popup-title {
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.6rem 0.85rem;
+    }
+
+    .sm-popup-body {
+      padding: 1rem 0.85rem;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sm-popup-body p {
+      margin: 0;
+    }
+
+    /* ── MOBILE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      html, body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      body {
+        padding: 1rem 1rem 0;
+      }
+
+      .sm-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        min-width: unset;
+        flex: none;
+      }
+
+      .sm-col {
+        border-right: none;
+        border-bottom: var(--border-heavy);
+        overflow-y: visible;
+      }
+
+      .sm-col:last-child {
+        border-bottom: none;
+      }
+
+      .sm-col-body {
+        flex: none;
+      }
+
+      .sm-node {
+        flex: none;
+        min-height: unset;
+      }
+
+      .sm-kpi-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .notif-strip {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sm-header">
+    <h1>Site Map</h1>
+    <button class="sm-close-btn" onclick="window.parent.closeSitemap()">Close ✕</button>
+  </div>
+
+  <div class="sm-grid">
+
+    <!-- DASHBOARD -->
+    <div class="sm-col">
+      <div class="sm-col-header">Dashboard</div>
+      <div class="sm-col-body">
+        <div class="sm-node"
+          data-title="Dashboard — KPI Counts"
+          data-desc="A 'soldier view' — task-focused rather than agency-wide sales performance. Four widgets answer the questions agents actually ask: what's bound, what's at risk, what's ready to bind, and what's up for renewal.">
+          <div class="sm-node-name">KPI Counts</div>
+          <div class="sm-kpi-list">
+            <div class="sm-kpi">Policies In-Force</div>
+            <div class="sm-kpi">Renewals-60 / Renewals-30</div>
+            <div class="sm-kpi">Bindable Quotes</div>
+            <div class="sm-kpi">Pending Cancellation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLICIES -->
+    <div class="sm-col">
+      <div class="sm-col-header">Policies</div>
+      <div class="sm-col-body">
+
+        <div class="sm-node"
+          data-title="Policies — In-Force"
+          data-desc="Active bound policies with endorsement counts surfaced inline — part of the shift away from a legacy 'All Submissions' table that mixed policies, quotes, and endorsements in one undifferentiated view.">
+          <div class="sm-node-name">In-Force <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Active policies · Endorsements count</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Policies — At-Risk"
+          data-desc="Policies flagged for compliance violations or non-payment, surfaced as a distinct status rather than buried in a generic list — a direct response to time-sensitive issues getting lost in the legacy platform.">
+          <div class="sm-node-name">At-Risk <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Compliance or non-pay issue</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Policies — Renewals"
+          data-desc="Policies expiring within 60 and 30 days — feeds the Renewals KPI on the dashboard, creating a direct link between the agent's overview and their retention task list.">
+          <div class="sm-node-name">Renewals</div>
+          <div class="sm-node-detail">Policies 60 and 30 days from expiration</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Policies — Cancellations"
+          data-desc="Tracks pending cancellations (NOC date + reason) and fully cancelled policies. Reinstatement requests are accessible directly from this view.">
+          <div class="sm-node-name">Cancellations <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Pending · NOC issuance date · Reason<br>Cancelled · Cancelled date · Reason</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- QUOTES -->
+    <div class="sm-col">
+      <div class="sm-col-header">Quotes</div>
+      <div class="sm-col-body">
+
+        <div class="sm-node"
+          data-title="Quotes — Bindable"
+          data-desc="Quotes ready to bind across New Business, Endorsement, and Renewal stages. The Stage column gives agents immediate context without opening individual records.">
+          <div class="sm-node-name">Bindable <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Renewal &amp; endorsement quotes<br>Stage: New Business · Endorsement · Renewal</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Quotes — Not Taken Up"
+          data-desc="Quotes the insured chose not to pursue, recorded with reason code. Distinct from Declined — NTU is the insured's decision; Declined is a system or underwriting determination.">
+          <div class="sm-node-name">Not Taken Up</div>
+          <div class="sm-node-detail">NTU status · Reason for NTU</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Quotes — In Review"
+          data-desc="Quotes pending underwriting review. Notifications fire on entry and exit — directly addressing agents' top frustration with slow, opaque response times from underwriters.">
+          <div class="sm-node-name">In Review <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Underwriting review<br>System notification on stage entry / exit</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUBMISSIONS -->
+    <div class="sm-col">
+      <div class="sm-col-header">Submissions</div>
+      <div class="sm-col-body">
+
+        <div class="sm-node"
+          data-title="Submissions — Pending"
+          data-desc="In-progress applications the agent can return to and resume. Date created and date last worked are surfaced to prevent applications from going stale.">
+          <div class="sm-node-name">Pending</div>
+          <div class="sm-node-detail">In Progress · Date created · Date last worked on</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Submissions — Declined"
+          data-desc="All declined submissions, including Pre-Submission Form stops. Surfacing declines early — before agents invest significant time — was a core design principle.">
+          <div class="sm-node-name">Declined <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">All declined submissions<br>Includes Pre-Submission Form declines</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="sm-col">
+      <div class="sm-col-header">Messages</div>
+      <div class="sm-col-body">
+
+        <div class="sm-node"
+          data-title="Messages — Sent / Received"
+          data-desc="Four channels — Producer Comment, Underwriting, Billing, and Support — all tied to the Account identifier so an insured's full communication history lives in one queue.">
+          <div class="sm-node-name">Sent / Received <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">
+            Producer Comment<br>
+            Underwriting<br>
+            Billing<br>
+            Support
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GLOBAL -->
+    <div class="sm-col">
+      <div class="sm-col-header">Global</div>
+      <div class="sm-col-body">
+
+        <div class="sm-node"
+          data-title="Global — Navigation"
+          data-desc="Search and Filter moved to global nav so agents can query across the entire app. New Quote asks for a DOT number upfront, triggering an FMCSA pre-fill — the #1 fix agents asked for.">
+          <div class="sm-node-name">Navigation</div>
+          <div class="sm-global-list">
+            <div class="sm-global-item">Search / Filter</div>
+            <div class="sm-global-item">'New Quote' CTA</div>
+          </div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Global — Pre-Submission Form"
+          data-desc="Runs eligibility checks at the start of the application, surfacing hard declines before agents invest time on a full submission — the 'Cut to the Chase' principle in practice.">
+          <div class="sm-node-name">Pre-Submission Form</div>
+          <div class="sm-global-list">
+            <div class="sm-global-item indent">Start Application</div>
+          </div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Global — Notifications"
+          data-desc="A persistent side drawer aggregating all system triggers across Policies, Quotes, Submissions, and Messages — with history, filtering, and direct navigation to specific events.">
+          <div class="sm-node-name">Notifications <span class="notif-badge">→ Notif</span></div>
+          <div class="sm-node-detail">Aggregates all system notification triggers across Policies, Quotes, Submissions, and Messages</div>
+        </div>
+
+        <div class="sm-node"
+          data-title="Global — Account"
+          data-desc="Account replaces Submission as the primary identifier, consolidating all activity for an insured under one record. Overview includes six tabs: Overview, Documents, Messages, History, Billing, and Issues.">
+          <div class="sm-node-name">Account</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sm-grid -->
+
+  <!-- NOTIFICATION STRIP -->
+  <div class="notif-strip">
+    <span class="notif-strip-label">→ Notifications</span>
+    <div class="notif-strip-items">
+      <span>Messages &gt; Received</span>
+      <span class="notif-strip-sep">|</span>
+      <span>Policies &gt; Bound, At-Risk, NOC Issuance</span>
+      <span class="notif-strip-sep">|</span>
+      <span>Quotes &gt; In Review, Bindable</span>
+      <span class="notif-strip-sep">|</span>
+      <span>Submissions &gt; Declined</span>
+    </div>
+  </div>
+
+  <!-- POPUP -->
+  <div class="sm-popup-wrap" id="sm-popup">
+    <div class="sm-popup">
+      <div class="sm-popup-title" id="sm-popup-title"></div>
+      <div class="sm-popup-body" id="sm-popup-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const popup = document.getElementById('sm-popup');
+    const popupTitle = document.getElementById('sm-popup-title');
+    const popupBody = document.getElementById('sm-popup-body');
+    let activeNode = null;
+
+    function showPopup(node, e) {
+      if (activeNode === node) {
+        hidePopup();
+        return;
+      }
+      if (activeNode) activeNode.classList.remove('is-active');
+      activeNode = node;
+      node.classList.add('is-active');
+
+      popupTitle.textContent = node.dataset.title;
+      popupBody.innerHTML = node.dataset.desc
+        .split(/(?<=\.)\s+/)
+        .map(s => `<p>${s}</p>`)
+        .join('');
+      popup.classList.add('is-visible');
+      positionPopup(e);
+    }
+
+    function hidePopup() {
+      popup.classList.remove('is-visible');
+      if (activeNode) activeNode.classList.remove('is-active');
+      activeNode = null;
+    }
+
+    function positionPopup(e) {
+      const pad = 12;
+      const pw = popup.offsetWidth;
+      const ph = popup.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      let x = e.clientX + pad;
+      let y = e.clientY + pad;
+
+      if (x + pw > vw - pad) x = e.clientX - pw - pad;
+      if (y + ph > vh - pad) y = e.clientY - ph - pad;
+      if (x < pad) x = pad;
+      if (y < pad) y = pad;
+
+      popup.style.left = x + 'px';
+      popup.style.top = y + 'px';
+    }
+
+    document.querySelectorAll('.sm-node[data-title]').forEach(node => {
+      node.addEventListener('click', e => {
+        e.stopPropagation();
+        showPopup(node, e);
+      });
+    });
+
+    document.addEventListener('click', () => hidePopup());
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') hidePopup();
+    });
+  </script>
+
+</body>
+</html>

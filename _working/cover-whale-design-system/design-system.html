@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cover Whale — Design System</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  /* ── Layout ── */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    background: var(--cw-surface-secondary);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--cw-surface-primary);
+    border-right: 1px solid var(--cw-border-primary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--cw-border-primary);
+  }
+
+  .sidebar-logo img { display: block; height: 20px; }
+
+  .sidebar-label {
+    font: 500 10px/12px var(--cw-font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cw-text-secondary);
+    padding: 20px 20px 6px;
+  }
+
+  .sidebar nav { padding: 0 8px 24px; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: var(--cw-radius-sm);
+    font: 500 13px/20px var(--cw-font-sans);
+    color: var(--cw-text-primary);
+    text-decoration: none;
+    transition: background 150ms ease;
+  }
+
+  .nav-item:hover {
+    background: var(--cw-surface-secondary);
+    text-decoration: none;
+    color: var(--cw-text-primary);
+  }
+
+  .nav-item.active {
+    background: var(--cw-purple-lighter);
+    color: var(--cw-purple-default);
+  }
+
+  /* Main content */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 48px 56px;
+    max-width: 1040px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 72px;
+  }
+
+  .section-title {
+    font: 600 11px/14px var(--cw-font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cw-text-secondary);
+    margin: 0 0 6px;
+  }
+
+  .section-heading {
+    font: 500 24px/32px var(--cw-font-sans);
+    color: var(--cw-text-primary);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--cw-border-primary);
+  }
+
+  /* Canvas */
+  .canvas {
+    background: var(--cw-surface-primary);
+    border: 1px solid var(--cw-border-primary);
+    border-radius: var(--cw-radius-md);
+    padding: 28px 24px;
+  }
+
+  .canvas + .canvas { margin-top: 12px; }
+
+  .canvas-label {
+    font: 500 11px/14px var(--cw-font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cw-text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* ── Swatch ── */
+  .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .swatch {
+    flex: 1;
+    min-width: 80px;
+    height: 80px;
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .swatch-name { font: 600 11px/14px var(--cw-font-sans); }
+  .swatch-hex  { font: 500 10px/12px var(--cw-font-sans); opacity: 0.7; font-variant-numeric: tabular-nums; }
+
+  /* ── Type specimen ── */
+  .type-specimen-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--cw-border-primary);
+  }
+  .type-specimen-row:last-child { border-bottom: 0; }
+  .type-meta { width: 110px; flex-shrink: 0; color: var(--cw-text-secondary); font: 500 11px/14px var(--cw-font-sans); font-variant-numeric: tabular-nums; }
+
+  /* ── Spacing bar ── */
+  .space-row { display: flex; align-items: center; gap: 12px; padding: 5px 0; }
+  .space-token { width: 60px; font: 600 11px/14px var(--cw-font-sans); color: var(--cw-text-primary); }
+  .space-px    { width: 36px; font: 400 11px/14px var(--cw-font-sans); color: var(--cw-text-secondary); font-variant-numeric: tabular-nums; }
+  .space-bar   { height: 10px; background: var(--cw-purple-default); border-radius: 2px; }
+
+  /* ── Radius grid ── */
+  .radius-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+  .radius-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .radius-box  { width: 72px; height: 72px; background: var(--cw-surface-contrast); border: 1px solid var(--cw-border-secondary); }
+
+  /* ── Shadow grid ── */
+  .shadow-grid { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-end; }
+  .shadow-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .shadow-box  { width: 100px; height: 64px; background: var(--cw-surface-primary); border-radius: var(--cw-radius-md); }
+
+  /* ── Buttons ── */
+  .btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    height: 36px; padding: 0 16px;
+    background: var(--cw-purple-default); color: #fff;
+    border: none; border-radius: var(--cw-radius-sm);
+    font: 500 14px/24px var(--cw-font-sans); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 150ms ease;
+  }
+  .btn-primary:hover   { background: var(--cw-purple-dark); }
+  .btn-primary:active  { background: var(--cw-purple-darker); }
+  .btn-primary.sm      { height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn-primary.lg      { height: 44px; padding: 0 24px; font-size: 16px; }
+  .btn-primary.disabled { background: var(--cw-surface-secondary); color: var(--cw-text-contrast); cursor: not-allowed; }
+
+  .btn-secondary {
+    height: 36px; padding: 0 16px;
+    background: #fff; color: var(--cw-text-primary);
+    border: 1px solid var(--cw-border-secondary);
+    border-radius: var(--cw-radius-sm);
+    font: 500 14px/24px var(--cw-font-sans); cursor: pointer;
+    transition: background 150ms ease;
+  }
+  .btn-secondary:hover  { background: var(--cw-surface-secondary); }
+  .btn-secondary:active { background: var(--cw-surface-contrast); }
+
+  .btn-text {
+    height: 36px; padding: 0 16px;
+    background: transparent; color: var(--cw-purple-default);
+    border: none; border-radius: var(--cw-radius-sm);
+    font: 500 14px/24px var(--cw-font-sans); cursor: pointer;
+  }
+
+  .btn-destructive {
+    height: 36px; padding: 0 16px;
+    background: #fff; color: var(--cw-red-default);
+    border: 1px solid var(--cw-red-default);
+    border-radius: var(--cw-radius-sm);
+    font: 500 14px/24px var(--cw-font-sans); cursor: pointer;
+  }
+
+  /* ── Chips ── */
+  .chip {
+    display: inline-flex; align-items: center;
+    height: 24px; padding: 0 12px;
+    border-radius: var(--cw-radius-sm);
+    font: 500 12px/16px var(--cw-font-sans);
+  }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* ── Text fields ── */
+  .field-group { display: flex; flex-direction: column; gap: 4px; }
+  .field-label { font: 400 14px/24px var(--cw-font-sans); color: var(--cw-text-secondary); }
+  .field-label.error { color: var(--cw-red-default); }
+  .field-input {
+    height: 40px; padding: 0 14px;
+    border: 1px solid var(--cw-border-secondary);
+    border-radius: var(--cw-radius-sm);
+    background: #fff;
+    display: flex; align-items: center;
+    font: 400 14px/24px var(--cw-font-sans); color: var(--cw-neutral-default);
+  }
+  .field-input.focused {
+    border-color: var(--cw-purple-default); color: var(--cw-text-primary);
+    font-weight: 500;
+    box-shadow: 0 0 0 2px rgba(129,54,159,0.18);
+  }
+  .field-input.error { border-color: var(--cw-red-default); }
+  .field-hint { font: 400 12px/16px var(--cw-font-sans); color: var(--cw-text-secondary); }
+  .field-hint.error { color: var(--cw-red-default); }
+
+  /* ── Table ── */
+  .cw-table {
+    border: 1px solid var(--cw-border-primary);
+    border-radius: var(--cw-radius-md);
+    overflow: hidden;
+    width: 100%;
+  }
+  .cw-thead {
+    display: flex; padding: 12px 16px;
+    background: var(--cw-surface-secondary);
+    font: 600 12px/16px var(--cw-font-sans);
+    color: var(--cw-text-secondary);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .cw-tbody .cw-tr {
+    display: flex; padding: 12px 16px;
+    align-items: center;
+    border-top: 1px solid var(--cw-border-primary);
+    font: 500 14px/20px var(--cw-font-sans);
+    color: var(--cw-text-primary);
+    transition: background 100ms ease;
+  }
+  .cw-tbody .cw-tr:hover { background: var(--cw-surface-secondary); }
+  .cw-td-dot  { width: 96px; font-variant-numeric: tabular-nums; }
+  .cw-td-name { flex: 1; }
+  .cw-td-status { width: 160px; }
+  .cw-td-action { width: 80px; text-align: right; color: var(--cw-text-brand); font-weight: 500; cursor: pointer; }
+
+  /* ── Cards ── */
+  .card {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--cw-border-primary);
+    border-radius: var(--cw-radius-md);
+    padding: 20px 24px;
+    transition: box-shadow 150ms ease;
+  }
+  .card:hover { box-shadow: var(--cw-shadow-2); }
+  .card-title { font: 500 18px/24px var(--cw-font-sans); color: var(--cw-text-primary); margin-bottom: 8px; }
+  .card-body  { font: 400 13px/20px var(--cw-font-sans); color: var(--cw-text-secondary); }
+
+  /* ── Alert ── */
+  .alert {
+    display: flex; gap: 12px; padding: 12px 16px;
+    border-radius: var(--cw-radius-md);
+    border: 1px solid;
+  }
+  .alert-title { font: 600 14px/20px var(--cw-font-sans); margin-bottom: 2px; }
+  .alert-body  { font: 400 13px/20px var(--cw-font-sans); }
+  .alert.success { background: var(--cw-green-light); border-color: var(--cw-green-default); color: var(--cw-green-dark); }
+  .alert.error   { background: var(--cw-red-light);   border-color: var(--cw-red-default);   color: var(--cw-red-default); }
+  .alert.warning { background: var(--cw-orange-lighter); border-color: var(--cw-orange-default); color: var(--cw-orange-dark); }
+  .alert.info    { background: var(--cw-blue-light);  border-color: var(--cw-blue-default);  color: var(--cw-blue-dark); }
+
+  /* ── Shell preview ── */
+  .shell-wrap {
+    border: 1px solid var(--cw-border-primary);
+    border-radius: var(--cw-radius-md);
+    overflow: hidden;
+    font-family: var(--cw-font-sans);
+  }
+  .shell-appbar {
+    height: 56px; background: #fff;
+    border-bottom: 1px solid var(--cw-border-primary);
+    display: flex; align-items: center; padding: 0 16px; gap: 16px;
+  }
+  .shell-search {
+    flex: 1; max-width: 360px; height: 32px;
+    background: var(--cw-surface-secondary);
+    border-radius: var(--cw-radius-sm);
+    display: flex; align-items: center; padding: 0 12px; gap: 8px;
+    color: var(--cw-neutral-default); font: 400 13px/20px var(--cw-font-sans);
+  }
+  .shell-spacer { flex: 1; }
+  .shell-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--cw-surface-contrast);
+    display: flex; align-items: center; justify-content: center;
+    font: 600 12px/16px var(--cw-font-sans); color: var(--cw-text-contrast);
+  }
+  .shell-body { display: flex; min-height: 200px; }
+  .shell-nav {
+    width: 200px; background: #fff;
+    border-right: 1px solid var(--cw-border-primary);
+    padding: 12px 8px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .shell-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: var(--cw-radius-sm);
+    font: 500 14px/20px var(--cw-font-sans); color: var(--cw-text-primary);
+  }
+  .shell-nav-item.active { background: var(--cw-purple-lighter); color: var(--cw-purple-default); }
+  .shell-nav-icon { width: 18px; height: 18px; border-radius: 3px; background: var(--cw-neutral-light); }
+  .shell-nav-icon.active { background: var(--cw-purple-default); }
+  .shell-content { flex: 1; background: var(--cw-surface-secondary); }
+
+  /* ── Semantic color tokens ── */
+  .token-table { width: 100%; border-collapse: collapse; }
+  .token-table th {
+    text-align: left;
+    font: 600 11px/14px var(--cw-font-sans);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--cw-text-secondary);
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--cw-border-primary);
+  }
+  .token-table td {
+    padding: 8px 12px;
+    font: 400 13px/20px var(--cw-font-sans);
+    color: var(--cw-text-primary);
+    border-bottom: 1px solid var(--cw-border-primary);
+    vertical-align: middle;
+  }
+  .token-table tr:last-child td { border-bottom: 0; }
+  .token-pip { width: 20px; height: 20px; border-radius: 4px; display: inline-block; vertical-align: middle; border: 1px solid rgba(0,0,0,0.06); }
+  code { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; background: var(--cw-surface-secondary); padding: 2px 6px; border-radius: var(--cw-radius-xs); color: var(--cw-text-secondary); }
+
+  .two-col { display: flex; gap: 12px; }
+  .two-col > * { flex: 1; }
+</style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <img src="assets/cover-whale-wordmark.svg" alt="Cover Whale" />
+  </div>
+
+  <div class="sidebar-label">Foundations</div>
+  <nav>
+    <a class="nav-item" href="#brand">Brand</a>
+    <a class="nav-item" href="#colors">Color</a>
+    <a class="nav-item" href="#type">Typography</a>
+    <a class="nav-item" href="#spacing">Spacing</a>
+    <a class="nav-item" href="#radii">Radii</a>
+    <a class="nav-item" href="#elevation">Elevation</a>
+  </nav>
+
+  <div class="sidebar-label">Components</div>
+  <nav>
+    <a class="nav-item" href="#buttons">Buttons</a>
+    <a class="nav-item" href="#chips">Chips</a>
+    <a class="nav-item" href="#inputs">Inputs</a>
+    <a class="nav-item" href="#table">Table</a>
+    <a class="nav-item" href="#cards">Cards</a>
+    <a class="nav-item" href="#alerts">Alerts</a>
+    <a class="nav-item" href="#shell">App Shell</a>
+  </nav>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- BRAND -->
+  <section class="section" id="brand">
+    <p class="section-title">Cover Whale Design System</p>
+    <h2 class="section-heading">Brand</h2>
+    <div class="canvas" style="background: #fff;">
+      <div class="canvas-label">Wordmark</div>
+      <img src="assets/cover-whale-wordmark.svg" alt="Cover Whale wordmark" style="height:32px; display:block;" />
+    </div>
+    <div class="canvas" style="background: var(--cw-surface-secondary); margin-top:12px;">
+      <div class="canvas-label">Mark on tint</div>
+      <img src="assets/cover-whale-mark.svg" alt="Cover Whale mark" style="height:40px; display:block;" />
+    </div>
+    <div class="canvas" style="background: var(--cw-purple-darker); margin-top:12px;">
+      <div class="canvas-label" style="color:rgba(255,255,255,0.5);">On dark</div>
+      <img src="assets/cover-whale-wordmark.svg" alt="Cover Whale wordmark" style="height:28px; display:block; filter: brightness(0) invert(1);" />
+    </div>
+  </section>
+
+  <!-- COLORS -->
+  <section class="section" id="colors">
+    <p class="section-title">Foundations</p>
+    <h2 class="section-heading">Color</h2>
+
+    <div class="canvas">
+      <div class="canvas-label">Brand — Purple</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#FBF2FF; color:#5B0D80;"><span class="swatch-name">lighter</span><span class="swatch-hex">#FBF2FF</span></div>
+        <div class="swatch" style="background:#D99FFF; color:#5B0D80;"><span class="swatch-name">light</span><span class="swatch-hex">#D99FFF</span></div>
+        <div class="swatch" style="background:#81369F; color:#fff;"><span class="swatch-name">default ★</span><span class="swatch-hex">#81369F</span></div>
+        <div class="swatch" style="background:#5B0D80; color:#fff;"><span class="swatch-name">dark</span><span class="swatch-hex">#5B0D80</span></div>
+        <div class="swatch" style="background:#32004B; color:#fff;"><span class="swatch-name">darker</span><span class="swatch-hex">#32004B</span></div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Neutral</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#FFF; color:#15121A; border:1px solid #EDEBF2;"><span class="swatch-name">white</span><span class="swatch-hex">#FFFFFF</span></div>
+        <div class="swatch" style="background:#F8F7FA; color:#15121A;"><span class="swatch-name">lightest</span><span class="swatch-hex">#F8F7FA</span></div>
+        <div class="swatch" style="background:#EDEBF2; color:#15121A;"><span class="swatch-name">lighter</span><span class="swatch-hex">#EDEBF2</span></div>
+        <div class="swatch" style="background:#C4C0CF; color:#15121A;"><span class="swatch-name">light</span><span class="swatch-hex">#C4C0CF</span></div>
+        <div class="swatch" style="background:#9794A2; color:#fff;"><span class="swatch-name">default</span><span class="swatch-hex">#9794A2</span></div>
+        <div class="swatch" style="background:#66636E; color:#fff;"><span class="swatch-name">dark</span><span class="swatch-hex">#66636E</span></div>
+        <div class="swatch" style="background:#484452; color:#fff;"><span class="swatch-name">darker</span><span class="swatch-hex">#484452</span></div>
+        <div class="swatch" style="background:#15121A; color:#fff;"><span class="swatch-name">ink</span><span class="swatch-hex">#15121A</span></div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Status — Light (background fills)</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#F2FFF8; color:#004D33;"><span class="swatch-name">success</span><span class="swatch-hex">#F2FFF8</span></div>
+        <div class="swatch" style="background:#FFF8D5; color:#4A3C00;"><span class="swatch-name">review</span><span class="swatch-hex">#FFF8D5</span></div>
+        <div class="swatch" style="background:#FFEDE2; color:#BB4F09;"><span class="swatch-name">warning</span><span class="swatch-hex">#FFEDE2</span></div>
+        <div class="swatch" style="background:#FFE6E6; color:#CC3D3D;"><span class="swatch-name">failure</span><span class="swatch-hex">#FFE6E6</span></div>
+        <div class="swatch" style="background:#EBEEFF; color:#061459;"><span class="swatch-name">info</span><span class="swatch-hex">#EBEEFF</span></div>
+        <div class="swatch" style="background:#F8F7FA; color:#484452;"><span class="swatch-name">incomplete</span><span class="swatch-hex">#F8F7FA</span></div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Status — Contrast (chip fills)</div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#29CC96; color:#15121A;"><span class="swatch-name">success</span><span class="swatch-hex">#29CC96</span></div>
+        <div class="swatch" style="background:#F5CF47; color:#4A3C00;"><span class="swatch-name">review</span><span class="swatch-hex">#F5CF47</span></div>
+        <div class="swatch" style="background:#FF8940; color:#fff;"><span class="swatch-name">warning</span><span class="swatch-hex">#FF8940</span></div>
+        <div class="swatch" style="background:#CC3D3D; color:#fff;"><span class="swatch-name">failure</span><span class="swatch-hex">#CC3D3D</span></div>
+        <div class="swatch" style="background:#3F51B5; color:#fff;"><span class="swatch-name">info</span><span class="swatch-hex">#3F51B5</span></div>
+        <div class="swatch" style="background:#484452; color:#fff;"><span class="swatch-name">incomplete</span><span class="swatch-hex">#484452</span></div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Semantic tokens</div>
+      <table class="token-table">
+        <thead>
+          <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cw-text-primary</code></td><td><span class="token-pip" style="background:#15121A;"></span> #15121A</td><td>Primary body text, table cells</td></tr>
+          <tr><td><code>--cw-text-secondary</code></td><td><span class="token-pip" style="background:#66636E;"></span> #66636E</td><td>Labels, hints, secondary copy</td></tr>
+          <tr><td><code>--cw-text-brand</code></td><td><span class="token-pip" style="background:#81369F;"></span> #81369F</td><td>Links, action text</td></tr>
+          <tr><td><code>--cw-surface-primary</code></td><td><span class="token-pip" style="background:#fff; border:1px solid #eee;"></span> #FFFFFF</td><td>Cards, modals, fields</td></tr>
+          <tr><td><code>--cw-surface-secondary</code></td><td><span class="token-pip" style="background:#F8F7FA;"></span> #F8F7FA</td><td>Page background, table header</td></tr>
+          <tr><td><code>--cw-border-primary</code></td><td><span class="token-pip" style="background:#EDEBF2;"></span> #EDEBF2</td><td>Default hairline, table lines</td></tr>
+          <tr><td><code>--cw-border-secondary</code></td><td><span class="token-pip" style="background:#C4C0CF;"></span> #C4C0CF</td><td>Heavier dividers, input borders</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section" id="type">
+    <p class="section-title">Foundations</p>
+    <h2 class="section-heading">Typography</h2>
+
+    <div class="canvas">
+      <div class="canvas-label">Display Scale — Inter, weight 500</div>
+      <div class="type-specimen-row">
+        <div class="type-meta">display-xl<br/>64px / 72px</div>
+        <div style="font: 500 64px/72px var(--cw-font-sans); letter-spacing:-0.02em; color: var(--cw-text-primary);">Aa</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">display-lg<br/>48px / 56px</div>
+        <div style="font: 500 48px/56px var(--cw-font-sans); letter-spacing:-0.02em; color: var(--cw-text-primary);">Aa</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">display-md<br/>40px / 48px</div>
+        <div style="font: 500 40px/48px var(--cw-font-sans); letter-spacing:-0.01em; color: var(--cw-text-primary);">Aa</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">display-sm<br/>36px / 44px</div>
+        <div style="font: 500 36px/44px var(--cw-font-sans); letter-spacing:-0.01em; color: var(--cw-text-primary);">Aa</div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Title Scale</div>
+      <div class="type-specimen-row">
+        <div class="type-meta">title-lg<br/>32px / 40px</div>
+        <div style="font: 500 32px/40px var(--cw-font-sans); color: var(--cw-text-primary);">Title Large</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">title-md<br/>24px / 32px</div>
+        <div style="font: 500 24px/32px var(--cw-font-sans); color: var(--cw-text-primary);">Title Medium</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">title-sm<br/>20px / 28px</div>
+        <div style="font: 500 20px/28px var(--cw-font-sans); color: var(--cw-text-primary);">Title Small</div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Body Scale</div>
+      <div class="type-specimen-row">
+        <div class="type-meta">body-lg<br/>16px / 24px</div>
+        <div style="font: 400 16px/24px var(--cw-font-sans); color: var(--cw-text-primary);">The quick brown fox. Carrier DOT 2537062 is eligible to bind.</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">body-md ★<br/>14px / 24px</div>
+        <div style="font: 400 14px/24px var(--cw-font-sans); color: var(--cw-text-primary);">The quick brown fox. Carrier DOT 2537062 is eligible to bind.</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">body-sm<br/>12px / 16px</div>
+        <div style="font: 400 12px/16px var(--cw-font-sans); color: var(--cw-text-primary);">The quick brown fox. Carrier DOT 2537062 is eligible to bind.</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">label<br/>14px / 24px, 500</div>
+        <div style="font: 500 14px/24px var(--cw-font-sans); color: var(--cw-text-primary);">Legal Name</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">label-sm<br/>12px / 16px, 500</div>
+        <div style="font: 500 12px/16px var(--cw-font-sans); color: var(--cw-text-primary);">DOT Number</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">overline<br/>12px / 16px, 500<br/>uppercase</div>
+        <div style="font: 500 12px/16px var(--cw-font-sans); text-transform:uppercase; letter-spacing:0.06em; color: var(--cw-text-secondary);">Bindable Quotes</div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Weights — Inter, 14px</div>
+      <div class="type-specimen-row">
+        <div class="type-meta">Regular — 400</div>
+        <div style="font: 400 14px/24px var(--cw-font-sans);">Cover Whale Agent Portal — trucking insurance</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">Medium — 500</div>
+        <div style="font: 500 14px/24px var(--cw-font-sans);">Cover Whale Agent Portal — trucking insurance</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">Semibold — 600</div>
+        <div style="font: 600 14px/24px var(--cw-font-sans);">Cover Whale Agent Portal — trucking insurance</div>
+      </div>
+      <div class="type-specimen-row">
+        <div class="type-meta">Bold — 700</div>
+        <div style="font: 700 14px/24px var(--cw-font-sans);">Cover Whale Agent Portal — trucking insurance</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section class="section" id="spacing">
+    <p class="section-title">Foundations</p>
+    <h2 class="section-heading">Spacing</h2>
+    <div class="canvas">
+      <div class="canvas-label">4-point scale</div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div class="space-row"><span class="space-token">space-1</span><span class="space-px">4px</span><div class="space-bar" style="width:4px;"></div></div>
+        <div class="space-row"><span class="space-token">space-2</span><span class="space-px">8px</span><div class="space-bar" style="width:8px;"></div></div>
+        <div class="space-row"><span class="space-token">space-3</span><span class="space-px">12px</span><div class="space-bar" style="width:12px;"></div></div>
+        <div class="space-row"><span class="space-token">space-4</span><span class="space-px">16px</span><div class="space-bar" style="width:16px;"></div></div>
+        <div class="space-row"><span class="space-token">space-5</span><span class="space-px">20px</span><div class="space-bar" style="width:20px;"></div></div>
+        <div class="space-row"><span class="space-token">space-6</span><span class="space-px">24px</span><div class="space-bar" style="width:24px;"></div></div>
+        <div class="space-row"><span class="space-token">space-8</span><span class="space-px">32px</span><div class="space-bar" style="width:32px;"></div></div>
+        <div class="space-row"><span class="space-token">space-10</span><span class="space-px">40px</span><div class="space-bar" style="width:40px;"></div></div>
+        <div class="space-row"><span class="space-token">space-12</span><span class="space-px">48px</span><div class="space-bar" style="width:48px;"></div></div>
+        <div class="space-row"><span class="space-token">space-16</span><span class="space-px">64px</span><div class="space-bar" style="width:64px;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RADII -->
+  <section class="section" id="radii">
+    <p class="section-title">Foundations</p>
+    <h2 class="section-heading">Radii</h2>
+    <div class="canvas">
+      <div class="canvas-label">Corner radius scale</div>
+      <div class="radius-grid">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:2px;"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">xs</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">2px</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:4px;"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">sm ★</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">4px — default</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:8px;"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">md</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">8px — cards</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:16px;"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">lg</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">16px — hero</span>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:999px;"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">pill</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">999px — avatar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELEVATION -->
+  <section class="section" id="elevation">
+    <p class="section-title">Foundations</p>
+    <h2 class="section-heading">Elevation</h2>
+    <div class="canvas" style="background: var(--cw-surface-secondary); padding: 32px 24px;">
+      <div class="canvas-label">Shadow tokens</div>
+      <div class="shadow-grid">
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--cw-shadow-1);"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">shadow-1</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">hairline</span>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--cw-shadow-2);"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">shadow-2</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">card hover</span>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--cw-shadow-3);"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">shadow-3</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">dropdown</span>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--cw-shadow-modal);"></div>
+          <span style="font:600 11px/14px var(--cw-font-sans); color:var(--cw-text-primary);">shadow-modal</span>
+          <span style="font:400 11px/14px var(--cw-font-sans); color:var(--cw-text-secondary);">modal</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="section" id="buttons">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Buttons</h2>
+
+    <div class="canvas">
+      <div class="canvas-label">Primary</div>
+      <div class="btn-row" style="margin-bottom:16px;">
+        <button class="btn-primary"><span>+</span>Add Additional Insured</button>
+        <button class="btn-primary" style="background:#5B0D80;">Hover</button>
+        <button class="btn-primary" style="background:#32004B;">Pressed</button>
+        <button class="btn-primary disabled">Disabled</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary sm">Small</button>
+        <button class="btn-primary">Default</button>
+        <button class="btn-primary lg">Large</button>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Secondary</div>
+      <div class="btn-row">
+        <button class="btn-secondary">Cancel</button>
+        <button class="btn-secondary" style="background:var(--cw-surface-secondary);">Hover</button>
+        <button class="btn-secondary" style="background:var(--cw-surface-contrast);">Pressed</button>
+        <button class="btn-text">Text Button</button>
+        <button class="btn-destructive">Destructive</button>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Icon buttons</div>
+      <div class="btn-row">
+        <button style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; background:#fff; border:1px solid var(--cw-border-secondary); border-radius:4px; cursor:pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15121A" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; background:#fff; border:1px solid var(--cw-border-secondary); border-radius:4px; cursor:pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15121A" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; background:var(--cw-purple-lighter); border:none; border-radius:4px; cursor:pointer; box-shadow: 0 0 38px 32px rgba(0,0,0,0.04);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#81369F" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHIPS -->
+  <section class="section" id="chips">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Chips</h2>
+
+    <div class="canvas">
+      <div class="canvas-label">Status chips — all variants</div>
+      <div class="chip-row">
+        <span class="chip" style="background:#29CC96; color:#15121A;">Bound</span>
+        <span class="chip" style="background:#D99FFF; color:#5B0D80;">Quoted</span>
+        <span class="chip" style="background:#F5CF47; color:#4A3C00;">Underwriting Review</span>
+        <span class="chip" style="background:#EBEEFF; color:#061459;">In Progress</span>
+        <span class="chip" style="background:#FFEDE2; color:#BB4F09;">Cancel Requested</span>
+        <span class="chip" style="background:#FFEDE2; color:#BB4F09;">Pending Cancellation</span>
+        <span class="chip" style="background:#EDEBF2; color:#484452;">Cancelled</span>
+        <span class="chip" style="background:#FFE6E6; color:#CC3D3D;">Declined</span>
+        <span class="chip" style="background:#F8F7FA; color:#66636E;">Expired</span>
+        <span class="chip" style="background:#F8F7FA; color:#66636E;">Not Taken Up</span>
+        <span class="chip" style="background:#81369F; color:#fff;">Brand</span>
+        <span class="chip" style="background:#3F51B5; color:#fff;">Info</span>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Verified chips</div>
+      <div class="chip-row" style="align-items:center;">
+        <span style="display:inline-flex; align-items:center; gap:6px; height:24px; padding:0 12px 0 8px; background:#F2FFF8; color:#004D33; border:1px solid #29CC96; border-radius:4px; font:500 14px/24px var(--cw-font-sans);">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#004D33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          Verified
+        </span>
+        <span style="display:inline-flex; align-items:center; height:24px; padding:0 12px; background:#F8F7FA; color:#66636E; border-radius:4px; font:500 14px/24px var(--cw-font-sans);">Verify now</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section class="section" id="inputs">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Inputs</h2>
+
+    <div class="canvas">
+      <div class="canvas-label">Text field states</div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <div class="field-group" style="flex:1; min-width:180px;">
+          <label class="field-label">DOT Number</label>
+          <div class="field-input">Enter</div>
+          <span class="field-hint">As appears on FMCSA/SAFER.</span>
+        </div>
+        <div class="field-group" style="flex:1; min-width:180px;">
+          <label class="field-label">Legal Name</label>
+          <div class="field-input focused">Warehouse 2 Warehouse, LLC</div>
+          <span class="field-hint">As appears on FMCSA/SAFER.</span>
+        </div>
+        <div class="field-group" style="flex:1; min-width:180px;">
+          <label class="field-label error">Email Address *</label>
+          <div class="field-input error">&nbsp;</div>
+          <span class="field-hint error">Please fill out this field.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas" style="margin-top:12px;">
+      <div class="canvas-label">Select / dropdown appearance</div>
+      <div class="field-group" style="max-width:280px;">
+        <label class="field-label">Operation Classification</label>
+        <div class="field-input" style="justify-content:space-between;">
+          <span>For-Hire</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9794A2" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="section" id="table">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Table</h2>
+
+    <div class="canvas" style="padding:0; overflow:hidden;">
+      <div class="cw-table" style="border:none; border-radius:0;">
+        <div class="cw-thead">
+          <span class="cw-td-dot">DOT</span>
+          <span class="cw-td-name">Legal Name</span>
+          <span class="cw-td-status">Status</span>
+          <span class="cw-td-action">Action</span>
+        </div>
+        <div class="cw-tbody">
+          <div class="cw-tr">
+            <span class="cw-td-dot">2537062</span>
+            <span class="cw-td-name">SOHIO EXPEDITING LLC</span>
+            <span class="cw-td-status"><span class="chip" style="background:#D99FFF; color:#5B0D80;">Bindable</span></span>
+            <span class="cw-td-action">Review</span>
+          </div>
+          <div class="cw-tr">
+            <span class="cw-td-dot">2464946</span>
+            <span class="cw-td-name">OHIO VALLEY SAND LLC</span>
+            <span class="cw-td-status"><span class="chip" style="background:#29CC96; color:#15121A;">Bound</span></span>
+            <span class="cw-td-action">Review</span>
+          </div>
+          <div class="cw-tr">
+            <span class="cw-td-dot">1674219</span>
+            <span class="cw-td-name">SCHRAMKE ENTERPRISES</span>
+            <span class="cw-td-status"><span class="chip" style="background:#F5CF47; color:#4A3C00;">UW Review</span></span>
+            <span class="cw-td-action">Review</span>
+          </div>
+          <div class="cw-tr">
+            <span class="cw-td-dot">3873596</span>
+            <span class="cw-td-name">MILESTONE TRANSPORTATION</span>
+            <span class="cw-td-status"><span class="chip" style="background:#FFE6E6; color:#CC3D3D;">Declined</span></span>
+            <span class="cw-td-action">Review</span>
+          </div>
+          <div class="cw-tr">
+            <span class="cw-td-dot">1892043</span>
+            <span class="cw-td-name">GREAT PLAINS FREIGHT SYSTEMS INC</span>
+            <span class="cw-td-status"><span class="chip" style="background:#EBEEFF; color:#061459;">In Progress</span></span>
+            <span class="cw-td-action">Review</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="section" id="cards">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Cards</h2>
+
+    <div class="canvas" style="background:var(--cw-surface-secondary);">
+      <div class="canvas-label">Dashboard widget cards (hover to see elevation)</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div class="card-title">Bindable Quotes (15)</div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#66636E" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="card-body">Quotes ready to bind into policies. View all to filter and assign.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Policies In-Force (84)</div>
+          <div class="card-body">Active bound policies across your book of business.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Upcoming Renewals (7)</div>
+          <div class="card-body">Policies expiring within the next 60 days.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTS -->
+  <section class="section" id="alerts">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">Alerts</h2>
+
+    <div class="canvas">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="alert success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004D33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+          <div><div class="alert-title">Quote bound successfully</div><div class="alert-body">Policy CW-198123 will go in-force on 06/01.</div></div>
+        </div>
+        <div class="alert error">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CC3D3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 17v.01"/></svg>
+          <div><div class="alert-title">Submission declined</div><div class="alert-body">DOT inactive for 90+ days on FMCSA.</div></div>
+        </div>
+        <div class="alert warning">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BB4F09" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17v.01"/></svg>
+          <div><div class="alert-title">Renewal action required</div><div class="alert-body">Policy 1984201 expires in 14 days. Bind or non-renew before the expiry date.</div></div>
+        </div>
+        <div class="alert info">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#061459" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16v.01"/></svg>
+          <div><div class="alert-title">Underwriting in review</div><div class="alert-body">This quote has been referred to underwriting. A decision is typically returned within 1 business day.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP SHELL -->
+  <section class="section" id="shell">
+    <p class="section-title">Components</p>
+    <h2 class="section-heading">App Shell</h2>
+
+    <div class="canvas" style="padding:0; overflow:hidden;">
+      <div class="shell-wrap" style="border:none; border-radius:0;">
+        <!-- App bar -->
+        <div class="shell-appbar">
+          <img src="assets/cover-whale-wordmark.svg" alt="" style="height:20px;" />
+          <div class="shell-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9794A2" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            Search
+          </div>
+          <div class="shell-spacer"></div>
+          <button class="btn-primary sm">New Quote</button>
+          <div class="shell-avatar">PC</div>
+        </div>
+
+        <!-- Body -->
+        <div class="shell-body">
+          <!-- Left nav -->
+          <div class="shell-nav">
+            <div class="shell-nav-item active">
+              <span class="shell-nav-icon active" style="background:#81369F;"></span>Dashboard
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Submissions
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Quotes
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Policies
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Endorsements
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Renewals
+            </div>
+            <div class="shell-nav-item">
+              <span class="shell-nav-icon"></span>Messages
+            </div>
+          </div>
+          <!-- Page content placeholder -->
+          <div class="shell-content" style="padding:24px 28px;">
+            <div style="font:500 20px/28px var(--cw-font-sans); color:var(--cw-text-primary); margin-bottom:16px;">Dashboard</div>
+            <div style="display:flex; gap:12px;">
+              <div class="card" style="padding:16px 20px;">
+                <div style="font:500 16px/24px var(--cw-font-sans); color:var(--cw-text-primary); margin-bottom:4px;">Bindable Quotes (15)</div>
+                <div style="font:400 12px/16px var(--cw-font-sans); color:var(--cw-text-secondary);">Ready to bind</div>
+              </div>
+              <div class="card" style="padding:16px 20px;">
+                <div style="font:500 16px/24px var(--cw-font-sans); color:var(--cw-text-primary); margin-bottom:4px;">In-Force (84)</div>
+                <div style="font:400 12px/16px var(--cw-font-sans); color:var(--cw-text-secondary);">Active policies</div>
+              </div>
+              <div class="card" style="padding:16px 20px;">
+                <div style="font:500 16px/24px var(--cw-font-sans); color:var(--cw-text-primary); margin-bottom:4px;">Renewals (7)</div>
+                <div style="font:400 12px/16px var(--cw-font-sans); color:var(--cw-text-secondary);">Expiring in 60 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* Active nav highlight on scroll */
+  const navLinks = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('.section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+Situation,"Context/Background?
+
+When/Where?
+
+Goal?","Context/Background: Seeing a backend switch as an opportunity for usability improvements. One of the biggest issues users of the platform were seeing from both the Customer (Insurance Agent buying Policies) and the Admin (CX, Product/UX, Underwriting, Ops, Tech, Data) sides, was a consistent stream of data inaccuracies and vital information getting lost in the mix. 
+
+When/Where: This switch was taking place at the beginning of Q1 in 2024. Cover Whale’s offices are located in the South Street Seaport area. A lot of key meetings, including Stakeholder Interviews, took place here. [Lighten presentation with an image of the building with a “You are here” type treatment]. A B2B Insurtech, Cover Whale serves the majority of the country’s (with a few states still in the works) Insurance Agents buying Commercial Trucking Insurance. A good month could see millions in policies sold. 
+
+Goal: The goal was most importantly to improve Policy Workflows for Agents and Admins. 2024 was going to be a big year with a Series A investment in the works. Having a proof-of-concept as to what Cover Whale had planned for their agents was one of the key factors in reaching that goal [Spoiler, we did.]. To fully realize that goal required that the company utilize a Policy Admin System (PAS), as opposed to the legacy PHP app."
+Task,"Role?
+
+What was I trying to achieve?
+
+Why was it important?
+
+Risks/Consequences?","Role: Senior UX Researcher & Designer
+
+Trying to Achieve:  Focus on designing a Front End which pushes the Policy Life Cycle to the forefront of the new UI, in efforts to provide agents of all experience levels with a clearer picture of their Activity. It was crucial to document existing functionality, analyze the architecture and familiarize myself with the rules and guidelines which determined error states, declines, etc. and finally create a prototype to help visualize, test, and present internally.
+
+Why Important:  It was important for multiple reasons. For the Internal Stakeholder, some of whom interacted with the Platform multiple hours a day or all day, especially in the case of Underwriters, it meant Process Automation and an improved Front End, especially when it came to bringing more Quality Control by knocking out Ineligible Risk sooner. For the same reason, the Agent (often but not always synonymous with Producer), would also be able to cycle through more potential clients on their end. Of course, the improved backend also promised a more efficient Quote and Bind Process, which in the end, meant Generating Revenue, Retaining Customers, and Growing Carrier Relationships [the companies actually selling the insurance policies...think of a Managing General Agent (or MGA) like Cover Whale as a Shopping Mall for Insurance Carriers to rent space in for a Fee. The longer they stay at the Mall, and as they see their clientele comprise a high percentage of Safer Drivers (via Low Loss Ratios), the more space they’re likely to rent.]
+
+Risks: In our best case scenario, we deliver a vastly improved platform experience, which includes New Functionalities which are adopted by Internal and External Stakeholders. Tedious tasks have been replaced with Automation and when necessary, improved Communication Channels have enabled swifter Admin Intervention. In the worst case scenario, crucial functionalities have not carried over, else if changes had been implemented they were not tested beforehand. 
+
+Adjacently, there was the factor of not having a PAS Vendor selected yet, and therefore not knowing the full scope of what was available, not only in terms of APIs and other Integrations, but how core processes like Endorsements were carried out. A framework based on assumptions would be need to be made flexible enough to be able to pivot.
+
+That aside, and for the purposes of this presentation, which is to focus on the Architecture Reconfiguration and introduction of a new Dashboard, our sweet spot was that functionality was carried over to the point where Accounts and their Polices are findable and serviceble."
+Action,"What did I personally own?
+
+How did I do it?
+
+How did I influence the outcome?
+
+Who else was involved?
+
+Most significant obstacle?","What Owned: Design Lead, Documentation, Prototyping
+
+How Done: Part of my daily work was keeping our UX Vendor team informed of any adjustments or updates. This also meant going through the previous day’s Design Work and making comments and providing effective feedback. The other side of this work was getting buy-in from Stakeholders whenever the situation arose, as well as presenting Research Findings, Design Updates, Test Results, etc. in a weekly Design Sync which was attended by both teams involved. 
+
+I created a high-level Sitemap which captured not only the Information Architecture, but also which sections would require automation or additional engineering requirements.
+
+In anticipation of usability testing which we had planned for the end of our initial contract with the UX Team, I built a Mid-Fidelity Clickable version of the proposed changes to the Architecture. This way I’d be able to hear directly from Agents how it helped or hindered their current Work Flows.
+
+How Influenced Outcome: Because of the time difference (NY to Zurich is 6 hours), if I could provide requirements for the following day, the next days work could start at 3am, enabling an almost 24-hour work cycle during the initial 6-week sprint. 
+
+Who Else Involved: The UX Vendor Team consisted of two Designers, one Front End Engineer, as well as weekly meetings being joined by their CEO. On our team, it was the Chief Operating Officer, one Project Manager, one Product Manager, as well as the heads of Underwriting, Growth, Operations, CX, and our CEO. It truly was a company-wide effort.
+
+Biggest Obstacle: Navigating the fact that we didn’t have a PAS Vendor pinned down yet, so work had to be done to the best of everyone’s understanding of how it should work. This required a massive cross-functional effort to build an all-in-one Source of Truth document and most importantly, ensure the documentation was up to date.
+
+[To tie it back to the presentation] ....As far as I was concerned at this stage, the designs were making decisively broad strokes to get to Internal and External Stakeholder feedback as rapidly as possible. From this perspective, the biggest obstacle simply striking the right balance between what we already knew about the product and it’s users and including as many new features was attainable."
+Result,"How was success measured?
+
+What results were achieved?
+
+What were the trade-offs that needed to be made?
+
+Lessons learned?
+
+What would I have done differently?","Measuring Success: For the overall product, success was determined by a few key metrics: Generating Revenue, Increasing Renewal Rates, Increasing Quote-Bind Ratios, Decreasing Cancellations were among the top. Bringing a Dashboard experience to Agents for the first time was aimed at allowing the Agent to view their activity in a visually quantified way. Future success would allow managers to have a similar view into their Agencies overall Activities.
+
+Results Achieved: After testing the Prototype with Agents, some of whom were at the Manager level, it was determined that not all levels of the Agency would need Agency-level views, so we decided to proceed with what I began referring to in meetings as the “Soldier View”, with the idea that we would first build the dashboard, which data confirmed, would be most useful to all users. The prototype was also presented to all internal teams of the company, especially Engineering to determine Backend feasibility. I created a repository of the different team’s responses to ensure that the Design Team had the chance to review and determine Next Steps. Although my time with the company ended before I was able to see the designs in a live environment, the Mid Fidelity prototype was used by the UX Vendor team to create a Hi-Fidelity version of it, as well as beginning to code the Front End.
+
+Trade-Offs: In the originally proposed architecture, two different views were included, Agent View and Agency View. Cutting this meant rethinking the framework. Despite being a difficult decision to make, it made sense to build a leaner version to accelerate implementation.
+
+Lessons Learned: It’s important to be flexible to change at the onset of a large scale project. Data frameworks need to come before a meaningful Front End feature like a Dashboard can come to life. Not every Stakeholder need will be met the first go through. It helps to build lower fidelity versions of designs to keep the focus on the ideas.
+
+What Would’ve Done Differently: I would have narrowed my view of what a default level view should look like through additional research earlier on in the project."

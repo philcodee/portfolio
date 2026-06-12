@@ -1,0 +1,204 @@
+/* ===========================================================
+   Cover Whale Design System — Colors & Type Tokens
+   Sourced from the Style-Guide page in the Figma file.
+   Inter is the only typeface; Vuetify is the host framework.
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ── Primitive: Neutrals (cool, very slightly violet) ───── */
+  --cw-neutral-white:    rgb(255, 255, 255);   /* #FFFFFF */
+  --cw-neutral-lightest: rgb(248, 247, 250);   /* #F8F7FA — surface secondary */
+  --cw-neutral-lighter:  rgb(237, 235, 242);   /* #EDEBF2 — surface contrast / borders */
+  --cw-neutral-light:    rgb(196, 192, 207);   /* #C4C0CF — heavy borders */
+  --cw-neutral-default:  rgb(151, 148, 162);   /* #9794A2 — disabled, placeholder */
+  --cw-neutral-dark:     rgb(102, 99, 110);    /* #66636E — text secondary, hint */
+  --cw-neutral-darker:   rgb(72, 68, 82);      /* #484452 — text on light */
+  --cw-neutral-darkest:  rgb(35, 35, 35);      /* #232323 */
+  --cw-neutral-ink:      rgb(21, 18, 26);      /* #15121A — text primary, hero */
+  --cw-neutral-black:    rgb(0, 0, 0);
+
+  /* ── Primitive: Purple (brand) ───── */
+  --cw-purple-lighter:   rgb(251, 242, 255);   /* #FBF2FF — bg accent */
+  --cw-purple-light:     rgb(217, 159, 255);   /* #D99FFF — brand secondary */
+  --cw-purple-default:   rgb(129, 54, 159);    /* #81369F — brand primary */
+  --cw-purple-dark:      rgb(91, 13, 128);     /* #5B0D80 — pressed / contrast */
+  --cw-purple-darker:    rgb(50, 0, 75);       /* #32004B — heavy contrast */
+
+  /* ── Primitive: Pink, Orange, Yellow, Green, Red, Blue ───── */
+  --cw-pink-lighter:     rgb(255, 240, 255);
+  --cw-pink-light:       rgb(246, 197, 252);
+  --cw-pink-default:     rgb(212, 65, 224);
+  --cw-pink-dark:        rgb(141, 28, 152);
+  --cw-pink-darker:      rgb(89, 0, 99);
+
+  --cw-orange-lighter:   rgb(255, 237, 226);
+  --cw-orange-light:     rgb(255, 196, 156);
+  --cw-orange-default:   rgb(255, 137, 64);
+  --cw-orange-dark:      rgb(187, 79, 9);      /* #BB4F09 — warning text */
+  --cw-orange-darker:    rgb(73, 26, 0);
+
+  --cw-yellow-light:     rgb(255, 248, 213);
+  --cw-yellow-default:   rgb(245, 207, 71);
+  --cw-yellow-dark:      rgb(74, 60, 0);
+
+  --cw-green-light:      rgb(242, 255, 248);   /* #F2FFF8 — light success bg */
+  --cw-green-default:    rgb(41, 204, 150);    /* #29CC96 — bound, verified */
+  --cw-green-dark:       rgb(0, 77, 51);       /* #004D33 — success text */
+
+  --cw-red-light:        rgb(255, 230, 230);   /* #FFE6E6 — light failure bg */
+  --cw-red-default:      rgb(204, 61, 61);     /* #CC3D3D — declined, error */
+  --cw-red-dark:         rgb(89, 0, 0);
+
+  --cw-blue-light:       rgb(235, 238, 255);   /* #EBEEFF — light info bg */
+  --cw-blue-default:     rgb(63, 81, 181);     /* #3F51B5 — info action */
+  --cw-blue-dark:        rgb(6, 20, 89);       /* #061459 — info text */
+
+  /* ── Semantic: Surface ───── */
+  --cw-surface-primary:        var(--cw-neutral-white);
+  --cw-surface-secondary:      var(--cw-neutral-lightest);
+  --cw-surface-contrast:       var(--cw-neutral-lighter);
+  --cw-surface-heavy-contrast: var(--cw-neutral-default);
+  --cw-surface-invert:         var(--cw-neutral-ink);
+
+  --cw-surface-brand-primary:        var(--cw-purple-default);
+  --cw-surface-brand-secondary:      var(--cw-purple-light);
+  --cw-surface-brand-contrast:       var(--cw-purple-dark);
+  --cw-surface-brand-heavy-contrast: var(--cw-purple-darker);
+
+  /* ── Semantic: Text ───── */
+  --cw-text-primary:   var(--cw-neutral-ink);
+  --cw-text-secondary: var(--cw-neutral-dark);
+  --cw-text-contrast:  var(--cw-neutral-darker);
+  --cw-text-invert:    var(--cw-neutral-white);
+  --cw-text-brand:     var(--cw-purple-default);
+
+  /* ── Semantic: Border ───── */
+  --cw-border-primary:   var(--cw-neutral-lighter);   /* default hairline */
+  --cw-border-secondary: var(--cw-neutral-light);     /* heavier dividers */
+  --cw-border-invert:    var(--cw-neutral-ink);
+  --cw-border-brand:     var(--cw-purple-default);
+
+  /* ── Semantic: Icon ───── */
+  --cw-icon-primary:        var(--cw-neutral-ink);
+  --cw-icon-secondary:      var(--cw-neutral-dark);
+  --cw-icon-invert:         var(--cw-neutral-white);
+  --cw-icon-brand-primary:  var(--cw-purple-default);
+  --cw-icon-brand-secondary:var(--cw-purple-light);
+
+  /* ── Semantic: Button ───── */
+  --cw-button-primary-default: var(--cw-purple-default);
+  --cw-button-primary-hover:   var(--cw-purple-dark);
+  --cw-button-primary-focused: var(--cw-purple-dark);
+  --cw-button-primary-pressed: var(--cw-purple-darker);
+
+  --cw-button-secondary-default: var(--cw-neutral-white);
+  --cw-button-secondary-hover:   var(--cw-neutral-lightest);
+  --cw-button-secondary-focused: var(--cw-neutral-lightest);
+  --cw-button-secondary-pressed: var(--cw-neutral-lighter);
+
+  --cw-button-disabled-bg:   var(--cw-neutral-lightest);
+  --cw-button-disabled-text: var(--cw-neutral-darker);
+
+  /* ── Semantic: Status (light = pastel bg, contrast = saturated chip) ───── */
+  --cw-status-light-success:    var(--cw-green-light);
+  --cw-status-light-review:     var(--cw-yellow-light);
+  --cw-status-light-warning:    var(--cw-orange-lighter);
+  --cw-status-light-failure:    var(--cw-red-light);
+  --cw-status-light-info:       var(--cw-blue-light);
+  --cw-status-light-incomplete: var(--cw-neutral-lightest);
+
+  --cw-status-contrast-success:    var(--cw-green-default);
+  --cw-status-contrast-review:     var(--cw-yellow-default);
+  --cw-status-contrast-warning:    var(--cw-orange-default);
+  --cw-status-contrast-failure:    var(--cw-red-default);
+  --cw-status-contrast-info:       var(--cw-blue-default);
+  --cw-status-contrast-incomplete: var(--cw-neutral-darker);
+
+  /* ── Elevation (Vuetify-flavoured soft shadows) ───── */
+  --cw-shadow-1: 0 0 4px 0 rgba(0, 0, 0, 0.06);
+  --cw-shadow-2: 0 2px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --cw-shadow-3: 0 8px 24px 0 rgba(0, 0, 0, 0.08), 0 2px 6px 0 rgba(0, 0, 0, 0.04);
+  --cw-shadow-modal: 0 24px 48px 0 rgba(0, 0, 0, 0.16), 0 8px 16px 0 rgba(0, 0, 0, 0.08);
+  --cw-shadow-inset: inset 0 0 4px 0 rgba(0, 0, 0, 0.12); /* used on toggle backs */
+  --cw-shadow-halo:  0 0 38px 32px rgba(0, 0, 0, 0.04);   /* purple icon button halo */
+
+  /* ── Radius ───── */
+  --cw-radius-xs: 2px;
+  --cw-radius-sm: 4px;   /* buttons, chips — DEFAULT */
+  --cw-radius-md: 8px;   /* cards, modals */
+  --cw-radius-lg: 16px;  /* hero / token wraps */
+  --cw-radius-pill: 999px;
+
+  /* ── Spacing scale (Vuetify density-comfortable) ───── */
+  --cw-space-1: 4px;
+  --cw-space-2: 8px;
+  --cw-space-3: 12px;
+  --cw-space-4: 16px;
+  --cw-space-5: 20px;
+  --cw-space-6: 24px;
+  --cw-space-8: 32px;
+  --cw-space-10: 40px;
+  --cw-space-12: 48px;
+  --cw-space-16: 64px;
+
+  /* ── Type ───── */
+  --cw-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --cw-fw-regular:  400;
+  --cw-fw-medium:   500;   /* most UI labels, table cells, button text */
+  --cw-fw-semibold: 600;   /* emphasis, titles */
+  --cw-fw-bold:     700;   /* heavy display only */
+
+  --cw-fs-display-xl: 64px;  --cw-lh-display-xl: 72px;
+  --cw-fs-display-lg: 48px;  --cw-lh-display-lg: 56px;
+  --cw-fs-display-md: 40px;  --cw-lh-display-md: 48px;
+  --cw-fs-display-sm: 36px;  --cw-lh-display-sm: 44px;
+  --cw-fs-title-lg:   32px;  --cw-lh-title-lg:   40px;
+  --cw-fs-title-md:   24px;  --cw-lh-title-md:   32px;
+  --cw-fs-title-sm:   20px;  --cw-lh-title-sm:   28px;
+  --cw-fs-body-lg:    16px;  --cw-lh-body-lg:    24px;
+  --cw-fs-body-md:    14px;  --cw-lh-body-md:    24px;   /* default */
+  --cw-fs-body-sm:    12px;  --cw-lh-body-sm:    16px;   /* chip, table head */
+}
+
+/* ── Reset-lite ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-fs-body-md);
+  line-height: var(--cw-lh-body-md);
+  color: var(--cw-text-primary);
+  background: var(--cw-surface-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Semantic type classes ───────────────────────────────── */
+.cw-display-xl { font: var(--cw-fw-medium) var(--cw-fs-display-xl)/var(--cw-lh-display-xl) var(--cw-font-sans); letter-spacing: -0.02em; }
+.cw-display-lg { font: var(--cw-fw-medium) var(--cw-fs-display-lg)/var(--cw-lh-display-lg) var(--cw-font-sans); letter-spacing: -0.02em; }
+.cw-display-md { font: var(--cw-fw-medium) var(--cw-fs-display-md)/var(--cw-lh-display-md) var(--cw-font-sans); letter-spacing: -0.01em; }
+.cw-display-sm { font: var(--cw-fw-medium) var(--cw-fs-display-sm)/var(--cw-lh-display-sm) var(--cw-font-sans); letter-spacing: -0.01em; }
+.cw-title-lg   { font: var(--cw-fw-medium) var(--cw-fs-title-lg)/var(--cw-lh-title-lg) var(--cw-font-sans); }
+.cw-title-md   { font: var(--cw-fw-medium) var(--cw-fs-title-md)/var(--cw-lh-title-md) var(--cw-font-sans); }
+.cw-title-sm   { font: var(--cw-fw-medium) var(--cw-fs-title-sm)/var(--cw-lh-title-sm) var(--cw-font-sans); }
+.cw-body-lg    { font: var(--cw-fw-regular) var(--cw-fs-body-lg)/var(--cw-lh-body-lg) var(--cw-font-sans); }
+.cw-body-md    { font: var(--cw-fw-regular) var(--cw-fs-body-md)/var(--cw-lh-body-md) var(--cw-font-sans); }
+.cw-body-sm    { font: var(--cw-fw-regular) var(--cw-fs-body-sm)/var(--cw-lh-body-sm) var(--cw-font-sans); }
+
+.cw-label      { font: var(--cw-fw-medium) var(--cw-fs-body-md)/var(--cw-lh-body-md) var(--cw-font-sans); }
+.cw-label-sm   { font: var(--cw-fw-medium) var(--cw-fs-body-sm)/var(--cw-lh-body-sm) var(--cw-font-sans); }
+.cw-overline   { font: var(--cw-fw-medium) var(--cw-fs-body-sm)/16px var(--cw-font-sans);
+                 text-transform: uppercase; letter-spacing: 0.06em; color: var(--cw-text-secondary); }
+
+/* ── HTML element defaults ───────────────────────────────── */
+h1 { font: var(--cw-fw-medium) var(--cw-fs-display-md)/var(--cw-lh-display-md) var(--cw-font-sans); margin: 0 0 var(--cw-space-4); letter-spacing: -0.01em; }
+h2 { font: var(--cw-fw-medium) var(--cw-fs-title-lg)/var(--cw-lh-title-lg) var(--cw-font-sans); margin: 0 0 var(--cw-space-3); }
+h3 { font: var(--cw-fw-medium) var(--cw-fs-title-md)/var(--cw-lh-title-md) var(--cw-font-sans); margin: 0 0 var(--cw-space-2); }
+h4 { font: var(--cw-fw-medium) var(--cw-fs-title-sm)/var(--cw-lh-title-sm) var(--cw-font-sans); margin: 0 0 var(--cw-space-2); }
+p  { margin: 0 0 var(--cw-space-3); }
+a  { color: var(--cw-text-brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.92em; background: var(--cw-surface-secondary); padding: 2px 6px; border-radius: var(--cw-radius-xs); }

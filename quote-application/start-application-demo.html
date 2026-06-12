@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes — Cover Whale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --f: 'Inter', -apple-system, sans-serif;
+      --ink:           #15121A;
+      --secondary:     #66636E;
+      --darker:        #484452;
+      --lightest:      #F8F7FA;
+      --lighter:       #EDEBF2;
+      --light:         #C4C0CF;
+      --default:       #9794A2;
+      --purple:        #81369F;
+      --purple-dark:   #5B0D80;
+      --purple-lighter:#FBF2FF;
+      --white:         #FFFFFF;
+      --border:        1px solid #EDEBF2;
+      --radius-sm:     4px;
+      --radius-md:     8px;
+      --shadow-modal:  0 24px 48px rgba(0,0,0,0.16), 0 8px 16px rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--f);
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--white);
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Shell ─────────────────────────────────────────── */
+    .frame { display: flex; flex-direction: column; height: 100vh; }
+
+    /* ── Appbar ────────────────────────────────────────── */
+    .appbar {
+      height: 64px; flex-shrink: 0;
+      background: var(--white);
+      border-bottom: var(--border);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 16px;
+      position: relative; z-index: 10;
+    }
+    .appbar__search {
+      flex: 1; max-width: 480px;
+      height: 36px;
+      background: var(--lightest);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 12px;
+      color: var(--default);
+      font: 400 14px/24px var(--f);
+    }
+    .appbar__right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto; }
+    .icon-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: transparent; border: none;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--secondary); cursor: pointer;
+    }
+    .icon-btn:hover { background: var(--lightest); }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--lighter); color: var(--darker);
+      display: flex; align-items: center; justify-content: center;
+      font: 600 12px/16px var(--f); cursor: pointer;
+    }
+
+    /* ── Buttons ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 16px;
+      border-radius: var(--radius-sm);
+      font: 500 14px/24px var(--f);
+      border: none; cursor: pointer;
+      transition: background 150ms;
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--purple); color: #fff; }
+    .btn--primary:hover { background: var(--purple-dark); }
+    .btn--primary:disabled { background: var(--lightest); color: var(--darker); cursor: not-allowed; }
+    .btn--secondary { background: var(--white); color: var(--ink); border: 1px solid var(--light); }
+    .btn--secondary:hover { background: var(--lightest); }
+
+    /* ── App body ──────────────────────────────────────── */
+    .app-body { display: flex; flex: 1; min-height: 0; }
+
+    /* ── Rail ──────────────────────────────────────────── */
+    .app-rail {
+      width: 220px; flex-shrink: 0;
+      background: var(--lightest);
+      border-right: var(--border);
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 2px;
+      overflow: hidden;
+      transition: width 220ms ease;
+    }
+    .app-rail.is-collapsed { width: 64px; }
+
+    .rail-section {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0; white-space: nowrap;
+      transition: gap 220ms ease;
+    }
+    .app-rail.is-collapsed .rail-section { gap: 0; }
+    .rail-section__label {
+      font: 500 14px/20px var(--f); color: var(--ink);
+      overflow: hidden; max-width: 160px; opacity: 1;
+      transition: max-width 220ms ease, opacity 80ms ease;
+    }
+    .app-rail.is-collapsed .rail-section__label { max-width: 0; opacity: 0; pointer-events: none; }
+    .app-rail:not(.is-collapsed) .rail-section__label { transition: max-width 220ms ease, opacity 80ms ease 160ms; }
+
+    .rail-toggle {
+      width: 32px; height: 32px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; padding: 0; outline: none;
+      border-radius: var(--radius-sm);
+      color: var(--darker); cursor: pointer;
+      transition: background 120ms, color 120ms;
+    }
+    .rail-toggle:hover { background: var(--lighter); color: var(--ink); }
+
+    .rail-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0; border-radius: var(--radius-sm);
+      font: 500 14px/20px var(--f); color: #484452;
+      cursor: pointer; user-select: none; white-space: nowrap;
+      transition: background 120ms, gap 220ms ease;
+    }
+    .app-rail.is-collapsed .rail-item { gap: 0; }
+    .rail-item:hover { background: #EDEBF2; }
+    .rail-item.is-active { background: #EDEBF2; color: #15121A; }
+    .rail-item.is-active .rail-icon { color: #15121A; }
+
+    .rail-icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #484452;
+    }
+    .rail-item__label {
+      overflow: hidden; max-width: 160px; opacity: 1;
+      transition: max-width 220ms ease, opacity 80ms ease;
+    }
+    .app-rail.is-collapsed .rail-item__label { max-width: 0; opacity: 0; pointer-events: none; }
+    .app-rail:not(.is-collapsed) .rail-item__label { transition: max-width 220ms ease, opacity 80ms ease 160ms; }
+
+    /* ── Main ──────────────────────────────────────────── */
+    .main {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; padding: 32px;
+    }
+    .main__hint {
+      font: 400 14px/24px var(--f); color: var(--default); text-align: center;
+    }
+
+    /* ── Scrim ─────────────────────────────────────────── */
+    .scrim {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 50;
+      opacity: 0; pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+    .scrim.is-open { opacity: 1; pointer-events: auto; }
+
+    /* ── Modal ─────────────────────────────────────────── */
+    .modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -48%) scale(0.97);
+      z-index: 60;
+      width: 540px;
+      max-height: calc(100vh - 48px);
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-modal);
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .modal.is-open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    .modal__scroll { flex: 1; overflow-y: auto; min-height: 0; }
+
+    .modal__head {
+      padding: 20px 24px;
+      border-bottom: var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+    .modal__title    { font: 500 20px/28px var(--f); color: var(--ink); }
+    .modal__subtitle { font: 400 13px/20px var(--f); color: var(--secondary); margin-top: 3px; }
+    .modal__close {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: none; background: none; cursor: pointer;
+      border-radius: var(--radius-sm); margin-top: -2px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--secondary);
+    }
+    .modal__close:hover { background: var(--lightest); }
+    .modal__body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .modal__foot { padding: 16px 24px; border-top: var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* ── Form fields ───────────────────────────────────── */
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field__label { font: 400 14px/24px var(--f); color: var(--secondary); }
+    .field__input {
+      height: 40px; padding: 0 14px;
+      border: 1px solid var(--light); border-radius: var(--radius-sm);
+      background: var(--white);
+      font: 400 14px/24px var(--f); color: var(--ink);
+      outline: none; transition: border-color 120ms, box-shadow 120ms;
+    }
+    .field__input::placeholder { color: var(--default); }
+    .field__input:focus { border-color: var(--purple); box-shadow: 0 0 0 2px rgba(129,54,159,0.18); }
+    .field__hint { font: 400 12px/16px var(--f); color: var(--secondary); }
+
+    /* ── Checkboxes ────────────────────────────────────── */
+    .check-row { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+    .check-box {
+      width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+      border-radius: 3px; border: 1.5px solid var(--light);
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 120ms, background 120ms; cursor: pointer;
+    }
+    .check-box.is-checked { background: var(--purple); border-color: var(--purple); }
+    .check-text { font: 400 13px/20px var(--f); color: var(--ink); }
+
+    /* ── Loading ───────────────────────────────────────── */
+    .modal-loading {
+      padding: 48px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--lighter);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      animation: spin 700ms linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-loading__text { font: 400 14px/24px var(--f); color: var(--secondary); }
+
+    /* ── Confirm sections ──────────────────────────────── */
+    .cs { padding: 16px 24px; border-bottom: var(--border); }
+    .cs:last-of-type { border-bottom: none; }
+    .cs__head { font: 600 15px/24px var(--f); color: var(--ink); margin-bottom: 12px; }
+    .cs__desc { font: 400 13px/20px var(--f); color: var(--secondary); margin-bottom: 10px; }
+    .cf-row { display: flex; gap: 24px; flex-wrap: wrap; }
+    .cf-row + .cf-row { margin-top: 16px; }
+    .cf { min-width: 0; }
+    .cf--wide { flex: 1; }
+    .cf__label {
+      font: 500 12px/16px var(--f); text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--secondary); margin-bottom: 2px;
+    }
+    .cf__val { font: 400 14px/24px var(--f); color: var(--ink); }
+    .cf__val--med { font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<div class="frame">
+
+  <!-- Appbar -->
+  <header class="appbar">
+    <img src="../platform-architecture/cw-logo.svg" alt="Cover Whale" style="height:20px; flex-shrink:0;">
+    <div class="appbar__search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Search
+    </div>
+    <div class="appbar__right">
+      <button class="btn btn--primary" id="newQuoteBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Quote
+      </button>
+      <button class="icon-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1z"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+      </button>
+      <div class="avatar">PC</div>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="app-body">
+
+    <!-- Rail -->
+    <aside class="app-rail" id="appRail">
+      <div class="rail-section">
+        <button class="rail-toggle" id="railToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.4978 12.0002H18.5029" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M5.4978 16.0022H18.5029" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M5.49731 7.99826H18.5024" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <span class="rail-section__label">Agent Portal</span>
+      </div>
+      <div class="rail-item">
+        <span class="rail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.99997 18.9996H9.34615V13.0573H14.6538V18.9996H18V9.99964L12 5.48042L5.99997 9.99964V18.9996ZM4.5 20.4996V9.24967L12 3.60547L19.5 9.24967V20.4996H13.1538V14.5573H10.8461V20.4996H4.5Z" fill="currentColor"/></svg></span>
+        <span class="rail-item__label">Dashboard</span>
+      </div>
+      <div class="rail-item">
+        <span class="rail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.25 17.75H15.75V16.25H8.25V17.75ZM8.25 13.75H15.75V12.25H8.25V13.75ZM6.3077 21.5C5.80257 21.5 5.375 21.325 5.025 20.975C4.675 20.625 4.5 20.1974 4.5 19.6923V4.3077C4.5 3.80257 4.675 3.375 5.025 3.025C5.375 2.675 5.80257 2.5 6.3077 2.5H14.25L19.5 7.74995V19.6923C19.5 20.1974 19.325 20.625 18.975 20.975C18.625 21.325 18.1974 21.5 17.6922 21.5H6.3077ZM13.5 8.49995V3.99998H6.3077C6.23077 3.99998 6.16024 4.03203 6.09612 4.09613C6.03202 4.16024 5.99997 4.23077 5.99997 4.3077V19.6923C5.99997 19.7692 6.03202 19.8397 6.09612 19.9038C6.16024 19.9679 6.23077 20 6.3077 20H17.6922C17.7692 20 17.8397 19.9679 17.9038 19.9038C17.9679 19.8397 18 19.7692 18 19.6923V8.49995H13.5Z" fill="currentColor"/></svg></span>
+        <span class="rail-item__label">Submissions</span>
+      </div>
+      <div class="rail-item is-active">
+        <span class="rail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.99998 21.5C5.30127 21.5 4.70993 21.258 4.22595 20.7741C3.74198 20.2901 3.5 19.7002 3.5 19.0046V16.5001H6.5V2.69238L7.88462 3.88468L9.28845 2.69238L10.6923 3.88468L12.0961 2.69238L13.5 3.88468L14.9038 2.69238L16.3077 3.88468L17.7115 2.69238L19.1153 3.88468L20.5 2.69238V19C20.5 19.6987 20.258 20.2901 19.774 20.7741C19.29 21.258 18.6987 21.5 18 21.5H5.99998ZM18 20C18.2833 20 18.5208 19.9042 18.7125 19.7125C18.9041 19.5209 19 19.2834 19 19V5.00003H7.99998V16.5001H17V19C17 19.2834 17.0958 19.5209 17.2875 19.7125C17.4791 19.9042 17.7166 20 18 20ZM9.1923 8.75001V7.25006H14.8654V8.75001H9.1923ZM9.1923 11.75V10.2501H14.8654V11.75H9.1923ZM16.9423 8.88463C16.6974 8.88463 16.4888 8.79842 16.3163 8.62598C16.1439 8.45355 16.0577 8.2449 16.0577 8.00003C16.0577 7.75517 16.1439 7.54652 16.3163 7.37408C16.4888 7.20165 16.6974 7.11543 16.9423 7.11543C17.1871 7.11543 17.3958 7.20165 17.5682 7.37408C17.7407 7.54652 17.8269 7.75517 17.8269 8.00003C17.8269 8.2449 17.7407 8.45355 17.5682 8.62598C17.3958 8.79842 17.1871 8.88463 16.9423 8.88463ZM16.9423 11.8846C16.6974 11.8846 16.4888 11.7984 16.3163 11.626C16.1439 11.4536 16.0577 11.2449 16.0577 11C16.0577 10.7552 16.1439 10.5465 16.3163 10.3741C16.4888 10.2016 16.6974 10.1154 16.9423 10.1154C17.1871 10.1154 17.3958 10.2016 17.5682 10.3741C17.7407 10.5465 17.8269 10.7552 17.8269 11C17.8269 11.2449 17.7407 11.4536 17.5682 11.626C17.3958 11.7984 17.1871 11.8846 16.9423 11.8846ZM5.99998 20H15.5V18H4.99997V19C4.99997 19.2834 5.09581 19.5209 5.28747 19.7125C5.47914 19.9042 5.71664 20 5.99998 20Z" fill="currentColor"/></svg></span>
+        <span class="rail-item__label">Quotes</span>
+      </div>
+      <div class="rail-item">
+        <span class="rail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.4803C9.83716 20.8906 8.04646 19.6175 6.62787 17.6611C5.20929 15.7047 4.5 13.5175 4.5 11.0996V5.34576L12 2.53809L19.5 5.34576V11.0996C19.5 13.5175 18.7907 15.7047 17.3721 17.6611C15.9535 19.6175 14.1628 20.8906 12 21.4803ZM12 19.8996C13.7333 19.3496 15.1666 18.2496 16.3 16.5996C17.4333 14.9496 18 13.1163 18 11.0996V6.37459L12 4.13421L5.99997 6.37459V11.0996C5.99997 13.1163 6.56664 14.9496 7.69997 16.5996C8.83331 18.2496 10.2666 19.3496 12 19.8996Z" fill="currentColor"/></svg></span>
+        <span class="rail-item__label">Policies</span>
+      </div>
+      <div class="rail-item">
+        <span class="rail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.3077 19.5C3.80257 19.5 3.375 19.325 3.025 18.975C2.675 18.625 2.5 18.1974 2.5 17.6923V6.3077C2.5 5.80257 2.675 5.375 3.025 5.025C3.375 4.675 3.80257 4.5 4.3077 4.5H19.6923C20.1974 4.5 20.625 4.675 20.975 5.025C21.325 5.375 21.5 5.80257 21.5 6.3077V17.6923C21.5 18.1974 21.325 18.625 20.975 18.975C20.625 19.325 20.1974 19.5 19.6923 19.5H4.3077ZM12 12.5576L3.99998 7.44225V17.6923C3.99998 17.782 4.02883 17.8557 4.08653 17.9134C4.14423 17.9711 4.21795 18 4.3077 18H19.6923C19.782 18 19.8557 17.9711 19.9134 17.9134C19.9711 17.8557 20 17.782 20 17.6923V7.44225L12 12.5576ZM12 11L19.8461 5.99998H4.15383L12 11ZM3.99998 7.44225V5.99998V17.6923C3.99998 17.782 4.02883 17.8557 4.08653 17.9134C4.14423 17.9711 4.21795 18 4.3077 18H3.99998V7.44225Z" fill="currentColor"/></svg></span>
+        <span class="rail-item__label">Messages</span>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--lighter)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.99998 21.5C5.30127 21.5 4.70993 21.258 4.22595 20.7741C3.74198 20.2901 3.5 19.7002 3.5 19.0046V16.5001H6.5V2.69238L7.88462 3.88468L9.28845 2.69238L10.6923 3.88468L12.0961 2.69238L13.5 3.88468L14.9038 2.69238L16.3077 3.88468L17.7115 2.69238L19.1153 3.88468L20.5 2.69238V19C20.5 19.6987 20.258 20.2901 19.774 20.7741C19.29 21.258 18.6987 21.5 18 21.5H5.99998Z"/></svg>
+      <p class="main__hint">Click <strong style="color:var(--darker)">New Quote</strong> to start an application</p>
+    </main>
+  </div>
+</div>
+
+<!-- Scrim -->
+<div class="scrim" id="scrim"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+
+  <!-- Step 1: Start Application -->
+  <div id="step1">
+    <div class="modal__head">
+      <div>
+        <div class="modal__title">Start Application</div>
+        <div class="modal__subtitle">Enter the company's DOT Number, Legal Name, or both, to get started.</div>
+      </div>
+      <button class="modal__close" id="closeBtn1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="field">
+        <label class="field__label" for="dotInput">DOT Number</label>
+        <input class="field__input" id="dotInput" type="text" placeholder="00000000" autocomplete="off">
+        <span class="field__hint">As appears on FMCSA/SAFER.</span>
+      </div>
+      <div class="field">
+        <label class="field__label" for="legalInput">Legal Name</label>
+        <input class="field__input" id="legalInput" type="text" placeholder="Warehouse 2 Warehouse, LLC" autocomplete="off">
+        <span class="field__hint">As appears on FMCSA/SAFER.</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:4px;">
+        <div class="check-row" id="ack1Row">
+          <div class="check-box" id="ack1Box"></div>
+          <span class="check-text">Under the current legal name, the company has not had any bankruptcies in the last 5 years.</span>
+        </div>
+        <div class="check-row" id="ack2Row">
+          <div class="check-box" id="ack2Box"></div>
+          <span class="check-text">With the exception of non-payment issues, the company's insurance has not been cancelled in the last 3 years.</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--secondary" id="cancelBtn">Cancel</button>
+      <button class="btn btn--primary" id="nextBtn" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- Step 1.5: Loading -->
+  <div id="stepLoading" style="display:none;">
+    <div class="modal__head">
+      <div class="modal__title">Start Application</div>
+    </div>
+    <div class="modal-loading">
+      <div class="spinner"></div>
+      <div class="modal-loading__text">Looking up company information…</div>
+    </div>
+  </div>
+
+  <!-- Step 2: Confirm Company Info -->
+  <div id="step2" style="display:none; flex-direction:column;">
+    <div class="modal__head">
+      <div>
+        <div class="modal__title">Confirm Company Info</div>
+        <div class="modal__subtitle">This information reflects the most current Company Snapshot. It will be prefilled on the application and uneditable. Any discrepancies must be addressed with client on FMCSA site prior to quote.</div>
+      </div>
+      <button class="modal__close" id="closeBtn2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal__scroll">
+      <div class="cs">
+        <div class="cs__head">Business</div>
+        <div class="cf-row">
+          <div class="cf">
+            <div class="cf__label">DOT</div>
+            <div class="cf__val" id="confirmDot">00000000</div>
+          </div>
+          <div class="cf cf--wide">
+            <div class="cf__label">Legal Name</div>
+            <div class="cf__val" id="confirmName">Warehouse 2 Warehouse, LLC</div>
+          </div>
+          <div class="cf">
+            <div class="cf__label">DBA Name</div>
+            <div class="cf__val">—</div>
+          </div>
+        </div>
+        <div class="cf-row">
+          <div class="cf">
+            <div class="cf__label">Physical Address</div>
+            <div class="cf__val">5555 Industrial Ave<br>York PA 111111</div>
+          </div>
+          <div class="cf">
+            <div class="cf__label">Mailing Address</div>
+            <div class="cf__val">P.O. Box 511<br>York PA 111111</div>
+          </div>
+        </div>
+      </div>
+      <div class="cs">
+        <div class="cs__head">Operations</div>
+        <div class="cf-row">
+          <div class="cf"><div class="cf__label">Entity Type</div><div class="cf__val">Carrier</div></div>
+          <div class="cf"><div class="cf__label">Operating Status</div><div class="cf__val cf__val--med">Authorized for Property</div></div>
+          <div class="cf"><div class="cf__label">Operation Classification</div><div class="cf__val">Authorized-for-Hire</div></div>
+          <div class="cf"><div class="cf__label">Carrier Operations</div><div class="cf__val">Interstate</div></div>
+          <div class="cf"><div class="cf__label">Cargo Carried</div><div class="cf__val cf__val--med">General Freight</div></div>
+        </div>
+      </div>
+      <div class="cs">
+        <div class="cs__head">Power Units</div>
+        <div class="cs__desc">Total number of trucks, tractors owned, term leased, or trip leased.</div>
+        <div class="cf"><div class="cf__label">Total Power Units</div><div class="cf__val">5</div></div>
+      </div>
+      <div class="cs">
+        <div class="cs__head">Drivers</div>
+        <div class="cs__desc">Total number of drivers employed by the carrier/shipper.</div>
+        <div class="cf"><div class="cf__label">Total Drivers</div><div class="cf__val">5</div></div>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--secondary" id="backBtn">Back</button>
+      <button class="btn btn--primary" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const scrim       = document.getElementById('scrim');
+  const modal       = document.getElementById('modal');
+  const step1       = document.getElementById('step1');
+  const stepLoading = document.getElementById('stepLoading');
+  const step2       = document.getElementById('step2');
+  const dotInput    = document.getElementById('dotInput');
+  const legalInput  = document.getElementById('legalInput');
+  const ack1Box     = document.getElementById('ack1Box');
+  const ack2Box     = document.getElementById('ack2Box');
+  const nextBtn     = document.getElementById('nextBtn');
+  const confirmDot  = document.getElementById('confirmDot');
+  const confirmName = document.getElementById('confirmName');
+
+  let ack1 = false, ack2 = false;
+  const CHECK_SVG = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function showStep(id) {
+    step1.style.display       = id === 'step1'       ? ''     : 'none';
+    stepLoading.style.display = id === 'stepLoading' ? ''     : 'none';
+    step2.style.display       = id === 'step2'       ? 'flex' : 'none';
+    step2.style.flex          = id === 'step2'       ? '1'    : '';
+    step2.style.minHeight     = id === 'step2'       ? '0'    : '';
+  }
+
+  let autoTimer = null;
+
+  function typeInto(el, text, onDone) {
+    el.focus();
+    let i = 0;
+    function tick() {
+      if (i < text.length) {
+        el.value += text[i++];
+        el.dispatchEvent(new Event('input'));
+        const jitter = 55 + Math.random() * 70;
+        autoTimer = setTimeout(tick, jitter);
+      } else {
+        onDone && onDone();
+      }
+    }
+    autoTimer = setTimeout(tick, 55 + Math.random() * 70);
+  }
+
+  function runAutoFill() {
+    autoTimer = setTimeout(() => {
+      typeInto(dotInput, '1234567', () => {
+        autoTimer = setTimeout(() => {
+          typeInto(legalInput, 'Warehouse 2 Warehouse, LLC', () => {
+            autoTimer = setTimeout(() => {
+              ack1Box.click();
+              autoTimer = setTimeout(() => ack2Box.click(), 420);
+            }, 380);
+          });
+        }, 360);
+      });
+    }, 520);
+  }
+
+  function openModal() {
+    scrim.classList.add('is-open');
+    modal.classList.add('is-open');
+    showStep('step1');
+    runAutoFill();
+  }
+
+  function closeModal() {
+    clearTimeout(autoTimer);
+    scrim.classList.remove('is-open');
+    modal.classList.remove('is-open');
+    setTimeout(() => {
+      dotInput.value = ''; legalInput.value = '';
+      ack1 = false; ack2 = false;
+      ack1Box.classList.remove('is-checked'); ack1Box.innerHTML = '';
+      ack2Box.classList.remove('is-checked'); ack2Box.innerHTML = '';
+      updateNext();
+      showStep('step1');
+    }, 200);
+  }
+
+  function updateNext() {
+    nextBtn.disabled = !(ack1 && ack2 && (dotInput.value.trim() || legalInput.value.trim()));
+  }
+
+  function toggleAck(box, state, setter) {
+    const next = !state;
+    setter(next);
+    box.classList.toggle('is-checked', next);
+    box.innerHTML = next ? CHECK_SVG : '';
+    updateNext();
+    return next;
+  }
+
+  document.getElementById('newQuoteBtn').addEventListener('click', openModal);
+  document.getElementById('closeBtn1').addEventListener('click', closeModal);
+  document.getElementById('closeBtn2').addEventListener('click', closeModal);
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  scrim.addEventListener('click', closeModal);
+
+  dotInput.addEventListener('input', updateNext);
+  legalInput.addEventListener('input', updateNext);
+
+  ack1Box.addEventListener('click', () => { ack1 = toggleAck(ack1Box, ack1, v => ack1 = v); });
+  ack2Box.addEventListener('click', () => { ack2 = toggleAck(ack2Box, ack2, v => ack2 = v); });
+  document.getElementById('ack1Row').addEventListener('click', e => { if (!e.target.closest('.check-box')) ack1Box.click(); });
+  document.getElementById('ack2Row').addEventListener('click', e => { if (!e.target.closest('.check-box')) ack2Box.click(); });
+
+  nextBtn.addEventListener('click', () => {
+    confirmDot.textContent  = dotInput.value.trim()   || '00000000';
+    confirmName.textContent = legalInput.value.trim() || 'Warehouse 2 Warehouse, LLC';
+    showStep('stepLoading');
+    setTimeout(() => showStep('step2'), 1400);
+  });
+
+  document.getElementById('backBtn').addEventListener('click', () => showStep('step1'));
+  document.getElementById('confirmBtn').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  const rail = document.getElementById('appRail');
+  document.getElementById('railToggle').addEventListener('click', () => rail.classList.toggle('is-collapsed'));
+</script>
+</body>
+</html>

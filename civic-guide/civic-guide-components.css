@@ -1,0 +1,640 @@
+/*
+ * civic-guide-components.css
+ * Carbon-derived component styles for CivicGuide mock embeds in case study pages.
+ * All component rules are scoped under .cg-mock to avoid conflicts with brutalist-css.css.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+
+/* ── Carbon v11 tokens — safe at :root (--cds-* prefix, no conflicts) ── */
+
+:root {
+  --ff-sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --ff-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', monospace;
+  --sp-01: 0.125rem;
+  --sp-02: 0.25rem;
+  --sp-03: 0.5rem;
+  --sp-04: 0.75rem;
+  --sp-05: 1rem;
+  --sp-06: 1.5rem;
+  --sp-07: 2rem;
+  --sp-08: 2.5rem;
+  --sp-09: 3rem;
+  --motion-fast:     70ms;
+  --motion-moderate: 150ms;
+  --motion-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+
+/* ── Dithered shadow frame ── */
+
+.cg-mock-frame {
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+  border: 3px solid #000;
+  z-index: 0;
+}
+
+.cg-mock-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translate(10px, 12px);
+  background: repeating-conic-gradient(
+    rgba(0, 0, 0, 0.5) 0% 25%,
+    transparent 0% 50%
+  ) 0 0 / 4px 4px;
+  z-index: -1;
+}
+
+
+/* ── .cg-mock — scoping root ── */
+
+.cg-mock {
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.16px;
+  background: #ffffff;
+  color: #161616;
+  /* White theme tokens */
+  --cds-background:           #ffffff;
+  --cds-background-hover:     #e8e8e8;
+  --cds-background-inverse:   #393939;
+  --cds-layer-01:             #f4f4f4;
+  --cds-layer-02:             #ffffff;
+  --cds-layer-hover-01:       #e8e8e8;
+  --cds-text-primary:         #161616;
+  --cds-text-secondary:       #525252;
+  --cds-text-helper:          #6f6f6f;
+  --cds-text-placeholder:     #a8a8a8;
+  --cds-text-disabled:        #c6c6c6;
+  --cds-text-inverse:         #f4f4f4;
+  --cds-text-on-color:        #ffffff;
+  --cds-text-error:           #da1e28;
+  --cds-interactive:          #0f62fe;
+  --cds-focus:                #0f62fe;
+  --cds-focus-inset:          #ffffff;
+  --cds-highlight:            #d0e2ff;
+  --cds-link-primary:         #0f62fe;
+  --cds-link-primary-hover:   #0043ce;
+  --cds-border-subtle-00:     #e0e0e0;
+  --cds-border-subtle-01:     #c6c6c6;
+  --cds-border-strong-01:     #8d8d8d;
+  --cds-border-interactive:   #0f62fe;
+  --cds-border-inverse:       #161616;
+  --cds-support-success:      #198038;
+  --cds-button-primary:       #0f62fe;
+  --cds-button-primary-hover: #0353e9;
+  --cds-button-primary-active:#002d9c;
+  --cds-button-secondary:     #393939;
+  --cds-button-disabled:      #c6c6c6;
+  --cds-border-inverse-subtle:    rgba(244, 244, 244, 0.25);
+  --cds-background-inverse-hover: rgba(244, 244, 244, 0.1);
+}
+
+/* Dark (G90) theme override */
+.cg-mock[data-theme="dark"] {
+  background: #161616;
+  color: #f4f4f4;
+  --cds-background:           #161616;
+  --cds-background-hover:     #353535;
+  --cds-background-inverse:   #f4f4f4;
+  --cds-layer-01:             #262626;
+  --cds-layer-02:             #393939;
+  --cds-layer-hover-01:       #353535;
+  --cds-text-primary:         #f4f4f4;
+  --cds-text-secondary:       #c6c6c6;
+  --cds-text-helper:          #8d8d8d;
+  --cds-text-placeholder:     #6f6f6f;
+  --cds-text-inverse:         #161616;
+  --cds-text-error:           #ff8389;
+  --cds-border-subtle-00:     #393939;
+  --cds-border-subtle-01:     #525252;
+  --cds-border-strong-01:     #6f6f6f;
+  --cds-border-inverse:       #f4f4f4;
+  --cds-border-interactive:   #4589ff;
+  --cds-focus:                #ffffff;
+  --cds-focus-inset:          #161616;
+  --cds-interactive:          #4589ff;
+  --cds-link-primary:         #78a9ff;
+  --cds-link-primary-hover:   #a6c8ff;
+  --cds-button-secondary:     #6f6f6f;
+}
+
+/* Reset brutalist-css.css element overrides inside .cg-mock */
+.cg-mock *,
+.cg-mock *::before,
+.cg-mock *::after {
+  box-sizing: border-box;
+}
+
+.cg-mock p,
+.cg-mock li,
+.cg-mock td {
+  font-family: var(--ff-sans);
+  max-width: none;
+  margin-bottom: 0;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.cg-mock button {
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  text-transform: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--motion-standard);
+}
+
+.cg-mock input,
+.cg-mock select,
+.cg-mock textarea {
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  border-radius: 0;
+  outline: none;
+  margin-bottom: 0;
+}
+
+.cg-mock em { background: none; color: inherit; padding: 0; font-style: italic; }
+.cg-mock strong { font-weight: 600; }
+.cg-mock ul { list-style: none; padding: 0; margin: 0; }
+.cg-mock li::marker { content: none; }
+
+
+/* ── Padding wrapper ── */
+
+.cg-mock-pad { padding: var(--sp-06); }
+
+
+/* ── Scan paths — alternating square + text layout ── */
+
+.scan-paths {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.scan-path-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.scan-path-square {
+  aspect-ratio: 1;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.scan-path-square .cg-mock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scan-path-square .cg-mock-pad {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-04); /* 0.75rem — tighter than the 1.5rem default for square cards */
+}
+
+.scan-path-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.scan-path-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-bottom: 2px solid #000;
+  padding-bottom: 0.25rem;
+}
+
+.scan-path-text p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  max-width: 28ch;
+}
+
+
+/* ── Chrome bar ── */
+
+.cg-chrome {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--sp-03) var(--sp-05);
+  background: #0f0f0f;
+  border-bottom: 1px solid #2a2a2a;
+}
+.cg-chrome-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #333;
+  flex-shrink: 0;
+}
+.cg-chrome-label {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: var(--sp-02);
+}
+
+
+/* ── Stage track (mini) ── */
+
+.cg-stage-track {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--cds-border-subtle-00);
+  background: var(--cds-layer-01);
+}
+.cg-stage {
+  flex: 1;
+  padding: var(--sp-02) var(--sp-04) var(--sp-03);
+  position: relative;
+  border-right: 1px solid var(--cds-border-subtle-00);
+}
+.cg-stage:last-child { border-right: none; }
+.cg-stage-num {
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+}
+.cg-stage-name {
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+  margin-top: 1px;
+}
+.cg-stage.is-active .cg-stage-num  { color: var(--cds-interactive); }
+.cg-stage.is-active .cg-stage-name { color: var(--cds-text-primary); font-weight: 600; }
+.cg-stage.is-done .cg-stage-num,
+.cg-stage.is-done .cg-stage-name   { color: var(--cds-text-secondary); }
+.cg-stage.is-active::after,
+.cg-stage.is-done::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+}
+.cg-stage.is-active::after { background: var(--cds-interactive); }
+.cg-stage.is-done::after   { background: var(--cds-border-subtle-01); }
+
+
+/* ── Agent Brief ── */
+/* Hardcoded to dark charcoal so it always matches the real app (light-mode default).
+   Using --cds-background-inverse would invert to white in dark-theme mocks. */
+
+.cg-mock .agent-brief {
+  background: #393939;
+  padding: var(--sp-05);
+  margin-bottom: 0;
+}
+.cg-mock .agent-brief-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-04);
+}
+.cg-mock .agent-role-badge {
+  font-family: var(--ff-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: #f4f4f4;
+  border: 1px solid rgba(244, 244, 244, 0.25);
+  padding: 1px var(--sp-03);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+  text-transform: none;
+}
+.cg-mock .agent-brief-content {
+  flex: 1;
+  min-height: 20px;
+}
+.cg-mock .agent-brief-thinking {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-02);
+  padding: var(--sp-01) 0;
+}
+.cg-mock .dot-pulse {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #8d8d8d;
+  animation: cg-pulse 1.2s infinite;
+}
+.cg-mock .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
+.cg-mock .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes cg-pulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40%            { opacity: 1;   transform: scale(1); }
+}
+
+.cg-mock .agent-brief-text {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.16px;
+  color: #f4f4f4;
+  margin: 0;
+}
+
+.cg-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 0.85em;
+  background: var(--cds-interactive);
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: cg-blink 1s step-end infinite;
+}
+@keyframes cg-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+
+/* ── Scan tip ── */
+
+.cg-mock .scan-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-03);
+  padding: var(--sp-03) var(--sp-05);
+  background: var(--cds-layer-01);
+  border-left: 2px solid var(--cds-interactive);
+}
+.cg-mock .scan-tip-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cds-interactive);
+  animation: cg-dotpulse 1s ease-in-out infinite;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+@keyframes cg-dotpulse {
+  0%,100%{opacity:1} 50%{opacity:0.35}
+}
+.cg-mock .scan-tip-text {
+  font-size: 0.8125rem;
+  line-height: 1.375rem;
+  color: var(--cds-text-secondary);
+  margin: 0;
+}
+
+
+/* ── Scan confirm ── */
+
+.cg-mock .scan-summary {
+  font-size: 0.8125rem;
+  line-height: 1.375rem;
+  letter-spacing: 0.16px;
+  color: var(--cds-text-secondary);
+  padding: var(--sp-04) var(--sp-05);
+  background: var(--cds-layer-01);
+  border-left: 3px solid var(--cds-interactive);
+  margin-bottom: var(--sp-05);
+}
+.cg-mock .scan-field {
+  margin-bottom: var(--sp-05);
+}
+.cg-mock .ug-lbl {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-secondary);
+  margin-bottom: var(--sp-03);
+}
+.cg-mock .scan-field select,
+.cg-mock .scan-field input {
+  width: 100%;
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--cds-text-primary);
+  background: var(--cds-layer-01);
+  border: none;
+  border-bottom: 1px solid var(--cds-border-strong-01);
+  padding: 0 var(--sp-05);
+  height: 2.5rem;
+  appearance: none;
+  outline: none;
+}
+
+
+/* ── Upload zone ── */
+
+.cg-mock .ug-upload-zone {
+  border: 1px dashed var(--cds-border-strong-01);
+  padding: var(--sp-05);
+  text-align: center;
+  background: var(--cds-layer-01);
+  margin-bottom: var(--sp-04);
+}
+.cg-mock .ug-upload-zone.has-file {
+  border-style: solid;
+  border-color: var(--cds-interactive);
+}
+.cg-mock .upload-icon {
+  font-size: 1.5rem;
+  color: var(--cds-text-helper);
+  margin-bottom: var(--sp-03);
+  line-height: 1;
+}
+.cg-mock .upload-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.16px;
+  color: var(--cds-text-secondary);
+}
+.cg-mock .upload-sub,
+.cg-mock .upload-file-meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+  margin-top: var(--sp-01);
+}
+.cg-mock .upload-file-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.16px;
+  color: var(--cds-text-primary);
+  margin-bottom: var(--sp-01);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ── Fill fields ── */
+
+.cg-mock .fill-section-heading {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--cds-text-primary);
+  margin: var(--sp-04) 0 var(--sp-05);
+  padding-bottom: var(--sp-03);
+  border-bottom: 1px solid var(--cds-border-subtle-00);
+}
+.cg-mock .fill-field {
+  margin-bottom: var(--sp-05);
+}
+.cg-mock .fill-field-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-03);
+  margin-bottom: var(--sp-03);
+}
+.cg-mock .fill-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-secondary);
+}
+.cg-mock .fill-field.is-filled .fill-label {
+  color: var(--cds-interactive);
+}
+.cg-mock .fill-field input,
+.cg-mock .fill-field select {
+  width: 100%;
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--cds-text-primary);
+  background: var(--cds-layer-01);
+  border: none;
+  border-bottom: 1px solid var(--cds-border-strong-01);
+  padding: 0 var(--sp-05);
+  height: 2.5rem;
+  outline: none;
+}
+.cg-mock .fill-field.is-filled input {
+  border-bottom-color: var(--cds-interactive);
+}
+.cg-mock .fill-hint {
+  font-size: 0.75rem;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+  margin-top: var(--sp-02);
+  line-height: 1rem;
+}
+.cg-mock .fill-hint-verify {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: var(--cds-text-helper);
+  border: 1px solid var(--cds-border-subtle-01);
+  padding: 0 var(--sp-02);
+  line-height: 1.25rem;
+  margin-left: var(--sp-02);
+  vertical-align: middle;
+}
+.cg-mock .fill-prefill-note {
+  font-size: 0.75rem;
+  color: var(--cds-text-helper);
+  border-left: 2px solid var(--cds-border-subtle-01);
+  padding: var(--sp-02) var(--sp-04);
+  margin-bottom: var(--sp-05);
+}
+
+
+/* ── Pip progress track ── */
+
+.cg-mock .fill-progress-track { display: flex; gap: var(--sp-02); }
+.cg-mock .fill-progress-pip {
+  width: 1.25rem; height: 3px;
+  background: var(--cds-border-subtle-01);
+}
+.cg-mock .fill-progress-pip.is-done   { background: var(--cds-interactive); }
+.cg-mock .fill-progress-pip.is-active { background: var(--cds-text-primary); }
+
+
+/* ── Buttons ── */
+
+.cg-mock .ug-confirm-btn {
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  text-transform: none;
+  background: var(--cds-button-primary);
+  color: var(--cds-text-on-color);
+  border: none;
+  padding: 0 var(--sp-06) 0 var(--sp-05);
+  height: 3rem;
+  cursor: default;
+  min-width: 0;
+  white-space: nowrap;
+}
+.cg-mock .ug-back-btn {
+  font-family: var(--ff-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  text-transform: none;
+  background: transparent;
+  border: 1px solid var(--cds-interactive);
+  color: var(--cds-interactive);
+  padding: 0 var(--sp-05);
+  height: 3rem;
+  cursor: default;
+}
+.cg-mock .phase-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-03);
+  margin-top: var(--sp-06);
+  padding-top: var(--sp-05);
+  border-top: 1px solid var(--cds-border-subtle-00);
+}
+
+
+/* ── Restore screen ── */
+
+.cg-mock .restore-card {
+  max-width: 380px;
+  padding: var(--sp-07);
+  margin: 0 auto;
+}
+.cg-mock .restore-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2.25rem;
+  letter-spacing: 0;
+  color: var(--cds-text-primary);
+  margin-bottom: var(--sp-03);
+}
+.cg-mock .restore-sub {
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  line-height: 1.25rem;
+  color: var(--cds-text-secondary);
+  margin-bottom: var(--sp-07);
+}
+.cg-mock .restore-actions {
+  display: flex;
+  gap: var(--sp-03);
+  align-items: center;
+}

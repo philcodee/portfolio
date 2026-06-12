@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages, Events &amp; Tickets — Cover Whale</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+
+    figure { margin: 3.5rem 0; }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+      .box { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page contents">
+    <a href="#intro"             class="dot-nav-item" data-label="Outcomes"></a>
+    <a href="#my-role"           class="dot-nav-item" data-label="My Role"></a>
+    <a href="#the-problem"       class="dot-nav-item" data-label="The Problem"></a>
+    <a href="#panel-insight"     class="dot-nav-item" data-label="The Insight"></a>
+    <a href="#panel-events"      class="dot-nav-item" data-label="Events &amp; Tickets"></a>
+    <a href="#panel-channels"    class="dot-nav-item" data-label="Four Channels"></a>
+    <a href="#panel-views"       class="dot-nav-item" data-label="Global &amp; Account Views"></a>
+    <a href="#panel-notifs"      class="dot-nav-item" data-label="Notifications"></a>
+    <a href="#panel-thread"      class="dot-nav-item" data-label="Ticket Thread"></a>
+    <a href="#outcome"           class="dot-nav-item" data-label="Validation"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag">Cover Whale</span>
+            <span class="tag">Senior UX Researcher &amp; Designer</span>
+            <span class="tag">Series · Part 3 of 3</span>
+            <span class="tag">7 Months</span>
+          </div>
+          <h1>Messages, Events &amp; Tickets</h1>
+          <p>Designed a unified communication system for a platform where notes were attached to submissions, not accounts — meaning a long-term client's history was scattered across dozens of disconnected records. The fix wasn't a better inbox. It was a better identifier.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate>
+            <div class="panel-placeholder">[ Screen — Messages Overview ]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">1 Record</div>
+        <div class="label">All communication, history, and activity consolidated under a single account identifier per insured</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">4 Channels</div>
+        <div class="label">Named communication channels replace an undifferentiated inbox — each routes to the right team</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">HubSpot</div>
+        <div class="label">Tickets filed in the platform open directly in HubSpot — closing the loop without context-switching</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY ROLE ───────────────────────────────────────── -->
+  <section class="section snap-section" id="my-role">
+    <h2 data-animate>My Role</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What I Owned</p>
+          <p>I led UX direction and design for the Messages system, Events/Tickets framework, and Notifications architecture — including the system model distinguishing Events from Tickets and the four-channel routing structure.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">Who I Worked With</p>
+          <p>Ipek and Dilara (UX, Zurich vendor team), Murat (Front End). Internal stakeholders included the Head of CX, Underwriting, Billing, and Support leadership.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy box--dark" data-animate>
+      <p class="entry-label">Prerequisite: The Account Model</p>
+      <p>This redesign was only possible because the platform architecture workstream had already established Account as the primary identifier. Without a stable, unified account record to attach communication to, consolidation of notes across the policy lifecycle would have had nothing to attach to.</p>
+    </div>
+  </section>
+
+  <!-- ── THE PROBLEM ────────────────────────────────────── -->
+  <section class="section snap-section" id="the-problem">
+    <h2 data-animate>The Problem</h2>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">A Structural Problem in Disguise</p>
+      <p>Notes were attached to submissions, not accounts. Every time an insured added a coverage line, a new submission was created — and with it, a new communication thread. An agent managing a long-term client could have the same insured's notes scattered across a dozen separate records with no unified view. This wasn't a communication problem. It was an information architecture problem wearing a communication costume.</p>
+    </div>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">Two Directions of Frustration</p>
+      <p><strong>External:</strong> Agents were frustrated with Underwriter response times. Back-and-forth happened over email — outside the platform, untracked, with no visibility into status.</p>
+      <p style="margin-top:1rem;"><strong>Internal:</strong> Notes and context weren't surviving the policy lifecycle. When a submission became a quote became a policy became a renewal, the history got fragmented. Agents were re-explaining context they'd already provided. Admins were working blind.</p>
+    </div>
+  </section>
+
+  <!-- ── THE INSIGHT ────────────────────────────────────── -->
+  <section class="section snap-section" id="panel-insight">
+    <div class="entry" data-animate>
+      <p class="entry-label">The Insight</p>
+      <h2 class="h2--flush" style="margin-bottom:1rem;">The Fix Was a Better Identifier</h2>
+      <p>By shifting from Submission to Account as the primary organizational unit, all communication could be consolidated under a single record per insured. Notes written during the submission stage would be visible when that same insured's policy came up for renewal two years later. An admin responding to a ticket would have the full account history in view. This was the prerequisite that made everything else possible.</p>
+    </div>
+  </section>
+
+  <!-- ── DECISION 1: Events & Tickets ──────────────────── -->
+  <div class="panel alt snap-section" id="panel-events">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 01</p>
+      <h3 data-animate>Events and Tickets as Distinct Concepts</h3>
+      <p data-animate><strong>Events</strong> are system-generated. Any action on an account — policy issuance, cancellation, reinstatement, status change — auto-generates an event. Agents don't initiate them; they're a running log of what the platform did and when.</p>
+      <p data-animate style="margin-top: 1rem;"><strong>Tickets</strong> are human-initiated. They bridge the gap between the platform and external communication — the phone calls and emails that previously happened outside the system with no record. An agent files a ticket, and two things happen: a thread opens in their Tickets view, and a new ticket opens in HubSpot where an admin is notified directly.</p>
+      <p data-animate style="margin-top: 1rem;">The distinction gives agents two different ways to scan their queue: what happened automatically, and what needs a human response.</p>
+    </div>
+    <div class="panel-image">
+      <div class="card-stack" data-animate>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Events View ]</div>
+        </div>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Tickets View ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 2: Four Channels ─────────────────────── -->
+  <div class="panel snap-section" id="panel-channels">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 02</p>
+      <h3 data-animate>Four Channels, Each with a Purpose</h3>
+      <p data-animate>Rather than a single inbox, the system routes communication through four named channels:</p>
+      <p data-animate style="margin-top: 1rem;"><strong>Producer Comment</strong> — General notes about a quote or policy. The agent equivalent of a sticky note on a file.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Underwriting</strong> — For queries that require underwriter review. Scoped deliberately so underwriting-specific threads don't get lost in general noise.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Billing</strong> — Payment issues, commission discrepancies, billing model questions.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Support</strong> — Platform bugs, discrepancies, and technical issues.</p>
+      <p data-animate style="margin-top: 1rem;">Naming the channels reduced the ambiguity of "send a message" — agents knew where their question was going and who was expected to respond.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Screen — Channel Selection ]</div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 3: Global & Account Views ────────────── -->
+  <div class="panel alt snap-section" id="panel-views">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 03</p>
+      <h3 data-animate>Account-Level and Global Views</h3>
+      <p data-animate>The Messages system exists in two places simultaneously:</p>
+      <p data-animate style="margin-top: 1rem;"><strong>Global Messages page</strong> — All events and tickets across all accounts, filterable. The default view shows Events and Tickets side by side. New tickets can be created from here.</p>
+      <p data-animate style="margin-top: 0.75rem;"><strong>Account Messages tab</strong> — The same capabilities, scoped to a single insured. Accessible by clicking an account number from anywhere in the platform.</p>
+      <p data-animate style="margin-top: 1rem;">An agent doing a quarterly review of a specific account sees only that account's history. An agent doing morning triage sees everything. Same system, two appropriate contexts.</p>
+    </div>
+    <div class="panel-image">
+      <div class="card-stack" data-animate>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Global Messages Page ]</div>
+        </div>
+        <div class="img-frame">
+          <div class="panel-placeholder">[ Screen — Account Messages Tab ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 4: Notifications ─────────────────────── -->
+  <div class="panel snap-section" id="panel-notifs">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 04</p>
+      <h3 data-animate>Notifications as a Persistent Queue</h3>
+      <p data-animate>The notifications bell in global navigation opens a side drawer — available from anywhere in the platform — showing a running history of all events and tickets. Agents can navigate to specific items, filter by type, and see at a glance what's new since they last checked.</p>
+      <p data-animate style="margin-top: 1rem;">Status-based triggers make the queue meaningful without requiring the agent to go looking. Policy bound, policy at risk, NOC issued, submission declined, quote entering or exiting underwriting review — each generates a notification that surfaces automatically.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Screen — Notifications Side Drawer ]</div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 5: Ticket Thread ─────────────────────── -->
+  <div class="panel alt snap-section" id="panel-thread">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 05</p>
+      <h3 data-animate>Ticket Thread Design</h3>
+      <p data-animate>Once a ticket is open, the agent sees a structured view: ticket number, status, priority, response thread, and basic formatting tools.</p>
+      <p data-animate style="margin-top: 1rem;">The structured metadata was designed for both audiences simultaneously. The agent needs to track status across multiple open tickets. The admin needs to triage and prioritize from the HubSpot side without context-switching to the platform to understand what they're looking at.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ Screen — Ticket Thread View ]</div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOME ────────────────────────────────────────── -->
+  <section class="section snap-section" id="outcome">
+    <h2 data-animate>Validation</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What This Resolved</p>
+          <p>The account-level consolidation resolved a problem that had been causing real friction: agents repeating themselves, admins working blind, notes disappearing across submission records. Agents don't think about communication infrastructure — they think about whether they got a response. This made the response reliable.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What This Unlocked</p>
+          <p>The shift from submission-scoped to account-scoped communication was a forcing function for the rest of the architecture. It required the platform to have a stable, unified account identifier — which in turn made the lifecycle structure legible, the dashboard widgets meaningful, and the overview tabs coherent.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy" data-animate>
+      <p class="entry-label">Good IA Is Invisible</p>
+      <p>The Messages redesign was the most invisible part of the platform. When information architecture is working, it disappears — nobody notices the structure because the experience just makes sense. Fixing the structure fixed the experience.</p>
+    </div>
+  </section>
+
+  <script>
+    // Card stack carousel
+    document.querySelectorAll('.card-stack').forEach(stack => {
+      stack.addEventListener('click', () => {
+        const front = stack.querySelector('.img-frame:first-child');
+        stack.appendChild(front);
+      });
+    });
+
+    // Stagger siblings
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-animate]'));
+      const index = siblings.indexOf(el);
+      if (index > 0) el.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Scroll-in animations
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    // Dot nav active state
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const dotSections = Array.from(dotItems)
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const dotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dotItems.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.dot-nav-item[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    dotSections.forEach(s => dotObserver.observe(s));
+  </script>
+
+</body>
+</html>

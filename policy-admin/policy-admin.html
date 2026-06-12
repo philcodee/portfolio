@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Policy Admin System — Cover Whale</title>
+  <link rel="stylesheet" href="brutalist-css.css" />
+  <style>
+    /* ── PAGE OVERRIDES ───────────────────────────────── */
+    html { scroll-snap-type: y mandatory; }
+
+    /* Hero — black on this page */
+    .hero { background: #000; color: #fff; border-bottom: none; }
+    .hero-inner { max-width: 900px; margin: 0 auto; padding: 5rem 2rem 4.5rem; display: block; min-height: unset; }
+    .hero h1 { border-bottom: 6px solid #fff; }
+    .hero .tag { border-color: #fff; color: #fff; }
+
+    .panel-image { background: #f0f0f0; }
+
+    figure { margin: 3.5rem 0; }
+
+    /* ── PROTOTYPE EMBED ──────────────────────────────── */
+    .prototype-embed {
+      border: 6px solid #000;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.35;
+      background: #f0f0f0;
+      margin-bottom: 1.25rem;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+      .hero { width: auto; margin-left: 0; padding: 2.5rem 1.25rem 2rem; }
+      .hero-inner { padding: 0; max-width: none; }
+      .sitemap-trigger { display: inline-block; }
+      .sitemap-modal { width: 100vw; height: 100dvh; }
+      .sitemap-modal::after { display: none; }
+      .prototype-embed { min-height: 280px; }
+      .box { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page contents">
+    <a href="#intro"                   class="dot-nav-item" data-label="Outcomes"></a>
+    <a href="#panel-what-i-led"        class="dot-nav-item" data-label="What I Led"></a>
+    <a href="#panel-what-i-made"       class="dot-nav-item" data-label="What I Made"></a>
+    <a href="#panel-key-decision"      class="dot-nav-item" data-label="Key Decision"></a>
+    <a href="#panel-who-i-worked-with" class="dot-nav-item" data-label="Who I Worked With"></a>
+    <a href="#prototype"               class="dot-nav-item" data-label="Prototype"></a>
+    <a href="#the-problem"             class="dot-nav-item" data-label="The Problem"></a>
+    <a href="#panel-strategy"          class="dot-nav-item" data-label="Strategy"></a>
+    <a href="#panel-process"           class="dot-nav-item" data-label="Process"></a>
+    <a href="#lessons"                 class="dot-nav-item" data-label="Lessons & Trade-offs"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="meta">
+          <span class="tag">Cover Whale</span>
+          <span class="tag">Senior UX Researcher &amp; Designer</span>
+          <span class="tag">Q1 2024</span>
+        </div>
+        <h1>Policy Admin System</h1>
+        <p>Redesigned the agent-facing platform ahead of a backend migration from a legacy PHP app to a Policy Admin System — delivering a validated mid-fidelity prototype that advanced to hi-fi and front-end development, and contributed to a successful Series A raise.</p>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">Series A</div>
+        <div class="label">Secured — prototype was a key proof-of-concept for investors</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">Mid → Hi</div>
+        <div class="label">Prototype handed to vendor team, advanced to hi-fi and front-end build</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">24 hr</div>
+        <div class="label">Near-continuous work cycle achieved across a 6-week NY–Zurich sprint</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY OWNERSHIP: What I Led ──────────────────────── -->
+  <div class="panel" id="panel-what-i-led">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>My Ownership</p>
+      <h3 data-animate>What I Led</h3>
+      <p data-animate>Design Lead, Documentation, Prototyping. I owned the daily feedback loop with the UX Vendor team — reviewing the previous day's work, directing adjustments, and providing written requirements far enough ahead that the Zurich team could begin work at 3am NY time, enabling an almost 24-hour work cycle during the initial 6-week sprint.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ PHOTO — Design process / feedback loop ]</div>
+    </div>
+  </div>
+
+  <!-- ── MY OWNERSHIP: What I Made ─────────────────────── -->
+  <div class="panel alt" id="panel-what-i-made">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>My Ownership</p>
+      <h3 data-animate>What I Made</h3>
+      <p data-animate>A high-level Sitemap capturing the Information Architecture and flagging which sections would require automation or additional engineering. A Mid-Fidelity Clickable Prototype built specifically for usability testing with Agents — allowing me to hear directly from users how the new flows helped or hindered their work.</p>
+      <button data-animate onclick="openSitemap()" class="sitemap-trigger" style="margin-top:1.5rem;">View Site Map →</button>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder-grid" data-animate>
+        <div class="panel-placeholder">[ Screen 01 — Dashboard ]</div>
+        <div class="panel-placeholder">[ Screen 02 — Policy List ]</div>
+        <div class="panel-placeholder">[ Screen 03 — Policy Detail ]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY OWNERSHIP: Key Decision ────────────────────── -->
+  <div class="panel" id="panel-key-decision">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>My Ownership</p>
+      <h3 data-animate>Key Decision I Drove</h3>
+      <p data-animate>After testing the prototype with Agents — including those at the Manager level — it was determined that not all levels of the Agency would need Agency-level views. I moved the team toward what I began calling the "Soldier View": build the individual agent dashboard first, validated by data as most useful to all users, and defer the Agency View. This accelerated implementation.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ DIAGRAM — Agent View vs Agency View decision framework ]</div>
+    </div>
+  </div>
+
+  <!-- ── MY OWNERSHIP: Who I Worked With ───────────────── -->
+  <div class="panel alt" id="panel-who-i-worked-with">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>My Ownership</p>
+      <h3 data-animate>Who I Worked With</h3>
+      <p data-animate>UX Vendor Team (two Designers, one Front End Engineer, CEO). Internal: COO, Project Manager, Product Manager, and the heads of Underwriting, Growth, Operations, CX, and the company CEO. A company-wide effort requiring regular buy-in and a weekly Design Sync attended by both teams.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ DIAGRAM — Team structure / stakeholder map ]</div>
+    </div>
+  </div>
+
+  <!-- ── PROTOTYPE ──────────────────────────────────────── -->
+  <section class="section" id="prototype">
+    <h2 data-animate>Prototype</h2>
+    <p class="entry-label" data-animate>Mid-Fidelity Clickable Prototype</p>
+    <div class="prototype-embed" data-animate>
+      [ PROTOTYPE EMBED — Static wireframes in progress. iframe will be placed here. ]
+    </div>
+    <p class="caption" data-animate>Mid-fidelity prototype used for agent usability testing and internal stakeholder review. Handed to UX Vendor team; advanced to hi-fidelity and front-end build.</p>
+  </section>
+
+  <!-- ── THE PROBLEM ────────────────────────────────────── -->
+  <section class="section" id="the-problem">
+    <h2 data-animate>The Problem</h2>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">Why This Existed</p>
+      <p>Cover Whale — a B2B Insurtech MGA serving Insurance Agents buying Commercial Trucking Insurance across most of the US — was switching its backend from a legacy PHP app to a Policy Admin System. Both the Agent (external) and Admin sides (CX, Underwriting, Ops, Product) were experiencing a consistent stream of data inaccuracies and vital information getting lost in the mix. The migration was the opportunity to fix it.</p>
+    </div>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">The Goal</p>
+      <p>Improve Policy Workflows for Agents and Admins. Bring a Dashboard experience to Agents for the first time — giving them a visually quantified view of their activity. For Internal Stakeholders, especially Underwriters working the platform all day, this meant Process Automation and Quality Control by surfacing Ineligible Risk earlier. For Agents, it meant cycling through more potential clients. Both translated directly to Revenue, Retention, and stronger Carrier Relationships.</p>
+    </div>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">The Constraint That Shaped Everything</p>
+      <p>No PAS Vendor had been selected yet. The full scope of available APIs, integrations, and how core processes like Endorsements would be carried out was unknown. The framework had to be built on best available understanding while remaining flexible enough to pivot. This required a massive cross-functional effort to maintain a single Source of Truth document — and keeping it current was an ongoing challenge throughout.</p>
+    </div>
+  </section>
+
+  <!-- ── THE APPROACH: Strategy ─────────────────────────── -->
+  <div class="panel" id="panel-strategy">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>The Approach</p>
+      <h3 data-animate>Strategy</h3>
+      <p data-animate>Make decisively broad strokes to reach Internal and External Stakeholder feedback as rapidly as possible. Lower fidelity kept the focus on ideas rather than execution, and kept Engineering, Underwriting, and Leadership in a position to flag feasibility issues before they became costly.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ DIAGRAM — High-level Sitemap &amp; Information Architecture ]</div>
+    </div>
+  </div>
+
+  <!-- ── THE APPROACH: Process ──────────────────────────── -->
+  <div class="panel alt" id="panel-process">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>The Approach</p>
+      <h3 data-animate>Process</h3>
+      <p data-animate>Daily review of the vendor team's previous day's work with comments and direction. Weekly Design Sync presenting Research Findings, Design Updates, and Test Results to both teams. Stakeholder buy-in sessions as needed. I built a repository of each internal team's responses to the prototype to ensure the Design Team could systematically review and determine Next Steps.</p>
+    </div>
+    <div class="panel-image">
+      <div class="panel-placeholder" data-animate>[ PHOTO — Team collaboration / NY–Zurich sprint ]</div>
+    </div>
+  </div>
+
+  <!-- ── LESSONS & TRADE-OFFS ───────────────────────────── -->
+  <section class="section" id="lessons">
+    <h2 data-animate>Lessons &amp; Trade-offs</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">Trade-Off Made</p>
+          <p>The originally proposed architecture included both an Agent View and an Agency View. Cutting the Agency View meant rethinking the framework mid-project. Despite being a difficult call, it was the right one — a leaner scope accelerated implementation without sacrificing the core value to users.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What I'd Do Differently</p>
+          <p>Narrow the view of what a default-level dashboard should look like through additional research earlier in the project. Data frameworks need to exist before a meaningful Front End feature like a Dashboard can come to life — establishing those requirements sooner would have reduced the scope ambiguity that led to the Agent View / Agency View cut.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy" data-animate>
+      <p class="entry-label">Takeaways</p>
+      <p>Flexibility at the onset of a large-scale project is non-negotiable. Not every Stakeholder need will be met in the first pass — and that's the point. Lower fidelity prototypes keep conversations focused on the right things, faster.</p>
+    </div>
+  </section>
+
+  <!-- ── SITEMAP MODAL ─────────────────────────────────── -->
+  <style>
+    .sitemap-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: transparent;
+      align-items: center;
+      justify-content: center;
+    }
+    .sitemap-modal {
+      position: relative;
+      width: 92vw;
+      height: 88vh;
+      background: #fff;
+      border: 6px solid #000;
+      display: flex;
+      flex-direction: column;
+    }
+    .sitemap-modal::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(18px, 18px);
+      background: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%) 0 0 / 6px 6px;
+      z-index: -1;
+    }
+  </style>
+
+  <div id="sitemap-modal" class="sitemap-overlay">
+    <div class="sitemap-modal">
+      <iframe
+        src="site-map.html"
+        style="flex:1;border:none;width:100%;"
+        title="Site Map — Policy Admin Platform"
+      ></iframe>
+    </div>
+  </div>
+
+  <script>
+    function openSitemap() {
+      document.getElementById('sitemap-modal').style.display = 'flex';
+    }
+    function closeSitemap() {
+      document.getElementById('sitemap-modal').style.display = 'none';
+    }
+    document.getElementById('sitemap-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeSitemap();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeSitemap();
+    });
+
+    // Stagger siblings
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-animate]'));
+      const index = siblings.indexOf(el);
+      if (index > 0) el.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Scroll-in animations
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    // Dot nav active state
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const dotSections = Array.from(dotItems)
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const dotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dotItems.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.dot-nav-item[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    dotSections.forEach(s => dotObserver.observe(s));
+  </script>
+
+</body>
+</html>

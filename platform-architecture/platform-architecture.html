@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platform Architecture — Cover Whale</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    /* ── PAGE OVERRIDES ───────────────────────────────── */
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+    .lc-section { background: hsl(0, 0%, 90%); }
+    .lc-section-head { background: hsl(0, 0%, 90%); color: #000; }
+
+    figure { margin: 3.5rem 0; }
+
+    /* ── STATUS CHIPS (CW design system) ─────────────────── */
+    .cw-chip {
+      display: inline-flex; align-items: center;
+      height: 22px; padding: 0 9px;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .cw-chip--bound       { background: #29cc96; color: #004d33; }
+    .cw-chip--quoted      { background: #d99fff; color: #5b0d80; }
+    .cw-chip--uw-review   { background: #f5cf47; color: #4a3c00; }
+    .cw-chip--in-progress { background: #ebeeff; color: #061459; }
+    .cw-chip--cancel-req  { background: #ffede2; color: #bb4f09; }
+    .cw-chip--cancelled   { background: #edebf2; color: #484452; }
+    .cw-chip--declined    { background: #ffe6e6; color: #cc3d3d; }
+    .cw-chip--expired     { background: #f8f7fa; color: #66636e; border: 1px solid #edebf2; }
+    .lc-popup-chip-area  { padding: 0.65rem 0.85rem; border-bottom: 1px solid #e5e5e5; }
+
+    /* Next case study link */
+    .next-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      background: none;
+      font-family: 'Caprasimo', ui-monospace, monospace;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: #000;
+      line-height: 1.1;
+      transition: opacity 150ms ease;
+    }
+    .next-link:hover {
+      background: none;
+      color: #000;
+      opacity: 0.5;
+      text-decoration: none;
+    }
+    .next-link:visited { color: #000; opacity: 1; }
+
+    /* Nav demo iframe — desktop keeps 1440×1024 ratio, mobile gets fixed height */
+    #nav-demo-frame { aspect-ratio: 1440 / 1024; }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+      .box { padding: 1.25rem; }
+
+      /* Let the iframe fill a natural height — demo is responsive */
+      #nav-demo-frame {
+        aspect-ratio: unset;
+        height: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page contents">
+    <a href="#intro"              class="dot-nav-item" data-label="Outcomes"></a>
+    <a href="#my-role"            class="dot-nav-item" data-label="My Role"></a>
+    <a href="#the-problem"        class="dot-nav-item" data-label="Setup & Research"></a>
+    <a href="#panel-insight"      class="dot-nav-item" data-label="The Insight"></a>
+    <a href="#lifecycle"          class="dot-nav-item" data-label="Life Cycle"></a>
+    <a href="#panel-architecture" class="dot-nav-item" data-label="Architecture"></a>
+    <a href="#panel-dashboard"    class="dot-nav-item" data-label="Dashboard"></a>
+    <a href="#panel-account"      class="dot-nav-item" data-label="Account Model"></a>
+    <a href="#panel-navigation"   class="dot-nav-item" data-label="Navigation"></a>
+    <a href="#outcome"            class="dot-nav-item" data-label="Validation"></a>
+    <a href="#next"               class="dot-nav-item" data-label="Next"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag">Cover Whale</span>
+            <span class="tag">Senior UX Researcher &amp; Designer</span>
+            <span class="tag">7 Months</span>
+          </div>
+          <h1>Platform Architecture &amp; Navigation</h1>
+          <p>Redesigned a policy management platform from a single mixed-table architecture to a lifecycle-based navigation system — organizing submissions, quotes, and policies around how agents actually think.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate>
+            <img src="images/dashboard.png" alt="Dashboard — KPI view">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">Series A</div>
+        <div class="label">Secured — prototype served as key proof-of-concept for investors</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">24 hr</div>
+        <div class="label">Near-continuous work cycle across the 6-week NY–Zurich sprint</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">11</div>
+        <div class="label">Agent interviews directly informing the architectural decisions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY ROLE ───────────────────────────────────────── -->
+  <section class="section snap-section" id="my-role">
+    <h2 data-animate>My Role</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">What I Owned</p>
+          <p>I led research, information architecture, and design direction — producing the sitemap, all documentation, and the mid-fidelity clickable prototype used for agent usability testing.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">Who I Worked With</p>
+          <p>UX Vendor (Zurich): two designers, one front-end engineer, CEO. Internal: COO, PM, Product Manager, and the heads of Underwriting, Growth, Operations, CX, and the company CEO. Weekly Design Sync kept cross-functional alignment across the full stakeholder group.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy box--dark" data-animate>
+      <p class="entry-label">How the Work Actually Moved</p>
+      <p>NY to Zurich is 6 hours. Writing requirements EOD meant the vendor team could start at 3am local time — enabling a near-24-hour work cycle across the initial 6-week sprint.</p>
+    </div>
+  </section>
+
+  <!-- ── THE PROBLEM ────────────────────────────────────── -->
+  <section class="section snap-section" id="the-problem">
+    <h2 data-animate>The Problem</h2>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">The Setup</p>
+      <p>Cover Whale is a Managing General Agent — the intermediary between insurance carriers and the agents who sell their policies. Carrier retention and platform revenue are directly linked. The 'All Submissions' page was a single mixed table: submissions, quotes, policies, and endorsements all in one view. Treating them the same meant agents had no way to understand where a piece of business stood — or what needed attention right now.</p>
+      <figure style="margin-top:2rem; padding-bottom:12px; padding-right:8px;">
+        <div class="img-frame">
+          <img src="images/all-submissions.png" alt="All Submissions — original table view">
+        </div>
+        <figcaption style="text-transform:none;">The original 'All Submissions' view — a single table mixing every stage of the policy lifecycle.</figcaption>
+      </figure>
+    </div>
+
+    <div class="entry" data-animate>
+      <p class="entry-label">What Research Showed</p>
+      <p>11 agent interviews pointed to the same friction: agents needed faster processing, consistent data, quicker Underwriter response times, and a clearer picture of where each piece of business stood. All four traced back to the architecture.</p>
+    </div>
+  </section>
+
+  <!-- ── THE INSIGHT ────────────────────────────────────── -->
+  <section class="section snap-section" id="panel-insight">
+    <div class="entry" data-animate>
+      <p class="entry-label">The Insight</p>
+      <h2 class="h2--flush" style="margin-bottom:1rem;">Agents Think in Stages</h2>
+      <p>Each stage of the policy process carries different information, different actions, different urgency. The flat architecture made agents impose that distinction themselves, every time they opened the app. The redesign built it in.</p>
+    </div>
+  </section>
+
+  <!-- ── LIFECYCLE DIAGRAM ─────────────────────────────── -->
+  <div class="lc-section snap-section" id="lifecycle">
+    <div class="lc-section-head">Policy Life Cycle</div>
+    <div class="lc-section-body">
+
+      <p class="lc-caption" data-animate>A submission becomes a quote becomes a policy — each stage has its own statuses, actions, and exit points.</p>
+
+      <div class="lc-diagram" data-animate>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">Submission</div>
+          <div class="lc-statuses">
+            <div class="lc-item lc-item--clickable"
+              data-title="Submission — Pending"
+              data-chip="cw-chip--in-progress"
+              data-actions="Resume application; View submission details"
+              data-exits="→ Quote (Bindable) once application is complete">Pending</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Submission — Declined"
+              data-chip="cw-chip--declined"
+              data-actions="View decline reason"
+              data-exits="None — terminal status">Declined</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">Quote</div>
+          <div class="lc-statuses">
+            <div class="lc-item lc-item--clickable"
+              data-title="Quote — Bindable"
+              data-chip="cw-chip--quoted"
+              data-actions="Bind quote; View quote details"
+              data-exits="→ Policy (In-Force) once bound">Bindable</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Quote — In Review"
+              data-chip="cw-chip--uw-review"
+              data-actions="View review status; Message underwriter"
+              data-exits="→ Bindable (approved); → Declined (rejected)">In Review</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Quote — Not Taken Up"
+              data-chip="cw-chip--cancelled"
+              data-actions="Log reason; View record"
+              data-exits="None — terminal status">Not Taken Up</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Quote — Expired"
+              data-chip="cw-chip--expired"
+              data-actions="Copy to new submission"
+              data-exits="→ Submission (Pending) if copied">Expired</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">Policy</div>
+          <div class="lc-statuses">
+            <div class="lc-item lc-item--clickable"
+              data-title="Policy — In-Force"
+              data-chip="cw-chip--bound"
+              data-actions="Create endorsement; Initiate renewal; View policy details"
+              data-exits="→ At-Risk; → Pending Cancellation; → Upcoming Renewal">In-Force</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Policy — At-Risk"
+              data-chip="cw-chip--cancel-req"
+              data-actions="View issue details; Contact insured; Initiate resolution"
+              data-exits="→ In-Force (resolved); → Pending Cancellation (unresolved)">At-Risk</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Policy — Pending Cancellation"
+              data-chip="cw-chip--cancel-req"
+              data-actions="View NOC details and reason; Submit reinstatement request"
+              data-exits="→ Cancelled (NOC date passes); → In-Force (reinstated)">Pending Cancellation</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Policy — Cancelled"
+              data-chip="cw-chip--cancelled"
+              data-actions="Submit reinstatement request"
+              data-exits="None — terminal status">Cancelled</div>
+            <div class="lc-item lc-item--clickable"
+              data-title="Policy — Upcoming Renewal"
+              data-chip="cw-chip--in-progress"
+              data-actions="Initiate renewal quote; Contact insured"
+              data-exits="→ Quote (Bindable) once renewal quote is issued">Upcoming Renewal</div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- ── DECISION 1: Architecture ───────────────────────── -->
+  <div class="panel alt snap-section" id="panel-architecture">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 01</p>
+      <h3 data-animate>Three Pages Instead of One</h3>
+      <p data-animate>Submissions, Quotes, and Policies replaced 'All Submissions' — each scoped to one stage, with only the statuses and actions relevant to that stage.</p>
+      <p data-animate style="margin-top: 1rem;"><strong>Submissions</strong> carries Pending and Declined. <strong>Quotes</strong> surfaces four outcomes — Bindable, In Review, Not Taken, Expired — with a Stage column for context. <strong>Policies</strong> reflects current status: In-Force, At-Risk, Pending Cancellation, Renewals, Cancelled.</p>
+    </div>
+    <div class="panel-image">
+      <div class="card-stack" data-animate>
+        <div class="img-frame">
+          <img src="images/submission-pending.png" alt="Submissions — Pending view">
+        </div>
+        <div class="img-frame">
+          <img src="images/quotes-bindable.png" alt="Quotes — Bindable view">
+        </div>
+        <div class="img-frame">
+          <img src="images/policies-in-force.png" alt="Policies — In-Force view">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 2: Dashboard ──────────────────────────── -->
+  <div class="panel snap-section" id="panel-dashboard">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 02</p>
+      <h3 data-animate>The Soldier View</h3>
+      <p data-animate>Testing with agents — including Manager-level producers — confirmed that individual task visibility was more useful across all levels than an agency-wide view. We stripped it back to four counts: what's bound, what's at risk, what's ready to close, what's up for renewal. No charts. Every widget answers a question an agent actually asks at the start of their day.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" data-animate>
+        <img src="images/full-dashboard.png" alt="Dashboard — full KPI view">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISION 3: Account Model ──────────────────────── -->
+  <div class="panel alt snap-section" id="panel-account">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decision 03</p>
+      <h3 data-animate>Account as the Primary Identifier</h3>
+      <p data-animate>Each new submission — endorsement, renewal, new coverage line — created a separate record. An agent managing a long-term client had no single place to see everything.</p>
+      <p data-animate style="margin-top: 1.25rem;">Shifting to Account consolidated activity, communication, and history under one record per insured. The insured is the relationship. The submission is a transaction within it.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" data-animate>
+        <img src="images/account-overview.png" alt="Account overview — unified record per insured">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DECISIONS 4 + 5: Navigation ────────────────────── -->
+  <div class="panel snap-section" id="panel-navigation">
+    <div class="panel-text">
+      <p class="panel-section-label" data-animate>Key Decisions 04 &amp; 05</p>
+      <h3 data-animate>Navigation That Works with the Agent</h3>
+      <p data-animate><strong>Search goes global.</strong> Previously scoped to individual pages, search and filter moved to global nav — one query surfaces results across submissions, quotes, and policies.</p>
+      <p data-animate style="margin-top: 1.25rem;"><strong>A persistent sidebar.</strong> Quick access to Dashboard, Messages, and the section pages without losing place — cutting the clicks required to move between the parts agents used most.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" id="nav-demo-frame" data-animate>
+        <iframe src="search-filter-demo.html" style="width:100%; height:100%; border:3px solid #000; display:block; position:relative; z-index:0;" title="Global Search — Interactive Demo"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOME ────────────────────────────────────────── -->
+  <section class="section snap-section" id="outcome">
+    <h2 data-animate>Validation</h2>
+
+    <div class="two-col">
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">How It Tested</p>
+          <p>Agents recognized the lifecycle structure immediately — it reflected how they already thought. The mid-fidelity prototype was handed to the vendor team, advanced to hi-fidelity, and front-end development began. The shift to Account-level identifiers set the foundation for the Messages redesign.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry" data-animate>
+          <p class="entry-label">The Simplest Validation</p>
+          <p>Agents stopped asking "where do I find X?" That absence was the clearest signal.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box--heavy" data-animate>
+      <p class="entry-label">Beyond the Platform</p>
+      <p>The mid-fidelity prototype was presented to investors as proof of where the product was headed. Cover Whale secured its Series A. The designs were handed to the vendor team, advanced to hi-fidelity, and front-end development began.</p>
+    </div>
+  </section>
+
+  <!-- ── NEXT CASE STUDY ──────────────────────────────────── -->
+  <section class="section snap-section" id="next" style="display:flex; flex-direction:column; justify-content:center;">
+    <p class="panel-section-label" data-animate>Next Case Study</p>
+    <a href="../quote-application/quote-application.html" class="next-link" data-animate>The Quote Application →</a>
+  </section>
+
+  <div class="lc-popup-wrap" id="lc-popup">
+    <div class="lc-popup">
+      <div class="lc-popup-chip-area" id="lc-popup-chip"></div>
+      <div class="lc-popup-title" id="lc-popup-title"></div>
+      <div class="lc-popup-body" id="lc-popup-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // Card stack carousel
+    document.querySelectorAll('.card-stack').forEach(stack => {
+      stack.addEventListener('click', () => {
+        const front = stack.querySelector('.img-frame:first-child');
+        stack.appendChild(front);
+      });
+    });
+
+    // Stagger siblings
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      const siblings = Array.from(el.parentElement.querySelectorAll(':scope > [data-animate]'));
+      const index = siblings.indexOf(el);
+      if (index > 0) el.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Scroll-in animations
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    // Dot nav active state
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const dotSections = Array.from(dotItems)
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const dotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dotItems.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.dot-nav-item[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    dotSections.forEach(s => dotObserver.observe(s));
+
+    // Lifecycle popup
+    const lcPopup = document.getElementById('lc-popup');
+    const lcPopupChip = document.getElementById('lc-popup-chip');
+    const lcPopupTitle = document.getElementById('lc-popup-title');
+    const lcPopupBody = document.getElementById('lc-popup-body');
+    let activeLcItem = null;
+
+    function showLcPopup(item, e) {
+      if (activeLcItem === item) { hideLcPopup(); return; }
+      if (activeLcItem) activeLcItem.classList.remove('is-active');
+      activeLcItem = item;
+      item.classList.add('is-active');
+
+      const statusLabel = item.dataset.title.split(' — ')[1];
+      lcPopupChip.innerHTML = `<span class="cw-chip ${item.dataset.chip}">${statusLabel}</span>`;
+      lcPopupTitle.textContent = item.dataset.title;
+
+      const actions = item.dataset.actions.split(';').map(s => s.trim());
+      const exits = item.dataset.exits.split(';').map(s => s.trim());
+
+      lcPopupBody.innerHTML = `
+        <div>
+          <p class="lc-popup-section-label">Actions</p>
+          <ul class="lc-popup-list">${actions.map(a => `<li>${a}</li>`).join('')}</ul>
+        </div>
+        <div>
+          <p class="lc-popup-section-label">Exit Points</p>
+          <ul class="lc-popup-list">${exits.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div>
+      `;
+
+      lcPopup.classList.add('is-visible');
+      window.addEventListener('wheel', preventScroll, { passive: false });
+      window.addEventListener('touchmove', preventScroll, { passive: false });
+      requestAnimationFrame(() => positionLcPopup(e));
+    }
+
+    function preventScroll(e) { e.preventDefault(); }
+
+    function hideLcPopup() {
+      lcPopup.classList.remove('is-visible');
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+      if (activeLcItem) activeLcItem.classList.remove('is-active');
+      activeLcItem = null;
+    }
+
+    function positionLcPopup(e) {
+      const pad = 12;
+      const pw = lcPopup.offsetWidth;
+      const ph = lcPopup.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let x = e.clientX + pad;
+      let y = e.clientY + pad;
+      if (x + pw > vw - pad) x = e.clientX - pw - pad;
+      if (y + ph > vh - pad) y = e.clientY - ph - pad;
+      if (x < pad) x = pad;
+      if (y < pad) y = pad;
+      lcPopup.style.left = x + 'px';
+      lcPopup.style.top = y + 'px';
+    }
+
+document.querySelectorAll('.lc-item--clickable').forEach(item => {
+      item.addEventListener('click', e => { e.stopPropagation(); showLcPopup(item, e); });
+    });
+
+    document.addEventListener('click', hideLcPopup);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') hideLcPopup(); });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Civic Trust — Research</title>
+  <link rel="stylesheet" href="../brutalist-css.css">
+  <link rel="stylesheet" href="civic-guide-components.css">
+  <style>
+    /* ── PAGE OVERRIDES ───────────────────────────────── */
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- DOT NAV -->
+  <nav class="dot-nav" aria-label="Page sections">
+    <a class="dot-nav-item active" href="#top"        data-label="Top"></a>
+    <a class="dot-nav-item"        href="#brief"      data-label="Design Brief"></a>
+    <a class="dot-nav-item"        href="#synthesis"  data-label="Synthesis"></a>
+    <a class="dot-nav-item"        href="#data"       data-label="The Data"></a>
+    <a class="dot-nav-item"        href="#lifecycle"  data-label="Civic Lifecycle"></a>
+    <a class="dot-nav-item"        href="#problems"   data-label="Problems"></a>
+    <a class="dot-nav-item"        href="#principles" data-label="Principles"></a>
+  </nav>
+
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+
+  <section class="hero snap-section" id="top">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="meta">
+          <span class="tag tag--filled">UX Research</span>
+          <span class="tag tag--filled">Civic Systems</span>
+          <span class="tag">Framing User Experiences II</span>
+        </div>
+        <h1>Building Civic Trust</h1>
+        <p>Reducing intimidation and overwhelm by helping people understand how to engage with local civic resources — without needing to navigate the system alone.</p>
+        <p style="margin-top:1.5rem; font-size:0.85rem;">
+          <a href="civic-guide-case-study.html">→ See what this research led to: CivicGuide</a>
+        </p>
+      </div>
+      <div class="hero-image">
+        <div style="width:100%; border:6px solid #000;">
+
+          <div style="padding:2rem 2rem 1.75rem; border-bottom:6px solid #000;">
+            <div style="font-family:'Caprasimo',serif; font-size:clamp(3.5rem,7vw,5.5rem); font-weight:400; line-height:1;">42%</div>
+            <div style="font-size:0.65rem; font-weight:900; text-transform:uppercase; letter-spacing:0.12em; margin-top:0.5rem; opacity:0.5;">of low-income households faced food insecurity in 2010 — eligible for benefit programs requiring multi-step applications</div>
+          </div>
+
+          <div style="padding:2rem 2rem 1.75rem; background:#000; color:#fff;">
+            <div style="font-family:'Caprasimo',serif; font-size:clamp(3.5rem,7vw,5.5rem); font-weight:400; line-height:1;">13%</div>
+            <div style="font-size:0.65rem; font-weight:900; text-transform:uppercase; letter-spacing:0.12em; margin-top:0.5rem; opacity:0.5;">of low-income Americans trusted the government systems designed to help them through the process</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── OUTCOMES GRID ──────────────────────────────────── -->
+
+  <div class="outcomes-grid">
+    <div class="outcome-item">
+      <div class="number">17%</div>
+      <div class="label">National trust in government<br>by 2020 — down from 48% in 1972</div>
+    </div>
+    <div class="outcome-item">
+      <div class="number">5</div>
+      <div class="label">Stages in the civic lifecycle<br>where barriers compound</div>
+    </div>
+    <div class="outcome-item">
+      <div class="number">7</div>
+      <div class="label">Design principles derived<br>for civic experience</div>
+    </div>
+  </div>
+
+
+  <!-- ── DESIGN BRIEF ───────────────────────────────────── -->
+
+  <section class="section snap-section" id="brief">
+    <h2 data-animate>The Design Brief</h2>
+    <div class="two-col">
+      <div class="entry" data-animate>
+        <div class="entry-label">Goal</div>
+        <p>Improve how people understand, navigate, and trust public institutions — by helping them engage with civic resources without feeling intimidated or overwhelmed.</p>
+      </div>
+      <div class="entry" data-animate>
+        <div class="entry-label">Problem Framing</div>
+        <p>Civic resources function less like supportive infrastructure and more like a series of <strong>isolated hurdles</strong>: forms to complete, meetings to discover, portals to decipher, deadlines to remember. The issue is not motivation — it is <strong>legibility, timing, and coordination</strong>.</p>
+      </div>
+    </div>
+
+    <div class="box box--heavy" data-animate style="margin-top:2.5rem;">
+      <div class="entry-label">A key distinction</div>
+      <div class="two-col" style="margin-top:1rem;">
+        <div>
+          <p><strong>Civic Resources</strong> — used on an individual or group level, in an infrastructural context, of a transactional or administrative nature. (e.g. NYC 311, DMV registration, benefit enrollment)</p>
+        </div>
+        <div>
+          <p><strong>Civic Engagement</strong> — takes place on the community level, is social, participatory, and agentic in nature. (e.g. voting, city planning meetings, advocacy)</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem; max-width:70ch;">The research focuses on civic resources — the transactional layer — because that is where trust is built or destroyed in everyday life, long before anyone reaches the participatory stages.</p>
+    </div>
+  </section>
+
+
+  <!-- ── SYNTHESIS ──────────────────────────────────────── -->
+
+  <section class="section snap-section" id="synthesis">
+    <h2 data-animate>Research Synthesis</h2>
+    <div class="entry" data-animate>
+      <p>Four themes emerged consistently across the research. They are not independent — they compound. Each one amplifies the others, and all of them fall hardest on people who already have the least capacity to absorb them.</p>
+    </div>
+
+    <div class="two-col" data-animate>
+      <div class="entry">
+        <div class="entry-label">Cognitive Load</div>
+        <p>Complexity isn't a usability problem here — it's an emotional one. Administrative burden gets experienced as an ordeal: the Gulfs of Evaluation and Execution loop continuously, with no guide and real stakes attached to every wrong turn.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-label">Lack of Process Maps</div>
+        <p>People get stuck even when they're motivated. They know the problem — can't find housing, can't access healthcare — but can't see the steps between here and solved. A system that requires institutional knowledge to navigate is exclusionary by design, whether or not anyone intended it that way.</p>
+      </div>
+    </div>
+
+    <div class="two-col" data-animate>
+      <div class="entry">
+        <div class="entry-label">Stigma &amp; Fear</div>
+        <p>For some communities, asking for help is itself a risk. Immigrant and undocumented residents face the sharpest version: seeking civic assistance can expose them to detention or deportation — meaning the help itself becomes the threat.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-label">Time Poverty</div>
+        <p>Every barrier above lands hardest on the people with the least time to absorb it. Administrative burden isn't randomly distributed — it concentrates precisely on those who can least afford to carry it.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── THE DATA ───────────────────────────────────────── -->
+
+  <section class="section snap-section" id="data">
+    <h2 data-animate>Trust has been falling for 50 years — and falling unevenly</h2>
+    <div class="entry" data-animate>
+      <p>Trust has declined almost continuously since 1972 — but the decline has not been equal, and the gap between groups has never closed.</p>
+      <blockquote style="margin-top:1rem;">
+        <p><strong>8%</strong> — the lowest trust-in-government figure ever recorded for any group in this study: Black Americans, 2014.</p>
+      </blockquote>
+    </div>
+
+    <div class="box--wide box--dark box" data-animate style="margin-bottom:2.5rem;">
+      <div class="entry-label" style="color:#fff; border-bottom-color:rgba(255,255,255,0.3);">Trust in Government "Most of the Time" — by Group (1972–2020)</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>1972</th>
+            <th>1980</th>
+            <th>1990</th>
+            <th>2000</th>
+            <th>2010</th>
+            <th>2014</th>
+            <th>2020</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>         <td>54%</td><td>40%</td><td>35%</td><td>36%</td><td>22%</td><td>19%</td><td>17%</td></tr>
+          <tr><td>Black</td>         <td>30%</td><td>22%</td><td>21%</td><td>25%</td><td>14%</td><td>8%</td> <td>12%</td></tr>
+          <tr><td>Hispanic</td>      <td>38%</td><td>28%</td><td>25%</td><td>28%</td><td>17%</td><td>12%</td><td>14%</td></tr>
+          <tr><td>Low-income</td>    <td>32%</td><td>24%</td><td>22%</td><td>22%</td><td>13%</td><td>9%</td> <td>11%</td></tr>
+          <tr><td>Young adults</td>  <td>58%</td><td>42%</td><td>32%</td><td>34%</td><td>24%</td><td>20%</td><td>16%</td></tr>
+          <tr><td><strong>National avg.</strong></td><td><strong>48%</strong></td><td><strong>36%</strong></td><td><strong>31%</strong></td><td><strong>33%</strong></td><td><strong>19%</strong></td><td><strong>18%</strong></td><td><strong>17%</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="caption" style="color:#fff; opacity:0.6; margin-top:1rem;">Sources: Pew Research Center · General Social Survey · American National Election Studies (1958–2020)</p>
+    </div>
+
+    <div class="entry" data-animate>
+      <div class="entry-label">Three moments that shaped the floor</div>
+      <ul>
+        <li><strong>1972:</strong> Already unequal. The gap was structural from the start.</li>
+        <li><strong>1980:</strong> Watergate's aftermath. Trust fell across all groups; the White–Black gap widened rather than closed.</li>
+        <li><strong>2014:</strong> Historic low — 19% nationally. Black Americans: 8%.</li>
+      </ul>
+    </div>
+
+    <div class="entry" data-animate style="margin-top:2.5rem;">
+      <div class="entry-label">Resource deficits at the 2010 low (% of population affected)</div>
+      <div class="cg-mock-frame">
+        <table>
+          <thead>
+            <tr>
+              <th>Resource Area</th>
+              <th>National average deficit</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Healthcare</td>    <td>16%</td><td>Adults uninsured</td></tr>
+            <tr><td>Broadband</td>     <td>35%</td><td>Households without home internet</td></tr>
+            <tr><td>Civic Voice</td>   <td>28%</td><td>Eligible citizens not registered to vote</td></tr>
+            <tr><td>Housing</td>       <td>35%</td><td>Households cost-burdened (&gt;30% income on rent)</td></tr>
+            <tr><td>Food Security</td> <td>15%</td><td>Households experiencing food insecurity</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── USER MAPPING ───────────────────────────────────── -->
+
+  <div class="panel snap-section" data-animate>
+    <div class="panel-text">
+      <p class="panel-section-label">User Mapping</p>
+      <h3>Who carries the weight</h3>
+      <p>Barriers cluster along four axes — age, region, cultural context, and income — and the overlap is where the experience becomes dehumanizing.</p>
+      <ul>
+        <li><strong>Young adults:</strong> procedural confusion; systems feel designed for someone else</li>
+        <li><strong>Older adults:</strong> locked out of digital-first services</li>
+        <li><strong>Rural:</strong> sparse infrastructure, long travel to service points</li>
+        <li><strong>Minority communities:</strong> compounding distrust from historical exclusion</li>
+        <li><strong>Immigrant communities:</strong> excluded by language, complexity, and fear</li>
+        <li><strong>Low-income households:</strong> every barrier at once</li>
+      </ul>
+    </div>
+    <div class="panel-image">
+      <div style="width:100%;">
+        <div class="cg-mock-frame">
+          <table>
+            <thead>
+              <tr>
+                <th>Archetype</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Expressive Youth</strong></td>
+                <td>Active in protests and social media; high motivation, low institutional knowledge</td>
+              </tr>
+              <tr>
+                <td><strong>Dense Urban</strong></td>
+                <td>High resource density nearby; familiar with bureaucracy but fatigued by it</td>
+              </tr>
+              <tr>
+                <td><strong>Marginalized Communities</strong></td>
+                <td>Community organizations as primary civic vehicle; distrust of formal systems</td>
+              </tr>
+              <tr>
+                <td><strong>Low-Income</strong></td>
+                <td>Survival mode; consulted in civic processes but rarely empowered — tokenized</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="caption" style="margin-top:1rem; opacity:1;">The Low-Income archetype experiences every other group's barriers simultaneously, compounded by the highest administrative burden and the least political power to change it.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── CIVIC LIFECYCLE ────────────────────────────────── -->
+
+  <div class="lc-section snap-section" id="lifecycle" data-animate>
+    <div class="lc-section-head">The Civic Lifecycle</div>
+    <div class="lc-section-body">
+      <p class="lc-caption">Five stages, one inflection point: <strong>Stage 3 — Transaction</strong> is where trust is won or lost, and where CivicGuide intervenes. Every other stage builds on whether someone makes it through this one intact.</p>
+      <div class="lc-diagram">
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">1 — Exposure</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Schools, parks, transit</div>
+            <div class="lc-item">Passive but formative</div>
+            <div class="lc-item">Institutions invisible</div>
+            <div class="lc-item">Quality varies by neighborhood</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">2 — Awareness</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Voting, housing, jobs</div>
+            <div class="lc-item">Curiosity, confusion, intimidation</div>
+            <div class="lc-item">Hierarchies become visible</div>
+            <div class="lc-item">Civic knowledge varies</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">3 — Transaction</div>
+          <div class="lc-statuses">
+            <div class="lc-item lc-item--clickable is-active">Forms, permits, benefits</div>
+            <div class="lc-item lc-item--clickable is-active">Frustration, anxiety, relief</div>
+            <div class="lc-item lc-item--clickable is-active">Navigate, seek help, abandon</div>
+            <div class="lc-item lc-item--clickable is-active">← CivicGuide targets this</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">4 — Participation</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Meetings, budgeting, advocacy</div>
+            <div class="lc-item">Empowerment, anger, solidarity</div>
+            <div class="lc-item">Degrees of tokenism visible</div>
+            <div class="lc-item">Historical trust shapes voice</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">5 — Influence</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Boards, elected office</div>
+            <div class="lc-item">Pride, responsibility, commitment</div>
+            <div class="lc-item">Top of Arnstein's Ladder</div>
+            <div class="lc-item">Representation gaps persist</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ARNSTEIN'S LADDER ─────────────────────────────── -->
+
+  <div class="lc-section" data-animate>
+    <div class="lc-section-head">Arnstein's Ladder of Citizen Participation</div>
+    <div class="lc-section-body">
+      <p class="lc-caption">The Civic Lifecycle Stage 3 — Transaction — maps to Tokenism. Administrative legibility is the prerequisite for reaching the rungs above.</p>
+      <div class="two-col">
+        <div class="entry">
+          <div class="cg-mock-frame">
+            <table>
+              <tbody>
+                <tr><th colspan="2">Citizen Power</th></tr>
+                <tr><td>8</td><td>Citizen Control</td></tr>
+                <tr><td>7</td><td>Delegated Power</td></tr>
+                <tr><td>6</td><td>Partnership</td></tr>
+                <tr><th colspan="2">Tokenism</th></tr>
+                <tr><td>5</td><td>Placation</td></tr>
+                <tr><td>4</td><td>Consultation</td></tr>
+                <tr><td>3</td><td>Informing</td></tr>
+                <tr><th colspan="2" style="opacity:0.4;">Non-Participation</th></tr>
+                <tr style="opacity:0.4;"><td>2</td><td>Therapy</td></tr>
+                <tr style="opacity:0.4;"><td>1</td><td>Manipulation</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry-label">Why it matters</div>
+          <p>Arnstein's framework maps where citizens actually sit in the decision-making structure — not where institutions claim they sit. Most transactional civic encounters (Stage 3) land in the Tokenism zone: citizens are informed, occasionally consulted, but rarely empowered.</p>
+          <p>Reducing administrative burden at Stage 3 is a prerequisite for climbing the ladder. You can't participate meaningfully in civic life if you can't complete your DMV registration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── PROBLEMS ───────────────────────────────────────── -->
+
+  <section class="section snap-section" id="problems">
+    <h2 data-animate>Three problems, one root question</h2>
+    <div class="entry" data-animate>
+      <p>Every problem below traces back to the same question: <strong>how might we make civic resources feel like infrastructure that's on someone's side, instead of a series of hurdles to survive?</strong> Three angles on it stood out:</p>
+      <blockquote style="margin-top:1rem;">
+        <p><strong>Influence —</strong> citizens are consulted, then ignored; pseudo-participation amplifies the feeling that the system is adversarial.</p>
+        <p style="margin-top:0.75rem;"><strong>Burden —</strong> transactional experiences are tedious and opaque, and that cost lands hardest on people with the least time and information to spare.</p>
+        <p style="margin-top:0.75rem;"><strong>Compounding —</strong> these barriers never arrive alone. For someone already time-scarce and wary of the system, they stop being inconveniences and become dehumanizing.</p>
+      </blockquote>
+    </div>
+  </section>
+
+
+  <!-- ── DESIGN PRINCIPLES ──────────────────────────────── -->
+
+  <section class="section snap-section" id="principles">
+    <h2 data-animate>Seven principles, each closing one gap</h2>
+    <div class="entry" data-animate>
+      <p>Seven principles for designing civic products and services — each addresses a specific failure mode from the findings.</p>
+    </div>
+
+    <div class="two-col" data-animate>
+      <div>
+        <div class="entry">
+          <div class="entry-label">1 — Legibility of Civic Systems</div>
+          <p>Civic systems should be legible to ordinary residents without requiring specialized civic knowledge or institutional familiarity.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-label">2 — Predictability and Consistency</div>
+          <p>Civic resources should behave consistently across time, institutions, and geographic contexts.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-label">3 — Cognitive Accessibility</div>
+          <p>Civic systems should minimize unnecessary cognitive load and allow people to navigate them without extensive interpretation.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-label">4 — Distributed Civic Knowledge</div>
+          <p>Civic knowledge should be embedded in environments and systems rather than requiring individuals to possess extensive prior knowledge before engaging.</p>
+        </div>
+      </div>
+      <div>
+        <div class="entry">
+          <div class="entry-label">5 — Equitable Access</div>
+          <p>Civic resources should be distributed in ways that do not systematically disadvantage particular communities. Access cannot be neutral when the system was built unequally.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-label">6 — Meaningful Participation</div>
+          <p>Opportunities for civic engagement should have clear pathways to influence outcomes. Consultation without power is not participation.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-label">7 — Institutional Transparency</div>
+          <p>Civic systems should make the relationship between actions and outcomes visible. People should be able to understand what they did, what happened as a result, and what comes next.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bridge to CivicGuide -->
+    <div class="box box--wide box--dark" data-animate style="margin-top:4rem;">
+      <div class="entry-label">From research to solution</div>
+      <p style="color:#fff; margin-top:1rem; max-width:65ch;">The administrative burden at Stage 3 and the opacity of government forms directly shaped CivicGuide's problem statement. Principles 3 and 4 — Cognitive Accessibility and Distributed Civic Knowledge — became the specification for the AI layer.</p>
+      <p style="margin-top:1.5rem;">
+        <a href="civic-guide-case-study.html" style="color:#fff; font-weight:900; font-size:0.9rem; letter-spacing:0.08em; text-transform:uppercase;">CivicGuide — The Solution →</a>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ── SCROLL ANIMATIONS ──────────────────────────────── -->
+  <script>
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          animObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    // Typewriter for agent brief text
+    function typewriteEl(el, speed = 15) {
+      const cursor = el.querySelector('.cg-cursor');
+      const text = Array.from(el.childNodes)
+        .filter(n => n.nodeType === 3)
+        .map(n => n.textContent).join('');
+      Array.from(el.childNodes)
+        .filter(n => n.nodeType === 3)
+        .forEach(n => n.remove());
+      const textNode = document.createTextNode('');
+      el.insertBefore(textNode, cursor || null);
+      let i = 0;
+      (function tick() {
+        if (i < text.length) { textNode.textContent += text[i++]; setTimeout(tick, speed); }
+      })();
+    }
+    const twObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { typewriteEl(e.target); twObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.8 });
+    document.querySelectorAll('.agent-brief-text').forEach(el => twObserver.observe(el));
+
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    const dots = document.querySelectorAll('.dot-nav-item');
+    const navTargets = document.querySelectorAll('#top, #brief, #synthesis, #data, #lifecycle, #problems, #principles');
+    const navRatios = new Map();
+    function updateActiveDot() {
+      let topId = null, topRatio = 0;
+      navRatios.forEach((ratio, id) => { if (ratio > topRatio) { topRatio = ratio; topId = id; } });
+      if (!topId) return;
+      dots.forEach(d => d.classList.toggle('active', d.getAttribute('href') === '#' + topId));
+    }
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.target.id) return;
+        navRatios.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
+      });
+      updateActiveDot();
+    }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+    navTargets.forEach(el => { if (el) navObserver.observe(el); });
+  </script>
+
+</body>
+</html>

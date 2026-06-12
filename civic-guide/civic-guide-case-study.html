@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicGuide — Case Study</title>
+  <link rel="stylesheet" href="../brutalist-css.css">
+  <link rel="stylesheet" href="civic-guide-components.css">
+  <style>
+    /* ── PAGE OVERRIDES ───────────────────────────────── */
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- DOT NAV -->
+  <nav class="dot-nav" aria-label="Page sections">
+    <a class="dot-nav-item active" href="#top"       data-label="Top"></a>
+    <a class="dot-nav-item"        href="#setup"     data-label="The Setup"></a>
+    <a class="dot-nav-item"        href="#problem"   data-label="The Problem"></a>
+    <a class="dot-nav-item"        href="#insight"   data-label="The Insight"></a>
+    <a class="dot-nav-item"        href="#decisions" data-label="Key Decisions"></a>
+    <a class="dot-nav-item"        href="#outcome"   data-label="Outcome"></a>
+  </nav>
+
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+
+  <section class="hero snap-section" id="top">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="meta">
+          <span class="tag tag--filled">Product Design</span>
+          <span class="tag tag--filled">AI / LLM</span>
+          <span class="tag tag--filled">Front-End Build</span>
+          <span class="tag">Apr 2026</span>
+        </div>
+        <h1>CivicGuide</h1>
+        <p>Building an AI-powered wizard that helps ordinary people fill out government forms — without needing to understand them first.</p>
+        <p style="margin-top:1.5rem; font-size:0.85rem;">
+          <a href="civic-trust-research.html">← Research foundations: Building Civic Trust</a>
+        </p>
+      </div>
+      <div class="hero-image">
+        <!-- Phase 2 — Scan confirm -->
+        <div class="cg-mock-frame">
+          <div class="cg-mock" data-theme="dark">
+            <div class="cg-chrome">
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-label">CivicGuide · Phase 2 — Scan</span>
+            </div>
+            <div class="cg-stage-track">
+              <div class="cg-stage is-done">
+                <div class="cg-stage-num">01</div>
+                <div class="cg-stage-name">Upload</div>
+              </div>
+              <div class="cg-stage is-active">
+                <div class="cg-stage-num">02</div>
+                <div class="cg-stage-name">Scan</div>
+              </div>
+              <div class="cg-stage">
+                <div class="cg-stage-num">03</div>
+                <div class="cg-stage-name">Fill</div>
+              </div>
+              <div class="cg-stage">
+                <div class="cg-stage-num">04</div>
+                <div class="cg-stage-name">Review</div>
+              </div>
+              <div class="cg-stage">
+                <div class="cg-stage-num">05</div>
+                <div class="cg-stage-name">Export</div>
+              </div>
+            </div>
+            <div class="cg-mock-pad">
+              <div class="agent-brief">
+                <div class="agent-brief-inner">
+                  <span class="agent-role-badge">Document Agent</span>
+                  <div class="agent-brief-content">
+                    <p class="agent-brief-text">I found 24 fields across 4 sections. This looks like a DMV registration form — I've labelled each field so you know what to expect.<span class="cg-cursor"></span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="scan-summary">24 fields found across 4 sections</div>
+              <div class="scan-field">
+                <label class="ug-lbl">Civic domain</label>
+                <select><option>DMV</option></select>
+              </div>
+              <div class="scan-field">
+                <label class="ug-lbl">Document type</label>
+                <input type="text" value="MV-82 — Vehicle Registration" readonly>
+              </div>
+              <div class="phase-actions">
+                <button class="ug-confirm-btn">Looks right — continue</button>
+                <button class="ug-back-btn">Back</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── OUTCOMES GRID ──────────────────────────────────── -->
+
+  <div class="outcomes-grid">
+    <div class="outcome-item">
+      <div class="number">5</div>
+      <div class="label">Phases from<br>upload to export</div>
+    </div>
+    <div class="outcome-item">
+      <div class="number">2</div>
+      <div class="label">Scan paths —<br>AcroForm + Gemini vision</div>
+    </div>
+    <div class="outcome-item">
+      <div class="number">5</div>
+      <div class="label">UX principles audited<br>across every build session</div>
+    </div>
+  </div>
+
+
+  <!-- ── THE SETUP ──────────────────────────────────────── -->
+
+  <section class="section snap-section" id="setup">
+    <h2 data-animate>The Setup</h2>
+    <div class="two-col">
+      <div class="entry" data-animate>
+        <div class="entry-label">Context</div>
+        <p>CivicGuide is a single-page web app that walks users through completing government forms using AI — upload a document, let the model read it, fill in what it knows, and let the user confirm the rest.</p>
+      </div>
+      <div class="entry" data-animate>
+        <div class="entry-label">Role &amp; Stack</div>
+        <p><strong>Role:</strong> Designer and developer — UX, architecture, full front-end build.<br>
+        <strong>Stack:</strong> Vanilla JS · Gemini API · Supabase · Netlify. No framework.<br>
+        <strong>Duration:</strong> 6 weeks, April 2026.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── THE PROBLEM ────────────────────────────────────── -->
+
+  <section class="section snap-section" id="problem">
+    <h2 data-animate>The Problem</h2>
+    <div class="entry" data-animate>
+      <p>Field labels like <code>topmostSubform[0].Page1[0].f1_01[0]</code> are common. Instructions reference sections users can't find. The result: people abandon forms, submit them wrong, or pay someone to do what they're entitled to do themselves.</p>
+    </div>
+    <blockquote data-animate>
+      <p>The goal wasn't to replace the form. It was to put a translator between the government's document and the person who needed to complete it.</p>
+    </blockquote>
+    <div class="entry" data-animate>
+      <div class="entry-label">Three failure modes the design needed to address</div>
+      <ul>
+        <li><strong>Illegibility</strong> — field labels that don't tell you what to enter</li>
+        <li><strong>Context loss</strong> — no signal about why a field exists or what format is expected</li>
+        <li><strong>Abandonment</strong> — no save state means any interruption resets progress to zero</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ── THE INSIGHT ────────────────────────────────────── -->
+
+  <section class="section snap-section" id="insight">
+    <h2 data-animate>The Insight That Drove Everything</h2>
+    <div class="entry" data-animate>
+      <p>The first version asked users to select their civic domain before uploading. It made sense architecturally — and no sense to users. The real insight: <strong>the document already knows what it is.</strong> Domain became an output of the scan, not an input to the wizard.</p>
+    </div>
+    <div class="two-col" data-animate>
+      <div class="entry">
+        <div class="entry-label">Before — domain-first flow</div>
+        <ol>
+          <li>Select your civic domain</li>
+          <li>Choose your document type</li>
+          <li>Upload your form</li>
+          <li>Fill fields</li>
+        </ol>
+      </div>
+      <div class="entry">
+        <div class="entry-label">After — document-first flow</div>
+        <ol>
+          <li>Upload your form</li>
+          <li>AI reads and identifies it</li>
+          <li>Confirm what it found</li>
+          <li>Fill the fields it couldn't pre-fill</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── LIFECYCLE DIAGRAM ──────────────────────────────── -->
+
+  <div class="lc-section" data-animate>
+    <div class="lc-section-head">The Five-Phase Flow</div>
+    <div class="lc-section-body">
+      <p class="lc-caption">Each phase hands off cleanly to the next. AI handles interpretation; the user controls every decision.</p>
+      <div class="lc-diagram">
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">1 — Upload</div>
+          <div class="lc-statuses">
+            <div class="lc-item">PDF or image, 4 MB cap</div>
+            <div class="lc-item">Drag-and-drop or file picker</div>
+            <div class="lc-item">No request until Continue</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">2 — Scan</div>
+          <div class="lc-statuses">
+            <div class="lc-item">AcroForm (fillable PDFs)</div>
+            <div class="lc-item">Vision (images, flat PDFs)</div>
+            <div class="lc-item">Confirm domain + doc type</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">3 — Fill</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Fields grouped by section</div>
+            <div class="lc-item">Profile pre-fill</div>
+            <div class="lc-item">Contextual hints per field</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">4 — Review</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Read-only field table</div>
+            <div class="lc-item">Edit any field in place</div>
+            <div class="lc-item">Address alias propagation</div>
+          </div>
+        </div>
+
+        <div class="lc-connector">→</div>
+
+        <div class="lc-stage">
+          <div class="lc-stage-label">5 — Export</div>
+          <div class="lc-statuses">
+            <div class="lc-item">Domain history saved</div>
+            <div class="lc-item">Print-to-PDF dialog</div>
+            <div class="lc-item">Disclaimer footer</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── KEY DECISIONS ──────────────────────────────────── -->
+
+  <div>
+
+    <!-- Decision 01 -->
+    <div class="panel snap-section" id="decisions" data-animate>
+      <div class="panel-text">
+        <p class="panel-section-label">Key Decision 01</p>
+        <h3>Two scan paths instead of one</h3>
+        <p>Most government PDFs have machine-readable AcroForm fields — sending them to a vision model is wasteful. PDF.js extracts fields locally, then a text-only Gemini call handles classification. Vision scan is reserved for flat or scanned PDFs only.</p>
+        <ul>
+          <li><strong>AcroForm path:</strong> ~1 second, no image upload</li>
+          <li><strong>Vision path:</strong> ~8–30 seconds, retry countdown on overload</li>
+        </ul>
+      </div>
+      <div class="panel-image">
+        <!-- Three scan path states — alternating square + text -->
+        <div class="scan-paths">
+
+          <!-- 1 — Upload: square left, text right -->
+          <div class="scan-path-row">
+            <div class="cg-mock-frame scan-path-square">
+              <div class="cg-mock" data-theme="dark">
+                <div class="cg-chrome">
+                  <span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span>
+                  <span class="cg-chrome-label">Phase 1</span>
+                </div>
+                <div class="cg-mock-pad">
+                  <div class="ug-upload-zone has-file">
+                    <div class="upload-file-name">MV-82_Registration.pdf</div>
+                    <div class="upload-file-meta">PDF · 284 KB</div>
+                  </div>
+                  <button class="ug-confirm-btn" style="min-width:0; width:100%; margin-top:0.75rem;">Analyze document</button>
+                </div>
+              </div>
+            </div>
+            <div class="scan-path-text">
+              <div class="scan-path-label">Upload</div>
+              <p>AcroForm PDFs take the fast path — fields extracted locally by PDF.js, no API call needed.</p>
+            </div>
+          </div>
+
+          <!-- 2 — AcroForm: text left, square right -->
+          <div class="scan-path-row scan-path-row--alt">
+            <div class="scan-path-text">
+              <div class="scan-path-label">AcroForm path</div>
+              <p>Text-only Gemini call enriches field labels. ~1 second. No image upload.</p>
+            </div>
+            <div class="cg-mock-frame scan-path-square">
+              <div class="cg-mock" data-theme="dark">
+                <div class="cg-chrome">
+                  <span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span>
+                  <span class="cg-chrome-label">Phase 2</span>
+                </div>
+                <div class="cg-mock-pad">
+                  <div class="agent-brief">
+                    <div class="agent-brief-inner">
+                      <span class="agent-role-badge">Document Agent</span>
+                      <div class="agent-brief-content">
+                        <div class="agent-brief-thinking">
+                          <div class="dot-pulse"></div><div class="dot-pulse"></div><div class="dot-pulse"></div>
+                        </div>
+                        <p class="agent-brief-text" style="display:block; margin-top:0.4rem;">Found 24 fields — reading the form…</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="scan-tip" style="display:flex; margin-top:0;">
+                    <span class="scan-tip-dot"></span>
+                    <p class="scan-tip-text">AcroForm fast path · ~1s</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 — Vision retry: square left, text right -->
+          <div class="scan-path-row">
+            <div class="cg-mock-frame scan-path-square">
+              <div class="cg-mock" data-theme="dark">
+                <div class="cg-chrome">
+                  <span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span><span class="cg-chrome-dot"></span>
+                  <span class="cg-chrome-label">Phase 2</span>
+                </div>
+                <div class="cg-mock-pad">
+                  <div class="agent-brief">
+                    <div class="agent-brief-inner">
+                      <span class="agent-role-badge">Document Agent</span>
+                      <div class="agent-brief-content">
+                        <p class="agent-brief-text">AI service is busy — retrying in 8s…</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex; gap:0.35rem; margin-bottom:1rem;">
+                    <div class="fill-progress-pip is-done"></div>
+                    <div class="fill-progress-pip is-active"></div>
+                    <div class="fill-progress-pip"></div>
+                    <div class="fill-progress-pip"></div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:0.5rem; padding:0.6rem 1rem; background:var(--cds-layer-01); font-size:0.75rem; color:var(--cds-text-secondary);">
+                    <span style="opacity:0.5;">▪</span> MV-82_Registration.pdf
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="scan-path-text">
+              <div class="scan-path-label">Vision retry</div>
+              <p>Flat or scanned PDFs go multimodal. Progressive retry logic surfaces a countdown on 503 overload errors.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision 02 -->
+    <div class="panel alt snap-section" data-animate>
+      <div class="panel-text">
+        <p class="panel-section-label">Key Decision 02</p>
+        <h3>An agent that narrates instead of asks</h3>
+        <p>Users don't want a conversation about their form — they want to complete it. CivicGuide's agent opens each phase with a typed brief, then recedes. No input field. No thread. Role progression (Router → Domain Expert → Document Agent) gives a consistent mental model without exposing complexity.</p>
+      </div>
+      <div class="panel-image">
+        <!-- Phase 3 — Agent brief + fill state -->
+        <div class="cg-mock-frame">
+          <div class="cg-mock" data-theme="dark">
+            <div class="cg-chrome">
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-dot"></span>
+              <span class="cg-chrome-label">CivicGuide · Phase 3 — Fill</span>
+            </div>
+            <div class="agent-brief">
+              <div class="agent-brief-inner">
+                <span class="agent-role-badge">Domain Expert</span>
+                <div class="agent-brief-content">
+                  <p class="agent-brief-text">Vehicle registration — DMV. I'll pre-fill what I can read from the document. Anything I'm uncertain about gets a Verify badge.<span class="cg-cursor"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="cg-mock-pad">
+              <p class="fill-prefill-note">We pre-filled 3 fields from your profile — review them before continuing.</p>
+              <div class="fill-section-heading">Personal Information</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="fill-field is-filled">
+                  <div class="fill-field-header">
+                    <label class="fill-label">First name</label>
+                  </div>
+                  <input type="text" value="Jordan" readonly>
+                </div>
+                <div class="fill-field is-filled">
+                  <div class="fill-field-header">
+                    <label class="fill-label">Last name</label>
+                  </div>
+                  <input type="text" value="Rivera" readonly>
+                </div>
+              </div>
+              <div class="fill-field">
+                <div class="fill-field-header">
+                  <label class="fill-label">Date of birth</label>
+                  <span class="fill-hint-verify">Verify</span>
+                </div>
+                <input type="text" placeholder="MM / DD / YYYY" readonly>
+                <p class="fill-hint">Couldn't read clearly from document — please confirm</p>
+              </div>
+              <div class="fill-field is-filled">
+                <div class="fill-field-header">
+                  <label class="fill-label">License number</label>
+                </div>
+                <input type="text" value="NY-3847291" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision 03 -->
+    <div class="panel snap-section" data-animate>
+      <div class="panel-text">
+        <p class="panel-section-label">Key Decision 03</p>
+        <h3>Form state that survives real life</h3>
+        <p>Any interruption used to mean starting over. After scan, all field data and values are persisted to Supabase. On return, a restore screen names the saved doc type and picks up exactly where the user left off.</p>
+        <ul>
+          <li><strong>Save triggers:</strong> scan confirm, each fill group, advance to review</li>
+          <li><strong>Restore:</strong> resumes at the correct phase and fill group</li>
+          <li><strong>Account panel:</strong> all saved forms; per-row continue and delete</li>
+        </ul>
+      </div>
+      <div class="panel-image">
+        <!-- Restore screen -->
+        <div class="cg-mock-frame">
+          <div class="cg-mock" data-theme="dark" style="display:flex; align-items:center; justify-content:center; min-height:280px;">
+            <div class="restore-card">
+              <div class="restore-title">Welcome back</div>
+              <p class="restore-sub">MV-82 — Vehicle Registration<br>3 of 4 sections complete</p>
+              <div class="restore-actions">
+                <button class="ug-confirm-btn">Continue my form</button>
+                <button class="ug-back-btn">Start fresh</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision 04 -->
+    <div class="panel alt snap-section" data-animate>
+      <div class="panel-text">
+        <p class="panel-section-label">Key Decision 04</p>
+        <h3>UX principles as a recurring audit, not a checklist</h3>
+        <p>Five principles — Latency Tolerance, Capability Discovery, Trust Calibration, Transparency, Memory Awareness — were audited at every build session. Each audit named specific gaps; those gaps became the next session's work.</p>
+        <ul>
+          <li><em>Latency Tolerance:</em> "Found N fields — reading the form…"</li>
+          <li><em>Trust Calibration:</em> Verify badge on low-confidence field hints</li>
+          <li><em>Memory Awareness:</em> "We pre-filled N fields from your profile"</li>
+        </ul>
+      </div>
+      <div class="panel-image">
+        <!-- UX Principles audit table -->
+        <div class="cg-mock-frame">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:28%;">Principle</th>
+                <th style="width:36%;">Gap identified</th>
+                <th style="width:36%;">Feature shipped</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Latency Tolerance</strong></td>
+                <td>AI processing felt like a black box</td>
+                <td>Named status messages: "Found N fields — reading the form…"</td>
+              </tr>
+              <tr>
+                <td><strong>Trust Calibration</strong></td>
+                <td>Users had no way to judge AI accuracy</td>
+                <td>Per-field confidence score · Verify badge on low-confidence hints</td>
+              </tr>
+              <tr>
+                <td><strong>Memory Awareness</strong></td>
+                <td>Pre-filled fields weren't distinguished from blank ones</td>
+                <td>"We pre-filled N fields from your profile" note at Phase 3, Section 1</td>
+              </tr>
+              <tr>
+                <td><strong>Capability Discovery</strong></td>
+                <td>Users didn't know what the AI could and couldn't do</td>
+                <td>Agent role progression: Router → Domain Expert → Document Agent</td>
+              </tr>
+              <tr>
+                <td><strong>Transparency</strong></td>
+                <td>Scan path (fast vs. vision) was invisible</td>
+                <td>Scan tip bar naming the active path and its expected duration</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ── OUTCOME ─────────────────────────────────────────── -->
+
+  <section class="section snap-section" id="outcome">
+    <h2 data-animate>Outcome</h2>
+    <div class="two-col">
+      <div class="entry" data-animate>
+        <div class="entry-label">What shipped</div>
+        <p>A fully deployed civic form wizard, tested against the NY State MV-82 registration form. The AcroForm + vision hybrid resolved Gemini's multimodal reliability problems under load — most PDFs take the fast path; the vision fallback has graduated retry logic throughout.</p>
+      </div>
+      <div class="entry" data-animate>
+        <div class="entry-label">What it demonstrated</div>
+        <p>The strongest validation was the simplest: in testing, users never asked "what should I upload?" They uploaded what they had. The recurring audit practice kept trust calibration and memory visibility on the table when engineering pressure would have deferred them.</p>
+      </div>
+    </div>
+
+    <div class="box box--wide box--dark" data-animate style="margin-top:3.5rem;">
+      <div class="entry-label">Open threads at project close</div>
+      <ul>
+        <li>Adobe PDF Services API — vector-quality export (current output is raster)</li>
+        <li>Right-click field explainer — on-demand Gemini call scoped to a single field</li>
+        <li>PDF overlay export — fill answers onto the original PDF at AcroForm positions</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ── SCROLL ANIMATIONS ──────────────────────────────── -->
+  <script>
+    const animObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          animObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    // Typewriter for agent brief text
+    function typewriteEl(el, speed = 15) {
+      const cursor = el.querySelector('.cg-cursor');
+      const text = Array.from(el.childNodes)
+        .filter(n => n.nodeType === 3)
+        .map(n => n.textContent).join('');
+      Array.from(el.childNodes)
+        .filter(n => n.nodeType === 3)
+        .forEach(n => n.remove());
+      const textNode = document.createTextNode('');
+      el.insertBefore(textNode, cursor || null);
+      let i = 0;
+      (function tick() {
+        if (i < text.length) { textNode.textContent += text[i++]; setTimeout(tick, speed); }
+      })();
+    }
+    const twObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { typewriteEl(e.target); twObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.8 });
+    document.querySelectorAll('.agent-brief-text').forEach(el => twObserver.observe(el));
+
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    // Dot nav active state — highlight whichever tracked section is currently
+    // most visible, rather than "last one to fire in this batch." Sections vary
+    // in height (.section vs .panel/.hero), so adjacent sections can be
+    // simultaneously above the threshold; picking by ratio (not DOM order)
+    // keeps the active dot in sync with what's actually on screen in both
+    // scroll directions.
+    const dots = document.querySelectorAll('.dot-nav-item');
+    const navTargets = document.querySelectorAll('#top, #setup, #problem, #insight, #decisions, #outcome');
+    const navRatios = new Map();
+
+    function updateActiveDot() {
+      let topId = null;
+      let topRatio = 0;
+      navRatios.forEach((ratio, id) => {
+        if (ratio > topRatio) { topRatio = ratio; topId = id; }
+      });
+      if (!topId) return;
+      dots.forEach(d => {
+        d.classList.toggle('active', d.getAttribute('href') === '#' + topId);
+      });
+    }
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.target.id) return;
+        navRatios.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
+      });
+      updateActiveDot();
+    }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+
+    navTargets.forEach(el => {
+      if (el) navObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>

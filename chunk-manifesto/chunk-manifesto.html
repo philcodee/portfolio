@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chunk: A Dada Manifesto — Phil Cote</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+
+    .panel-image .img-frame {
+      isolation: isolate;
+    }
+
+    .ref-img {
+      position: relative;
+      isolation: isolate;
+      margin-bottom: 18px;
+    }
+    .ref-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+    .ref-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 0;
+    }
+    .grid-2.ref-grid {
+      align-items: start;
+      grid-template-columns: 1500fr 1608fr;
+    }
+
+    .iteration-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 6px solid #000;
+      margin: 2rem 0 0;
+    }
+    .iteration-cell {
+      padding: 1.5rem 1.25rem;
+      border-right: 3px solid #000;
+    }
+    .iteration-cell:last-child { border-right: none; }
+    .iteration-num {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.4;
+      margin-bottom: 0.6rem;
+      font-family: ui-monospace, monospace;
+    }
+    .iteration-cell h4 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      font-family: ui-monospace, monospace;
+    }
+    .iteration-cell p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      opacity: 0.75;
+      margin: 0;
+    }
+    .iteration-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border: 3px solid #000;
+      border-bottom: none;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.35;
+      font-family: ui-monospace, monospace;
+      overflow: hidden;
+    }
+    .iteration-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      html { scroll-snap-type: none; }
+      body { padding: 0; }
+      .panel-text { order: 1; }
+      .panel-image { order: 2; border-bottom: none; border-top: 6px solid #000; }
+      .panel.alt .panel-text { order: 1; }
+      .panel.alt .panel-image { order: 2; }
+      .iteration-grid { grid-template-columns: repeat(2, 1fr); }
+      .iteration-cell:nth-child(2) { border-right: none; }
+      .iteration-cell:nth-child(1),
+      .iteration-cell:nth-child(2) { border-bottom: 3px solid #000; }
+    }
+
+    @media (max-width: 480px) {
+      .iteration-grid { grid-template-columns: 1fr; }
+      .iteration-cell { border-right: none; border-bottom: 3px solid #000; }
+      .iteration-cell:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page contents">
+    <a href="#intro"    class="dot-nav-item" data-label="Overview"></a>
+    <a href="#brief"    class="dot-nav-item" data-label="The Brief"></a>
+    <a href="#iter-01"  class="dot-nav-item" data-label="01 — The Book"></a>
+    <a href="#iter-02"  class="dot-nav-item" data-label="02 — Tile Print"></a>
+    <a href="#iter-03"  class="dot-nav-item" data-label="03 — As Product"></a>
+    <a href="#iter-04"  class="dot-nav-item" data-label="04 — Installation"></a>
+    <a href="#outcome"  class="dot-nav-item" data-label="What I Got Out of It"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag">Graduate Work</span>
+            <span class="tag">Typography</span>
+            <span class="tag">Print</span>
+            <span class="tag">Conceptual</span>
+          </div>
+          <h1>Chunk: A Dada Manifesto</h1>
+          <p>A Dada-influenced manifesto about art, technology, and public space — iterated across four formats until only two statements survived.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate style="width: 100%;">
+            <img src="assets/box-front-design.png" alt="Chunk box — front">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">4</div>
+        <div class="label">Formats explored — book, tile print, paperweight, public installation</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">9 → 2</div>
+        <div class="label">Manifesto statements — edited down to the two that felt universal</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">1 Rock</div>
+        <div class="label">"It's a rock." — Chunk, 2024</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── THE BRIEF ──────────────────────────────────────── -->
+  <div class="snap-section panel" id="brief">
+    <div class="panel-text">
+      <p class="panel-section-label">The Brief</p>
+      <h3>Write a manifesto.<br>Choose typography that expresses it holistically.</h3>
+      <p>After researching various art and design manifestos, I landed on Dada and the <em>Why Cheap Art?</em> manifesto — evoking a sense of nonsensical craft. The work blurs the line between saying something and solving something.</p>
+      <blockquote>
+        "They use the same tools — words, pictures, colors. The difference, as you'll be seeing, as you'll be showing me, is how."
+        <cite>— The Cheese Monkeys</cite>
+      </blockquote>
+    </div>
+    <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
+      <div class="grid-2 ref-grid" style="width: 100%; align-items: end;">
+        <div class="ref-img">
+          <img src="assets/bread-and-puppet.png" alt="Why Cheap Art? — Bread & Puppet, 1984">
+        </div>
+        <div class="ref-img">
+          <img src="assets/dada-manifesto.png" alt="Manifeste Dada 1918">
+        </div>
+      </div>
+      <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">The typography and aesthetic of the Bread &amp; Puppet poster helped to define how I would approach the making: cheap &amp; visually rich; the attitude towards the work would be determined by the "Anti-Manifesto" Dadaists: contradictory, absurdist, non-sensical.</p>
+    </div>
+  </div>
+
+  <!-- ── EXPLORATION 01 ────────────────────────────────── -->
+  <div class="snap-section panel" id="iter-01">
+    <div class="panel-text">
+      <p class="panel-section-label">Exploration 01</p>
+      <h3>The Book</h3>
+      <p>The first iteration. A hand-assembled book — pre-Chunk burn mark included. Format raised the first question: does a manifesto need to be read, or just experienced?</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" style="width: 100%;">
+        <img src="assets/book.png" alt="The Book — first iteration with burn mark">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPLORATION 02 ────────────────────────────────── -->
+  <div class="snap-section panel alt" id="iter-02">
+    <div class="panel-text">
+      <p class="panel-section-label">Exploration 02</p>
+      <h3>Tile Print</h3>
+      <p>Nine color panels — cheap, visually rich, clipped to the wall. Each panel carries one statement. The format introduced the idea of manifesto as installation.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" style="width: 90%;">
+        <img src="assets/tile-print.png" alt="Tile print — nine color panels">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPLORATION 03 ────────────────────────────────── -->
+  <div class="snap-section panel" id="iter-03">
+    <div class="panel-text">
+      <p class="panel-section-label">Exploration 03</p>
+      <h3>Manifesto as Product</h3>
+      <p>The Chunk paperweight. Formal letters on grey stock. An invitation — taken straight from the dictionary — to go somewhere, do something. The manifesto becomes a thing you can hold.</p>
+    </div>
+    <div class="panel-image">
+      <div class="img-frame" style="width: 100%;">
+        <img src="assets/chunk-box.png" alt="Chunk box — front design">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPLORATION 04 ────────────────────────────────── -->
+  <div class="snap-section panel alt" id="iter-04">
+    <div class="panel-text">
+      <p class="panel-section-label">Exploration 04</p>
+      <h3>Public Installation</h3>
+      <p>A folding table, snacks, flyers, and the Chunk box in a park. Relying on foot traffic alone didn't get as much engagement as expected. The flyer also proved ineffective.</p>
+    </div>
+    <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
+      <div class="img-frame" style="width: 100%;" id="install-slide">
+        <img src="assets/table-setup.png" alt="Park table setup with Chunk materials" id="install-img">
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 1rem; margin-left: auto; align-items: center;">
+        <span id="install-counter" style="font-family: ui-monospace, monospace; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em;">1 / 2</span>
+        <div style="display: flex; gap: 0;">
+          <button class="secondary" id="install-prev" style="font-size: 1rem; padding: 0.4rem 0.85rem;" aria-label="Previous">←</button>
+          <button class="secondary" id="install-next" style="font-size: 1rem; padding: 0.4rem 0.85rem; border-left: none;" aria-label="Next">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOMES ───────────────────────────────────────── -->
+  <div class="snap-section panel" id="outcome">
+    <div class="panel-text">
+      <p class="panel-section-label">Outcomes</p>
+      <h3>The Less Said, the Better</h3>
+      <p>I removed more content than I started with. Of the original nine panels, two statements felt universal enough to share when asked for meaning behind the work.</p>
+      <p>Cycling through formats arrived at something with real audience participation potential — and a richer foundation for future work using AI-assisted image and content generation.</p>
+    </div>
+    <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
+      <div class="img-frame" style="width: 100%;">
+        <img src="assets/booth.png" alt="AI-generated Chunk market booth">
+      </div>
+      <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">AI-generated: Chunk market booth — "Objects for Stillness." Some hallucinations as Dadaist offerings: <em>"Fown follows, funeten."</em></p>
+    </div>
+  </div>
+
+  <script>
+    const installSlides = [
+      { src: 'assets/table-setup.png', alt: 'Park table setup with Chunk materials' },
+      { src: 'assets/participant.png',  alt: 'Participant engaging with Chunk table' }
+    ];
+    let installIndex = 0;
+    const installImg = document.getElementById('install-img');
+    const installCounter = document.getElementById('install-counter');
+    function updateInstall() {
+      installImg.src = installSlides[installIndex].src;
+      installImg.alt = installSlides[installIndex].alt;
+      installCounter.textContent = `${installIndex + 1} / ${installSlides.length}`;
+    }
+    document.getElementById('install-prev').addEventListener('click', () => {
+      installIndex = (installIndex - 1 + installSlides.length) % installSlides.length;
+      updateInstall();
+    });
+    document.getElementById('install-next').addEventListener('click', () => {
+      installIndex = (installIndex + 1) % installSlides.length;
+      updateInstall();
+    });
+
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const sections = document.querySelectorAll('.snap-section');
+    const secObserver = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          dotItems.forEach(d => d.classList.remove('active'));
+          const match = document.querySelector(`.dot-nav-item[href="#${e.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      }),
+      { threshold: 0.4 }
+    );
+    sections.forEach(s => secObserver.observe(s));
+  </script>
+
+</body>
+</html>

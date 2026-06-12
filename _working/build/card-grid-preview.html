@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Card Grid Preview — Baseball Card Ratio</title>
+<link rel="stylesheet" href="../brutalist-css.css">
+<style>
+  body { padding: 2.5rem; }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1300px;
+  }
+  .bcard {
+    position: relative;
+    transition: transform 0.15s ease;
+  }
+  .bcard::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translate(8px, 8px);
+    background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+    z-index: -1;
+  }
+  .bcard:hover { transform: translate(-3px, -3px); }
+  .bcard-inner {
+    position: relative;
+    height: 100%;
+    min-height: 26rem;
+    border: var(--border);
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  .bcard-num {
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    opacity: 0.4;
+  }
+  .bcard h2 {
+    font-size: 1.7rem;
+    line-height: 1.3;
+    margin: 1.1rem 0 0.6rem;
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  .bcard-teaser {
+    font-size: 1.05rem;
+    line-height: 1.45;
+    opacity: 0.75;
+  }
+  .bcard-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.85rem 0 0;
+  }
+  .bcard-tags .tag {
+    font-size: 0.75rem;
+  }
+  .bcard-meta {
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+    text-transform: uppercase;
+    border-top: 2px solid var(--black);
+    padding-top: 0.5rem;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <h1 style="margin-bottom:1.5rem;">Card Grid Preview</h1>
+  <div class="preview-grid">
+    <article class="bcard"><div class="bcard-inner">
+      <div class="bcard-num">GW · 01</div>
+      <h2>CivicGuide</h2>
+      <p class="bcard-teaser">An AI-powered wizard that helps people fill out government forms without needing to understand them first.</p>
+      <div class="bcard-tags">
+        <span class="tag tag--filled">Product Design</span>
+        <span class="tag tag--filled">AI / LLM</span>
+      </div>
+      <div class="bcard-meta"><span>Interaction Design</span><span>AI / LLM</span></div>
+    </div></article>
+    <article class="bcard"><div class="bcard-inner">
+      <div class="bcard-num">CW · 01</div>
+      <h2>Platform Architecture &amp; Navigation</h2>
+      <p class="bcard-teaser">Rebuilding a single mixed-table platform into a lifecycle-based navigation system that mirrors how agents actually work.</p>
+      <div class="bcard-tags">
+        <span class="tag tag--filled">Information Architecture</span>
+        <span class="tag tag--filled">UX Research</span>
+      </div>
+      <div class="bcard-meta"><span>UX Design</span><span>Part 1 / 3</span></div>
+    </div></article>
+    <article class="bcard"><div class="bcard-inner">
+      <div class="bcard-num">CW · 02</div>
+      <h2>The Quote Application</h2>
+      <p class="bcard-teaser">Redesigning a high-stakes form flow where mismatched terminology was costing agents real business.</p>
+      <div class="bcard-tags">
+        <span class="tag tag--filled">Usability Testing</span>
+        <span class="tag tag--filled">Form Design</span>
+      </div>
+      <div class="bcard-meta"><span>UX Design</span><span>Part 2 / 3</span></div>
+    </div></article>
+    <article class="bcard"><div class="bcard-inner">
+      <div class="bcard-num">CW · 03</div>
+      <h2>Messages, Events &amp; Tickets</h2>
+      <p class="bcard-teaser">Designing a unified communication system for a platform where lost notes cost agents their clients.</p>
+      <div class="bcard-tags">
+        <span class="tag tag--filled">Systems Design</span>
+        <span class="tag tag--filled">Information Architecture</span>
+      </div>
+      <div class="bcard-meta"><span>UX Design</span><span>Part 3 / 3</span></div>
+    </div></article>
+  </div>
+</body>
+</html>
