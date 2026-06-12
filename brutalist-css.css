@@ -1321,6 +1321,36 @@ body:has(site-nav) {
   }
 }
 
+@media (max-width: 390px) {
+  .global-nav {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.65rem;
+    gap: 0.35rem 0.75rem;
+  }
+  .global-nav-folder-trigger {
+    font-size: 0.65rem;
+  }
+  .global-nav-panel {
+    max-width: calc(100vw - 1.75rem);
+    left: auto;
+    right: 0;
+  }
+  .global-nav-folder:first-child .global-nav-panel {
+    left: 0;
+    right: auto;
+  }
+  .global-nav-panel-inner {
+    padding: 0.5rem;
+  }
+  .global-nav-panel a {
+    font-size: 0.82rem;
+    white-space: normal;
+  }
+  .global-nav-group-label {
+    font-size: 0.62rem;
+  }
+}
+
 
 /* ── PORTFOLIO RESPONSIVE ────────────────────────────────── */
 
