@@ -90,90 +90,9 @@
     .bc-row.is-highlight .bc-val { color: #fff; font-weight: 700; font-size: 0.78rem; }
     .bc-cell.is-floor .bc-val { color: rgba(255,255,255,0.8); }
 
-    /* ── PRINCIPLE MATRIX ────────────────────────────────── */
-    .pm-wrap { overflow-x: auto; margin-top: 2rem; }
-    .pm {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: ui-monospace, monospace;
-      font-size: 0.78rem;
-    }
-    .pm th, .pm td {
-      padding: 0.6rem 1rem;
-      border: 1px solid #000;
-      text-align: center;
-      vertical-align: middle;
-    }
-    .pm thead th {
-      background: #000;
-      color: #fff;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 700;
-    }
-    .pm thead th:first-child { text-align: left; }
-    .pm tbody td { background: #fff; }
-    .pm tbody td:first-child {
-      text-align: left;
-      font-weight: 700;
-    }
-    .pm tbody td.dot { background: #000; }
-    .pm tbody tr:hover td { background: #f0f0f0; color: #000; }
-    .pm tbody tr:hover td.dot { background: #000; }
-
     /* ── PRINCIPLES COMPACT ──────────────────────────────── */
     .principles-cols .entry { margin-bottom: 2.25rem; }
 
-    @media (max-width: 768px) {
-      /* Collapse matrix to stacked pills on mobile */
-      .pm-wrap table,
-      .pm-wrap thead,
-      .pm-wrap tbody,
-      .pm-wrap tr,
-      .pm-wrap th,
-      .pm-wrap td { display: block; border: none; }
-
-      .pm-wrap thead { display: none; }
-
-      .pm-wrap tbody tr {
-        border: 1px solid #000;
-        margin-bottom: 0.75rem;
-        padding: 0.75rem;
-      }
-
-      .pm-wrap tbody td { padding: 0.2rem 0; background: transparent !important; }
-
-      .pm-wrap tbody td:first-child {
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #000;
-      }
-
-      /* Show finding name + filled square for dot cells */
-      .pm-wrap tbody td.dot::before {
-        content: '■ ';
-        font-size: 0.7rem;
-      }
-      .pm-wrap tbody td.dot {
-        background: transparent !important;
-        color: #000;
-        font-family: ui-monospace, monospace;
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      /* Inject finding labels via data attributes */
-      .pm-wrap tbody td:nth-child(2)::after  { content: attr(data-label); }
-      .pm-wrap tbody td:nth-child(3)::after  { content: attr(data-label); }
-      .pm-wrap tbody td:nth-child(4)::after  { content: attr(data-label); }
-      .pm-wrap tbody td:nth-child(5)::after  { content: attr(data-label); }
-
-      /* Hide empty (non-dot) finding cells entirely */
-      .pm-wrap tbody td:not(:first-child):not(.dot) { display: none; }
-    }
   </style>
 </head>
 <body>
@@ -244,7 +163,7 @@
   <!-- ── DESIGN BRIEF ───────────────────────────────────── -->
 
   <section class="section snap-section" id="brief">
-    <h2 data-animate>The Design Brief</h2>
+    <h2 class="h2--flush" data-animate>The Design Brief</h2>
     <div class="two-col">
       <div class="entry" data-animate>
         <div class="entry-label">Goal</div>
@@ -261,7 +180,7 @@
   <!-- ── SYNTHESIS ──────────────────────────────────────── -->
 
   <section class="section snap-section" id="synthesis">
-    <h2 data-animate>Research Synthesis</h2>
+    <h2 class="h2--flush" data-animate>Research Synthesis</h2>
     <div class="entry" data-animate>
       <p>All four themes fall hardest on people who already have the least capacity to absorb them — and they compound.</p>
     </div>
@@ -293,12 +212,9 @@
   <!-- ── THE DATA ───────────────────────────────────────── -->
 
   <section class="section snap-section" id="data">
-    <h2 data-animate>Trust has been falling for 50 years — and falling unevenly</h2>
+    <h2 class="h2--flush" data-animate>Trust has been falling for 50 years — and falling unevenly</h2>
     <div class="entry" data-animate>
       <p>Trust has declined almost continuously since 1972 — but the decline has not been equal, and the gap between groups has never closed.</p>
-      <blockquote style="margin-top:1rem;">
-        <p><strong>8%</strong> — the lowest trust-in-government figure ever recorded for any group in this study: Black Americans, 2014.</p>
-      </blockquote>
     </div>
 
     <div class="box--wide box--dark box" data-animate style="margin-bottom:2.5rem;">
@@ -328,7 +244,7 @@
             <div class="bc-cell"><div class="bc-track"><div class="bc-fill" data-w="17"></div></div><span class="bc-val">17%</span></div>
           </div>
 
-          <div class="bc-row is-avg">
+          <div class="bc-row">
             <div class="bc-name">Nat. avg.</div>
             <div class="bc-cell"><div class="bc-track"><div class="bc-fill" data-w="48"></div></div><span class="bc-val">48%</span></div>
             <div class="bc-cell is-floor"><div class="bc-track"><div class="bc-fill" data-w="18"></div></div><span class="bc-val">18%</span></div>
@@ -349,7 +265,7 @@
             <div class="bc-cell"><div class="bc-track"><div class="bc-fill" data-w="11"></div></div><span class="bc-val">11%</span></div>
           </div>
 
-          <div class="bc-row is-highlight">
+          <div class="bc-row">
             <div class="bc-name">Black</div>
             <div class="bc-cell"><div class="bc-track"><div class="bc-fill" data-w="30"></div></div><span class="bc-val">30%</span></div>
             <div class="bc-cell is-floor"><div class="bc-track"><div class="bc-fill" data-w="8"></div></div><span class="bc-val">8%</span></div>
@@ -374,14 +290,6 @@
       <p class="caption" style="color:#fff; opacity:0.6; margin-top:1rem;">Sources: Pew Research Center · General Social Survey · American National Election Studies (1958–2020)</p>
     </div>
 
-    <div class="entry" data-animate>
-      <div class="entry-label">Three moments that shaped the floor</div>
-      <ul>
-        <li><strong>1972:</strong> Already unequal. The gap was structural from the start.</li>
-        <li><strong>1980:</strong> Watergate's aftermath. Trust fell across all groups; the White–Black gap widened rather than closed.</li>
-        <li><strong>2014:</strong> Historic low — 19% nationally. Black Americans: 8%.</li>
-      </ul>
-    </div>
   </section>
 
 
@@ -389,7 +297,7 @@
 
   <section class="section snap-section" data-animate>
     <p class="panel-section-label">User Mapping</p>
-    <h2>Who carries the weight</h2>
+    <h2 class="h2--flush">Who carries the weight?</h2>
     <p style="max-width:60ch;">Barriers cluster along four axes — age, region, cultural context, and income — and the overlap is where the experience becomes dehumanizing.</p>
     <div class="two-col" style="margin-top:1.5rem;">
       <ul>
@@ -403,9 +311,6 @@
         <li><strong>Low-income households:</strong> every barrier at once</li>
       </ul>
     </div>
-    <blockquote style="margin-top:1.5rem;">
-      <p>The Low-Income archetype experiences every other group's barriers simultaneously — compounded by the highest administrative burden and the least political power to change it.</p>
-    </blockquote>
   </section>
 
 
@@ -414,7 +319,7 @@
   <div class="lc-section snap-section" id="lifecycle" data-animate>
     <div class="lc-section-head">The Civic Lifecycle</div>
     <div class="lc-section-body">
-      <p class="lc-caption">The civic lifecycle maps how people move from passive exposure to active influence. Consistent delivery of civic resources at every stage creates the conditions for deeper participation — and barriers at any stage compound into the ones that follow.</p>
+      <p class="lc-caption">Consistent delivery of civic resources at every stage creates the conditions for deeper participation; barriers at any stage compound onto the next.</p>
       <div class="lc-diagram">
 
         <div class="lc-stage">
@@ -484,7 +389,7 @@
   <!-- ── DESIGN PRINCIPLES ──────────────────────────────── -->
 
   <section class="section snap-section" id="principles">
-    <h2 data-animate>Seven principles, each closing one gap</h2>
+    <h2 class="h2--flush" data-animate>Seven principles, each closing one gap</h2>
 
     <div class="two-col principles-cols" data-animate>
       <div>
@@ -521,53 +426,6 @@
       </div>
     </div>
 
-    <!-- Principle × Finding matrix -->
-    <div class="entry" data-animate style="margin-top:3rem;">
-      <div class="entry-label">Which finding each principle closes</div>
-      <div class="pm-wrap">
-        <table class="pm">
-          <thead>
-            <tr>
-              <th>Principle</th>
-              <th>Cognitive Load</th>
-              <th>Process Maps</th>
-              <th>Stigma &amp; Fear</th>
-              <th>Time Poverty</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1 — Legibility</td>
-              <td class="dot" data-label="Cognitive Load"></td><td class="dot" data-label="Process Maps"></td><td data-label="Stigma &amp; Fear"></td><td data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>2 — Predictability</td>
-              <td class="dot" data-label="Cognitive Load"></td><td data-label="Process Maps"></td><td data-label="Stigma &amp; Fear"></td><td class="dot" data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>3 — Cognitive Accessibility</td>
-              <td class="dot" data-label="Cognitive Load"></td><td data-label="Process Maps"></td><td class="dot" data-label="Stigma &amp; Fear"></td><td data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>4 — Distributed Knowledge</td>
-              <td data-label="Cognitive Load"></td><td class="dot" data-label="Process Maps"></td><td data-label="Stigma &amp; Fear"></td><td class="dot" data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>5 — Equitable Access</td>
-              <td data-label="Cognitive Load"></td><td data-label="Process Maps"></td><td class="dot" data-label="Stigma &amp; Fear"></td><td class="dot" data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>6 — Meaningful Participation</td>
-              <td data-label="Cognitive Load"></td><td class="dot" data-label="Process Maps"></td><td class="dot" data-label="Stigma &amp; Fear"></td><td data-label="Time Poverty"></td>
-            </tr>
-            <tr>
-              <td>7 — Transparency</td>
-              <td class="dot" data-label="Cognitive Load"></td><td class="dot" data-label="Process Maps"></td><td data-label="Stigma &amp; Fear"></td><td data-label="Time Poverty"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
 
     <!-- Bridge to CivicGuide -->
     <div class="box box--wide box--dark" data-animate style="margin-top:4rem;">

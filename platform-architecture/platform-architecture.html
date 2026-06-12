@@ -59,19 +59,14 @@
     }
     .next-link:visited { color: #000; opacity: 1; }
 
-    /* Nav demo iframe — desktop keeps 1440×1024 ratio, mobile gets fixed height */
-    #nav-demo-frame { aspect-ratio: 1440 / 1024; }
+    #nav-demo-frame { position: relative; width: 100%; height: 520px; }
 
     @media (max-width: 768px) {
       html { scroll-snap-type: none; }
       body { padding: 0; }
       .box { padding: 1.25rem; }
 
-      /* Let the iframe fill a natural height — demo is responsive */
-      #nav-demo-frame {
-        aspect-ratio: unset;
-        height: 480px;
-      }
+      #nav-demo-frame { height: 480px; }
     }
   </style>
 </head>

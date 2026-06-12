@@ -16,13 +16,13 @@
 
     figure { margin: 3.5rem 0; }
 
-    #dot-first-demo-frame { aspect-ratio: 4 / 3; }
+    #dot-first-demo-frame { position: relative; width: 100%; height: 520px; }
 
     @media (max-width: 768px) {
       html { scroll-snap-type: none; }
       body { padding: 0; }
       .box { padding: 1.25rem; }
-      #dot-first-demo-frame { aspect-ratio: unset; height: 420px; }
+      #dot-first-demo-frame { height: 420px; }
     }
   </style>
 </head>
@@ -142,7 +142,7 @@
     </div>
     <div class="panel-image">
       <div class="img-frame" id="dot-first-demo-frame" data-animate>
-        <iframe src="start-application-demo.html" style="width:100%; height:100%; border:3px solid #000; display:block; position:relative; z-index:0;" title="DOT-First Entry — Interactive Demo"></iframe>
+        <iframe src="start-application-demo.html" style="border:3px solid #000;" title="DOT-First Entry — Interactive Demo"></iframe>
       </div>
     </div>
   </div>
