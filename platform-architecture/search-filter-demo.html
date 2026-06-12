@@ -237,18 +237,6 @@
     .sd-clear-btn.is-visible { opacity: 1; }
     .sd-clear-btn:hover { background: var(--cw-neutral-lighter); }
 
-    .sd-cancel-btn {
-      flex-shrink: 0;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font: 500 14px/1 var(--font);
-      color: var(--cw-purple);
-      padding: 0 4px;
-      white-space: nowrap;
-    }
-    .sd-cancel-btn:hover { opacity: 0.7; }
-
     /* Filter pills row */
     .sd-filters {
       display: flex;
@@ -672,7 +660,6 @@
               <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
             </svg>
           </button>
-          <button class="sd-cancel-btn" id="cancelBtn" aria-label="Close search">Cancel</button>
         </div>
 
         <!-- Status filters -->
@@ -807,7 +794,6 @@
   const dropdown      = document.getElementById('searchDropdown');
   const input         = document.getElementById('searchInput');
   const clearBtn      = document.getElementById('clearBtn');
-  const cancelBtn     = document.getElementById('cancelBtn');
   const scrim         = document.getElementById('scrim');
   const sdBody        = document.getElementById('sdBody');
   const sdCount       = document.getElementById('sdCount');
@@ -970,10 +956,10 @@
   // ── Events ─────────────────────────────────────────────────────────────────
   trigger.addEventListener('click', (e) => {
     if (e.target.closest('#filterToggleBtn')) return;
-    openSearch();
+    isOpen ? closeSearch() : openSearch();
   });
   trigger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); isOpen ? closeSearch() : openSearch(); }
   });
 
   cta.addEventListener('click', openSearch);
@@ -1002,7 +988,6 @@
   });
 
   scrim.addEventListener('click', closeSearch);
-  cancelBtn.addEventListener('click', closeSearch);
 
   document.addEventListener('keydown', (e) => {
     if (!isOpen) return;
