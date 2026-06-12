@@ -483,8 +483,8 @@
         </ul>
       </div>
       <div class="panel-image">
-        <!-- UX Principles audit table -->
-        <div class="cg-mock-frame">
+        <!-- UX Principles audit table — desktop -->
+        <div class="cg-mock-frame pa-desktop">
           <div class="table-scroll">
           <table>
             <thead>
@@ -524,6 +524,46 @@
           </table>
           </div>
         </div>
+
+        <!-- UX Principles audit — mobile accordion -->
+        <div class="principle-accordion">
+          <details class="pa-item">
+            <summary class="pa-trigger"><span class="pa-title">Latency Tolerance</span><span class="pa-caret">▾</span></summary>
+            <div class="pa-body">
+              <div class="pa-field"><p class="pa-label">Gap identified</p><p class="pa-value">AI processing felt like a black box</p></div>
+              <div class="pa-field"><p class="pa-label">Feature shipped</p><p class="pa-value">Named status messages: "Found N fields — reading the form…"</p></div>
+            </div>
+          </details>
+          <details class="pa-item">
+            <summary class="pa-trigger"><span class="pa-title">Trust Calibration</span><span class="pa-caret">▾</span></summary>
+            <div class="pa-body">
+              <div class="pa-field"><p class="pa-label">Gap identified</p><p class="pa-value">Users had no way to judge AI accuracy</p></div>
+              <div class="pa-field"><p class="pa-label">Feature shipped</p><p class="pa-value">Per-field confidence score · Verify badge on low-confidence hints</p></div>
+            </div>
+          </details>
+          <details class="pa-item">
+            <summary class="pa-trigger"><span class="pa-title">Memory Awareness</span><span class="pa-caret">▾</span></summary>
+            <div class="pa-body">
+              <div class="pa-field"><p class="pa-label">Gap identified</p><p class="pa-value">Pre-filled fields weren't distinguished from blank ones</p></div>
+              <div class="pa-field"><p class="pa-label">Feature shipped</p><p class="pa-value">"We pre-filled N fields from your profile" note at Phase 3, Section 1</p></div>
+            </div>
+          </details>
+          <details class="pa-item">
+            <summary class="pa-trigger"><span class="pa-title">Capability Discovery</span><span class="pa-caret">▾</span></summary>
+            <div class="pa-body">
+              <div class="pa-field"><p class="pa-label">Gap identified</p><p class="pa-value">Users didn't know what the AI could and couldn't do</p></div>
+              <div class="pa-field"><p class="pa-label">Feature shipped</p><p class="pa-value">Agent role progression: Router → Domain Expert → Document Agent</p></div>
+            </div>
+          </details>
+          <details class="pa-item">
+            <summary class="pa-trigger"><span class="pa-title">Transparency</span><span class="pa-caret">▾</span></summary>
+            <div class="pa-body">
+              <div class="pa-field"><p class="pa-label">Gap identified</p><p class="pa-value">Scan path (fast vs. vision) was invisible</p></div>
+              <div class="pa-field"><p class="pa-label">Feature shipped</p><p class="pa-value">Scan tip bar naming the active path and its expected duration</p></div>
+            </div>
+          </details>
+        </div>
+
       </div>
     </div>
 
