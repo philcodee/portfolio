@@ -1417,13 +1417,10 @@ body.nav-open {
   min-height: 3.5rem;
 }
 .iframe-modal-title {
-  font-family: ui-monospace, "Cascadia Code", "Source Code Pro",
-               Menlo, Consolas, "DejaVu Sans Mono", monospace;
-  font-size: 0.7rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.6;
+  font-family: 'Caprasimo', ui-monospace, monospace;
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.85;
 }
 .iframe-modal-close {
   flex-shrink: 0;
