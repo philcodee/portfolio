@@ -1331,13 +1331,15 @@ body:has(site-nav) {
     font-size: 0.65rem;
   }
   .global-nav-panel {
-    max-width: calc(100vw - 1.75rem);
-    left: auto;
-    right: 0;
+    position: fixed;
+    top: 3rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    max-width: none;
   }
-  .global-nav-folder:first-child .global-nav-panel {
-    left: 0;
-    right: auto;
+  .global-nav-folder:last-child .global-nav-panel {
+    left: 0.85rem;
+    right: 0.85rem;
   }
   .global-nav-panel-inner {
     padding: 0.5rem;
