@@ -1408,19 +1408,12 @@ body.nav-open {
 .iframe-modal-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: flex-end;
   padding: 0.75rem 1.25rem;
   border-bottom: var(--border-heavy);
   background: var(--gray-mid);
   flex-shrink: 0;
   min-height: 3.5rem;
-}
-.iframe-modal-title {
-  font-family: 'Caprasimo', ui-monospace, monospace;
-  font-size: 1.1rem;
-  font-weight: 400;
-  opacity: 0.85;
 }
 .iframe-modal-close {
   flex-shrink: 0;
