@@ -1456,8 +1456,11 @@ body.nav-open {
 }
 
 @media (max-width: 640px) {
-  .img-frame:has(iframe) {
+  .iframe-clip {
     overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
   .iframe-tap-overlay {
     display: flex;

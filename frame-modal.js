@@ -41,6 +41,13 @@
     eligible.forEach(frame => {
       const iframe = frame.querySelector('iframe');
       const src    = iframe.getAttribute('src');
+
+      // Wrap iframe in a clip container so overflow: hidden doesn't eat the
+      // parent's ::after dither shadow
+      const clip = document.createElement('div');
+      clip.className = 'iframe-clip';
+      iframe.parentNode.insertBefore(clip, iframe);
+      clip.appendChild(iframe);
       const title  = iframe.getAttribute('title') || '';
 
       const overlay = document.createElement('div');
