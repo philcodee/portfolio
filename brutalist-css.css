@@ -1171,7 +1171,7 @@ body:has(site-nav) {
   font-weight: 700;
   text-transform: none;
   letter-spacing: 0.02em;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .global-nav-home {
@@ -1343,9 +1343,10 @@ site-nav.is-open .nav-mobile-panel {
 }
 
 .nav-mobile-section-label {
-  font-family: 'Caprasimo', ui-monospace, monospace;
-  font-size: 1.15rem;
-  font-weight: 400;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   margin-bottom: 0.85rem;
 }
 
