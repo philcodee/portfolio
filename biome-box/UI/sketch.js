@@ -163,6 +163,31 @@ function setup() {
     if (e.data && e.data.type === 'volume') try { outputVolume(e.data.value); } catch(e) {}
   });
 
+  // Pointer events — reliable on iOS Safari in iframes unlike touch/mouse callbacks
+  cnv.elt.addEventListener('pointerdown', e => {
+    mouseInFrame = true;
+    const rect = cnv.elt.getBoundingClientRect();
+    handlePress(e.clientX - rect.left, e.clientY - rect.top);
+    e.preventDefault();
+  }, { passive: false });
+
+  cnv.elt.addEventListener('pointermove', e => {
+    if (!serialConnected) {
+      const rect = cnv.elt.getBoundingClientRect();
+      const px = e.clientX - rect.left;
+      const py = e.clientY - rect.top;
+      const scaleFactor = width / 1280;
+      joystickX = constrain(map(px, 201 * scaleFactor, (201 + 1079) * scaleFactor, -1, 1), -1, 1);
+      joystickY = constrain(map(py, 0, height, -1, 1), -1, 1);
+      mouseInFrame = true;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  cnv.elt.addEventListener('pointerleave', () => {
+    mouseInFrame = false;
+  });
+
   document.addEventListener('mouseleave', () => { mouseInFrame = false; });
   document.addEventListener('mouseenter', () => { mouseInFrame = true; });
 }
@@ -302,17 +327,9 @@ function draw() {
   drawControlCards();
   drawInfoOverlay();
 
-  if (!serialConnected) {
-    if (mouseInFrame) {
-      let scaleFactor = width / 1280;
-      let imgX = 201 * scaleFactor;
-      let imgW = 1079 * scaleFactor;
-      joystickX = constrain(map(mouseX, imgX, imgX + imgW, -1, 1), -1, 1);
-      joystickY = constrain(map(mouseY, 0, height, -1, 1), -1, 1);
-    } else {
-      joystickX = 0;
-      joystickY = 0;
-    }
+  if (!serialConnected && !mouseInFrame) {
+    joystickX = 0;
+    joystickY = 0;
   }
   drawJoystickIndicator();
 
@@ -491,27 +508,6 @@ function drawInfoOverlay() {
   text(infoText.toUpperCase(), x - 15, y + txtHeight / 2 - 8);
 }
 
-function touchStarted() {
-  mouseInFrame = true;
-  if (touches.length > 0) handlePress(touches[0].x, touches[0].y);
-  return false;
-}
-
-function touchMoved() {
-  if (!serialConnected && touches.length > 0) {
-    let scaleFactor = width / 1280;
-    let imgX = 201 * scaleFactor;
-    let imgW = 1079 * scaleFactor;
-    joystickX = constrain(map(touches[0].x, imgX, imgX + imgW, -1, 1), -1, 1);
-    joystickY = constrain(map(touches[0].y, 0, height, -1, 1), -1, 1);
-  }
-  return false;
-}
-
-function touchEnded() {
-  mouseInFrame = false;
-  return false;
-}
 
 function mousePressed() {
   handlePress(mouseX, mouseY);
