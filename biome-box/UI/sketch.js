@@ -133,8 +133,8 @@ function setup() {
     canvasHeight = canvasWidth / targetAspect;
   }
 
-  createCanvas(canvasWidth, canvasHeight);
-  canvas.elt.style.touchAction = 'none';
+  let cnv = createCanvas(canvasWidth, canvasHeight);
+  cnv.elt.style.touchAction = 'none';
   textFont('Courier New');
   imageMode(CORNER);
 
@@ -156,11 +156,11 @@ function setup() {
     connectButton.style('z-index', '1000');
   }
 
-  outputVolume(0.5);
-  loadSounds();
+  try { outputVolume(0.5); } catch(e) {}
+  try { loadSounds(); } catch(e) {}
 
   window.addEventListener('message', e => {
-    if (e.data && e.data.type === 'volume') outputVolume(e.data.value);
+    if (e.data && e.data.type === 'volume') try { outputVolume(e.data.value); } catch(e) {}
   });
 
   document.addEventListener('mouseleave', () => { mouseInFrame = false; });
