@@ -134,6 +134,7 @@ function setup() {
   }
 
   createCanvas(canvasWidth, canvasHeight);
+  canvas.elt.style.touchAction = 'none';
   textFont('Courier New');
   imageMode(CORNER);
 
@@ -488,6 +489,28 @@ function drawInfoOverlay() {
   fill(150, 255, 150);
   noStroke();
   text(infoText.toUpperCase(), x - 15, y + txtHeight / 2 - 8);
+}
+
+function touchStarted() {
+  mouseInFrame = true;
+  mousePressed();
+  return false;
+}
+
+function touchMoved() {
+  if (!serialConnected && touches.length > 0) {
+    let scaleFactor = width / 1280;
+    let imgX = 201 * scaleFactor;
+    let imgW = 1079 * scaleFactor;
+    joystickX = constrain(map(touches[0].x, imgX, imgX + imgW, -1, 1), -1, 1);
+    joystickY = constrain(map(touches[0].y, 0, height, -1, 1), -1, 1);
+  }
+  return false;
+}
+
+function touchEnded() {
+  mouseInFrame = false;
+  return false;
 }
 
 function mousePressed() {
