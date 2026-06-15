@@ -493,7 +493,7 @@ function drawInfoOverlay() {
 
 function touchStarted() {
   mouseInFrame = true;
-  mousePressed();
+  if (touches.length > 0) handlePress(touches[0].x, touches[0].y);
   return false;
 }
 
@@ -514,9 +514,13 @@ function touchEnded() {
 }
 
 function mousePressed() {
+  handlePress(mouseX, mouseY);
+}
+
+function handlePress(px, py) {
   let scaleFactor = width / 1280;
-  let mx = mouseX / scaleFactor;
-  let my = mouseY / scaleFactor;
+  let mx = px / scaleFactor;
+  let my = py / scaleFactor;
 
   let navY = 15;
   let navX = 240;
