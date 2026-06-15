@@ -122,18 +122,7 @@ function checkImagesLoaded() {
 }
 
 function setup() {
-  let targetAspect = 1280 / 720;
-  let canvasWidth, canvasHeight;
-
-  if (windowWidth / windowHeight > targetAspect) {
-    canvasHeight = windowHeight;
-    canvasWidth = canvasHeight * targetAspect;
-  } else {
-    canvasWidth = windowWidth;
-    canvasHeight = canvasWidth / targetAspect;
-  }
-
-  let cnv = createCanvas(canvasWidth, canvasHeight);
+  let cnv = createCanvas(windowWidth, windowHeight);
   cnv.elt.style.touchAction = 'none';
   textFont('Courier New');
   imageMode(CORNER);
@@ -193,28 +182,12 @@ function setup() {
 }
 
 function positionConnectButton() {
-  let canvasLeft = (windowWidth - width) / 2;
-  let canvasTop = (windowHeight - height) / 2;
   let scaleFactor = width / 1280;
-  let overlayBottomY = (15 + 40 + 12) * scaleFactor;
-
-  connectButton.position(canvasLeft + width - 220 * scaleFactor, canvasTop + overlayBottomY);
+  connectButton.position(width - 220 * scaleFactor, (15 + 40 + 12) * scaleFactor);
 }
 
 function windowResized() {
-  let targetAspect = 1280 / 720;
-  let canvasWidth, canvasHeight;
-
-  if (windowWidth / windowHeight > targetAspect) {
-    canvasHeight = windowHeight;
-    canvasWidth = canvasHeight * targetAspect;
-  } else {
-    canvasWidth = windowWidth;
-    canvasHeight = canvasWidth / targetAspect;
-  }
-
-  resizeCanvas(canvasWidth, canvasHeight);
-
+  resizeCanvas(windowWidth, windowHeight);
   if (connectButton) positionConnectButton();
 }
 
