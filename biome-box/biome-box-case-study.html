@@ -596,14 +596,22 @@
     biomeIframe.addEventListener('load', sendVolume);
 
     const uiWrap = document.getElementById('ui-wrap');
+    const siteNav = document.querySelector('site-nav');
+    const dotNav  = document.querySelector('.dot-nav');
     document.getElementById('biome-expand').addEventListener('click', () => {
       uiWrap.classList.add('is-expanded');
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
+      if (siteNav) siteNav.style.display = 'none';
+      if (dotNav)  dotNav.style.display  = 'none';
       try { screen.orientation.lock('landscape'); } catch(e) {}
     });
     document.getElementById('biome-close').addEventListener('click', () => {
       uiWrap.classList.remove('is-expanded');
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
+      if (siteNav) siteNav.style.display = '';
+      if (dotNav)  dotNav.style.display  = '';
       try { screen.orientation.unlock(); } catch(e) {}
     });
   </script>
