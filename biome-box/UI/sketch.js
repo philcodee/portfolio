@@ -164,6 +164,8 @@ function setup() {
   // Pointer events — reliable on iOS Safari in iframes unlike touch/mouse callbacks
   cnv.elt.addEventListener('pointerdown', e => {
     mouseInFrame = true;
+    // Resume AudioContext on first user gesture (iOS requires explicit resume)
+    try { getAudioContext().resume(); } catch(_) {}
     const rect = cnv.elt.getBoundingClientRect();
     handlePress(e.clientX - rect.left, e.clientY - rect.top);
     e.preventDefault();

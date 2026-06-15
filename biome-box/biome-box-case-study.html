@@ -595,10 +595,18 @@
     biomeVol.addEventListener('input', sendVolume);
     biomeIframe.addEventListener('load', sendVolume);
 
-    const uiWrap = document.getElementById('ui-wrap');
+    const uiWrap  = document.getElementById('ui-wrap');
     const siteNav = document.querySelector('site-nav');
     const dotNav  = document.querySelector('.dot-nav');
+    let uiWrapAnchor = null; // placeholder to restore position
+
     document.getElementById('biome-expand').addEventListener('click', () => {
+      // Teleport #ui-wrap to <body> so position:fixed is relative to the viewport,
+      // not trapped in any ancestor stacking context or scroll-snap container
+      uiWrapAnchor = document.createComment('ui-wrap-anchor');
+      uiWrap.parentNode.insertBefore(uiWrapAnchor, uiWrap);
+      document.body.appendChild(uiWrap);
+
       uiWrap.classList.add('is-expanded');
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
@@ -606,12 +614,19 @@
       if (dotNav)  dotNav.style.display  = 'none';
       try { screen.orientation.lock('landscape'); } catch(e) {}
     });
+
     document.getElementById('biome-close').addEventListener('click', () => {
       uiWrap.classList.remove('is-expanded');
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       if (siteNav) siteNav.style.display = '';
       if (dotNav)  dotNav.style.display  = '';
+      // Return #ui-wrap to its original position in the DOM
+      if (uiWrapAnchor && uiWrapAnchor.parentNode) {
+        uiWrapAnchor.parentNode.insertBefore(uiWrap, uiWrapAnchor);
+        uiWrapAnchor.parentNode.removeChild(uiWrapAnchor);
+        uiWrapAnchor = null;
+      }
       try { screen.orientation.unlock(); } catch(e) {}
     });
   </script>
