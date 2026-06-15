@@ -613,6 +613,8 @@
       if (siteNav) siteNav.style.display = 'none';
       if (dotNav)  dotNav.style.display  = 'none';
       try { screen.orientation.lock('landscape'); } catch(e) {}
+      // Tell the iframe to resize its canvas after CSS settles
+      setTimeout(() => biomeIframe.contentWindow.postMessage({ type: 'resize' }, '*'), 100);
     });
 
     document.getElementById('biome-close').addEventListener('click', () => {
@@ -628,6 +630,8 @@
         uiWrapAnchor = null;
       }
       try { screen.orientation.unlock(); } catch(e) {}
+      // Restore canvas to embed size
+      setTimeout(() => biomeIframe.contentWindow.postMessage({ type: 'resize' }, '*'), 100);
     });
   </script>
 

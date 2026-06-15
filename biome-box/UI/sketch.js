@@ -158,7 +158,8 @@ function setup() {
   try { loadSounds(); } catch(e) {}
 
   window.addEventListener('message', e => {
-    if (e.data && e.data.type === 'volume') try { outputVolume(e.data.value); } catch(e) {}
+    if (e.data && e.data.type === 'volume') try { outputVolume(e.data.value); } catch(_) {}
+    if (e.data && e.data.type === 'resize') windowResized();
   });
 
   // Pointer events — reliable on iOS Safari in iframes unlike touch/mouse callbacks
