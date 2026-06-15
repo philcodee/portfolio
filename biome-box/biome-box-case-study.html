@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biome Box — Phil Cote</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+
+    .ref-img {
+      position: relative;
+      isolation: isolate;
+      margin-bottom: 18px;
+    }
+    .ref-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+    .ref-img img,
+    .ref-img iframe {
+      width: 100%;
+      display: block;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 0;
+    }
+    .ref-img img { height: auto; }
+    .ref-img iframe { height: auto; aspect-ratio: 16/9; border: none; }
+
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: hsl(0, 0%, 82%);
+      border: 3px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: ui-monospace, monospace;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+    }
+
+    .section h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); margin-top: 0; }
+
+    /* ── Iteration slideshow ───────────────────────────────── */
+    .iter-slide {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      box-sizing: border-box;
+      border-top: 6px solid #000;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      width: 100vw;
+      margin-left: calc(-1 * ((100vw - 100%) / 2 + 2rem));
+    }
+    .iter-slide-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: hsl(0, 0%, 90%);
+      border-bottom: 6px solid #000;
+      padding: 4rem 5rem 3rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .iter-img-wrap {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+      max-height: 100%;
+    }
+    .iter-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+    .iter-img-wrap img {
+      max-height: 42vh;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 0;
+    }
+    .iter-img-wrap .img-placeholder {
+      width: min(480px, 80vw);
+      aspect-ratio: 4 / 3;
+      max-height: 42vh;
+      position: relative;
+      z-index: 0;
+    }
+    .iter-slide-footer {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1rem;
+      padding: 1.5rem calc(max(0px, (100vw - 900px) / 2) + 2rem) 2.5rem;
+    }
+    .iter-slide-text h2 {
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+      margin: 0.35rem 0 0.75rem;
+    }
+    .iter-slide-text p { margin: 0; max-width: 80ch; }
+    .iter-slide-controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    .iter-slide-controls .btn-row { display: flex; }
+
+    /* ── Feedback grid ─────────────────────────────────────── */
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 6px solid #000;
+      margin-top: 2rem;
+    }
+    .feedback-cell {
+      padding: 1.75rem 1.5rem;
+      border-right: 3px solid #000;
+      border-bottom: 3px solid #000;
+    }
+    .feedback-cell:nth-child(2n) { border-right: none; }
+    .feedback-cell:nth-child(3),
+    .feedback-cell:nth-child(4) { border-bottom: none; }
+    .feedback-num {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.4;
+      margin-bottom: 0.6rem;
+      font-family: ui-monospace, monospace;
+    }
+    .feedback-cell h4 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.5rem;
+      font-family: ui-monospace, monospace;
+    }
+    .feedback-cell p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      opacity: 0.75;
+      margin: 0;
+    }
+
+    /* ── UI embed wrapper ──────────────────────────────────── */
+    #ui-wrap {
+      position: relative;
+      isolation: isolate;
+      margin-bottom: 18px;
+    }
+    #ui-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+
+    /* ── UI toolbar ────────────────────────────────────────── */
+    .ui-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 3px solid #000;
+      border-top: none;
+      background: #fff;
+    }
+    .ui-vol {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 1rem;
+      flex: 1;
+    }
+    .ui-toolbar-label {
+      font-family: ui-monospace, monospace;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    #biome-vol {
+      flex: 1;
+      max-width: 160px;
+      cursor: pointer;
+      accent-color: #000;
+    }
+    .ui-toolbar-btn {
+      display: none; /* shown only on mobile */
+      border-left: 3px solid #000;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      border-radius: 0;
+      padding: 0.6rem 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* close button — only visible in fullscreen */
+    #biome-close {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 9999;
+    }
+    #ui-wrap:-webkit-full-screen #biome-close,
+    #ui-wrap:fullscreen #biome-close { display: block; }
+    #ui-wrap:-webkit-full-screen .ui-toolbar { display: none; }
+    #ui-wrap:fullscreen .ui-toolbar { display: none; }
+    #ui-wrap:-webkit-full-screen iframe,
+    #ui-wrap:fullscreen iframe { aspect-ratio: auto; height: 100%; }
+
+    /* ── Stack list ────────────────────────────────────────── */
+    .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+
+    @media (max-width: 768px) {
+      body { padding: 0; }
+      .panel-text  { order: 1; }
+      .panel-image { order: 2; border-bottom: none; border-top: 6px solid #000; }
+      .panel.alt .panel-text  { order: 1; }
+      .panel.alt .panel-image { order: 2; }
+      .feedback-grid { grid-template-columns: 1fr; }
+      .feedback-cell { border-right: none; border-bottom: 3px solid #000; }
+      .feedback-cell:last-child { border-bottom: none; }
+      .ui-toolbar-btn { display: block; }
+      .ui-vol { border-right: 3px solid #000; }
+
+      .iter-slide { width: 100%; margin-left: 0; }
+      .iter-slide-image { padding: 1.5rem; height: 40vh; box-sizing: border-box; flex: none; }
+      .iter-img-wrap img { width: 100%; height: 100%; object-fit: contain; max-height: none; }
+      .iter-img-wrap .img-placeholder { width: 100%; max-height: none; }
+      .iter-slide-footer { padding: 1.5rem 1.25rem 2rem; }
+      .iter-slide-text p { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page sections">
+    <a href="#intro"      class="dot-nav-item active" data-label="Overview"></a>
+    <a href="#problem"    class="dot-nav-item" data-label="The Problem"></a>
+    <a href="#research"   class="dot-nav-item" data-label="Research"></a>
+    <a href="#iterations"  class="dot-nav-item" data-label="Iterations"></a>
+    <a href="#interaction" class="dot-nav-item" data-label="How It Works"></a>
+    <a href="#assets"      class="dot-nav-item" data-label="Visual Design"></a>
+    <a href="#feedback"    class="dot-nav-item" data-label="Feedback"></a>
+    <a href="#outcome"    class="dot-nav-item" data-label="What's Next"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ───────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag tag--filled">Physical Computing</span>
+            <span class="tag tag--filled">Interaction Design</span>
+            <span class="tag">SVA · Graduate Work</span>
+          </div>
+          <h1>Biome Box</h1>
+          <p>A tactile device to get parents and kids playing together without a screen in sight — built from foam core, piezos, a joystick, and a lot of iteration.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate style="width: 100%; max-width: 720px;">
+            <div class="img-placeholder">Photo — final Biome Box device</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">4 + 1</div>
+        <div class="label">Hardware iterations —<br>plus one software iteration</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">1</div>
+        <div class="label">Real kid tested —<br>Henry, no mercy given</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">E‑AIMS</div>
+        <div class="label">Design framework —<br>mirror the real world</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── THE PROBLEM ───────────────────────────────────── -->
+  <div class="snap-section panel" id="problem">
+    <div class="panel-text">
+      <p class="panel-section-label">The Problem</p>
+      <h3>Finding engaging, screen-free play is harder than it sounds.</h3>
+      <p>As a parent, I wanted to stay genuinely present when playing with Henry — not just supervising. Most alternatives to screens either weren't engaging enough for me or weren't engaging enough for him.</p>
+      <p>That sent me looking for a framework to define what "good" interactive play actually looks like. The E-AIMS model gave me a clear design directive: mirror the real world. That became my north star.</p>
+      <blockquote>
+        <p>"Content is engaging, kids are actively involved, it feels meaningful — and it's social. So ideally, you or another family member is watching it with them."</p>
+        <cite>— NPR, on the E-AIMS model for interactive media</cite>
+      </blockquote>
+    </div>
+    <div class="panel-image">
+      <div class="ref-img" style="width: 100%; max-width: 560px;">
+        <div class="img-placeholder">Photo — Henry playing / reference image</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RESEARCH ──────────────────────────────────────── -->
+  <div class="snap-section panel alt" id="research">
+    <div class="panel-text">
+      <p class="panel-section-label">Research + Discovery</p>
+      <h3>What kids respond to — and what I already knew from the floor.</h3>
+      <p>I looked at what was already in our house: a Yoto Player, a Terra Busy Board. Research on learning environments pointed to tactile, exploratory materials that draw children's attention through physical interaction.</p>
+      <p>I'd also spent hours playing with Henry — enough to know that novelty wears off fast and physical interaction holds his attention longer than passive content.</p>
+      <p>That pointed me toward sensors and a microprocessor. I landed on a joystick and piezos as the core input system and started experimenting with form.</p>
+    </div>
+    <div class="panel-image">
+      <div class="ref-img" style="width: 100%; max-width: 560px;">
+        <div class="img-placeholder">Photo — Yoto Player / Busy Board reference</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ITERATIONS (slideshow) ────────────────────────── -->
+  <div class="iter-slide" id="iterations">
+    <div class="iter-slide-image">
+      <div class="iter-img-wrap">
+        <div class="img-placeholder" id="iter-img-placeholder">Photo — Version 1</div>
+        <img id="iter-img" src="" alt="" style="display: none;">
+      </div>
+    </div>
+    <div class="iter-slide-footer">
+      <div class="iter-slide-text">
+        <p class="panel-section-label" id="iter-label" style="margin-bottom: 1rem; opacity: 0.4;">Design Iterations — 01</p>
+        <h2 id="iter-title">Floor pad with FSR + recorder.</h2>
+        <div id="iter-body">
+          <p>Step on it, record a sample. In theory, fun. In practice, too complicated — FSRs are too fragile at this scale and the interaction wasn't legible. Henry confirmed it wasn't working.</p>
+        </div>
+        <p id="iter-status" style="margin-top: 0.75rem; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; font-family: ui-monospace, monospace; opacity: 0.5;">Scrapped</p>
+      </div>
+      <div class="iter-slide-controls">
+        <div class="btn-row">
+          <button class="secondary" id="iter-prev" style="font-size: 1rem; padding: 0.4rem 0.85rem;" aria-label="Previous">←</button>
+          <button class="secondary" id="iter-next" style="font-size: 1rem; padding: 0.4rem 0.85rem; border-left: none;" aria-label="Next">→</button>
+        </div>
+        <span id="iter-counter" style="font-family: ui-monospace, monospace; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em;">1 / 4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HOW IT WORKS ─────────────────────────────────── -->
+  <div class="snap-section panel" id="interaction">
+    <div class="panel-text">
+      <p class="panel-section-label">How It Works</p>
+      <h3>Tap a creature. Move it through its world.</h3>
+      <p>Each of the 4 piezo contacts maps to a creature card in the left sidebar. Tap a contact and that creature's sound starts looping — and its sprite becomes the cursor on screen.</p>
+      <p>The joystick moves that creature around the biome landscape with eased, drifting movement — like guiding an animal through its environment. Press the joystick button and the scene shifts to the next biome, sounds stop, and you start fresh.</p>
+      <p>The four colored circles on the physical device match the four colored circles on the UI cards — green, blue, purple, red. That one-to-one mapping is what Henry locked onto: he could look at the box and know which tap would summon which animal.</p>
+    </div>
+    <div class="panel-image" style="flex-direction: column; gap: 1rem; align-items: flex-start;">
+      <div class="ref-img" style="width: 100%; max-width: 560px;">
+        <div class="img-placeholder" style="aspect-ratio: 3/2;">Photo — device showing 4 colored circles</div>
+      </div>
+      <div class="ref-img" style="width: 100%; max-width: 560px;">
+        <div class="img-placeholder" style="aspect-ratio: 3/2;">Screenshot — UI sidebar with matching color cards</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── THE UI (live embed) ───────────────────────────── -->
+  <div class="snap-section section" id="assets">
+    <p class="panel-section-label">The UI</p>
+    <h2 data-animate>Four worlds. Sixteen creatures.</h2>
+    <p data-animate style="max-width: 60ch;">Each biome background and creature was generated with Midjourney. Click the biome tabs or the creature cards on the left to explore — no Arduino required.</p>
+    <div id="ui-wrap" data-animate style="width: 100%; margin-top: 1.5rem;">
+      <button id="biome-close">✕ Close</button>
+      <iframe
+        id="biome-iframe"
+        src="UI/index.html?embed"
+        style="width: 100%; aspect-ratio: 16/9; border: 3px solid #000; border-bottom: none; display: block; position: relative; z-index: 0;"
+        title="Biome Box UI — interactive demo">
+      </iframe>
+      <div class="ui-toolbar">
+        <div class="ui-vol">
+          <span class="ui-toolbar-label">Vol</span>
+          <input type="range" id="biome-vol" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        <button id="biome-expand" class="ui-toolbar-btn secondary">Expand ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KEY FEEDBACK ──────────────────────────────────── -->
+  <div class="snap-section section" id="feedback">
+    <p class="panel-section-label">Key Feedback + Learnings</p>
+    <h2 data-animate>What the critiques surfaced.</h2>
+    <div class="feedback-grid" data-animate>
+      <div class="feedback-cell">
+        <div class="feedback-num">01</div>
+        <h4>Tactility was the hook</h4>
+        <p>Users found the physical form factor engaging and comfortable. Keeping input physical — not screen-mediated — was the right call.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">02</div>
+        <h4>Controls were opaque</h4>
+        <p>No one knew what the joystick did without trying it. Mapping needed to be more intuitive — or more legible in the UI.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">03</div>
+        <h4>E-AIMS came in at midterm</h4>
+        <p>The paper prototype didn't yet follow the research framework. The shift to biome-based UI was how analogous, real-world relationships came back in.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">04</div>
+        <h4>Engagement has a half-life</h4>
+        <p>Henry recognized the circles on the device matched the screen — a win. But he lost interest quickly, pointing to a depth problem the next version would need to solve.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOMES + STACK ───────────────────────────────── -->
+  <div class="snap-section section" id="outcome">
+    <p class="panel-section-label">Outcomes</p>
+    <h2 data-animate>Tactile first. Screen optional.</h2>
+    <p data-animate style="max-width: 60ch;">The final Biome Box used 4 contact mics glued in a square pattern, an integrated joystick, and a foam core enclosure with laminated colored paper. The UI was rebuilt around biome imagery — giving Henry a real-world analogy to hold onto.</p>
+    <p data-animate style="max-width: 60ch;">When he recognized the circles on the device matched the screen, something clicked. That moment — a physical thing mapping to something on screen — is what the E-AIMS framework asks for.</p>
+    <p data-animate style="max-width: 60ch;"><strong>Next:</strong> Solve the depth problem. Novelty fades fast — the next version needs loops, progression, or surprise to hold attention past the first session.</p>
+    <p class="panel-section-label" data-animate style="margin-top: 2.5rem;">The Stack</p>
+    <div class="stack-list" data-animate>
+      <span class="tag tag--filled">Arduino</span>
+      <span class="tag tag--filled">4× Piezo Contact Mics</span>
+      <span class="tag tag--filled">Joystick</span>
+      <span class="tag tag--filled">Breadboard</span>
+      <span class="tag tag--filled">Foam Core</span>
+      <span class="tag tag--filled">Midjourney</span>
+      <span class="tag tag--filled">Vibecoded UI + Firmware</span>
+      <span class="tag tag--filled">Recorded Biome Audio</span>
+    </div>
+  </div>
+
+  <script>
+    const animObserver = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const sections = document.querySelectorAll('.snap-section, .iter-slide');
+    const secObserver = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          dotItems.forEach(d => d.classList.remove('active'));
+          const match = document.querySelector(`.dot-nav-item[href="#${e.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      }),
+      { threshold: 0.4 }
+    );
+    sections.forEach(s => secObserver.observe(s));
+
+    const iterSlides = [
+      {
+        num: '01',
+        title: 'Floor pad with FSR + recorder.',
+        body: '<p>Step on it, record a sample. In theory, fun. In practice, too complicated — FSRs are too fragile at this scale and the interaction wasn\'t legible. Henry confirmed it wasn\'t working.</p>',
+        status: 'Scrapped',
+        img: null, alt: 'Version 1 — floor pad prototype'
+      },
+      {
+        num: '02',
+        title: 'Rubber bands + piezos.',
+        body: '<p>Shifted focus to vibration picked up by contact mics. Plucking rubber bands to trigger piezos felt more like something buildable — and more like something a kid would want to touch. The tactile direction locked in here.</p>',
+        status: 'More promising',
+        img: null, alt: 'Version 2 — rubber bands and piezos'
+      },
+      {
+        num: '03',
+        title: 'Vibration + light + mic + ribbon.',
+        body: '<p>Layered in more: things lit up, a ribbon changed pitch, a mic captured sound, on-screen feedback appeared. The critique said keep it tactile — but the controls were unclear. Users guessed at what the joystick did.</p>',
+        status: 'Controls need rethink',
+        img: null, alt: 'Version 3 — layered prototype with light and ribbon'
+      },
+      {
+        num: '04',
+        title: 'Biome Box — final.',
+        body: '<p>Rethought the enclosure: 4 contact mics glued in a square pattern, joystick integrated, foam core box with laminated colored paper. UI rebuilt around biome imagery. Arduino firmware and UI both vibecoded.</p>',
+        status: 'Shipped',
+        img: null, alt: 'Version 4 — final Biome Box'
+      },
+      {
+        num: '05',
+        title: 'Space biome — a software iteration.',
+        body: '<p>Hardware was locked. But iteration continued on the software side. Space was added after the initial three biomes — alien, earth, satellite, sun. Worth noting: it\'s the only biome that breaks the E-AIMS "mirror the real world" directive. Space is real, but it\'s not analog in the way farm or woodland are. A productive tension.</p>',
+        status: 'Software iteration',
+        img: null, alt: 'Space biome — alien, earth, satellite, sun'
+      },
+    ];
+
+    let iterIndex = 0;
+    const iterImg = document.getElementById('iter-img');
+    const iterPlaceholder = document.getElementById('iter-img-placeholder');
+    const iterDot = document.querySelector('.dot-nav-item[href="#iterations"]');
+
+    function updateIter() {
+      const s = iterSlides[iterIndex];
+      document.getElementById('iter-label').textContent = `Design Iterations — ${s.num}`;
+      document.getElementById('iter-title').textContent = s.title;
+      document.getElementById('iter-body').innerHTML = s.body;
+      document.getElementById('iter-status').textContent = s.status;
+      document.getElementById('iter-counter').textContent = `${iterIndex + 1} / ${iterSlides.length}`;
+      if (iterDot) iterDot.dataset.label = `Iterations — ${s.num}`;
+      if (s.img) {
+        iterImg.src = s.img;
+        iterImg.alt = s.alt;
+        iterImg.style.display = '';
+        iterPlaceholder.style.display = 'none';
+      } else {
+        iterImg.src = '';
+        iterImg.style.display = 'none';
+        iterPlaceholder.textContent = s.alt;
+        iterPlaceholder.style.display = '';
+      }
+    }
+
+    document.getElementById('iter-prev').addEventListener('click', () => {
+      iterIndex = (iterIndex - 1 + iterSlides.length) % iterSlides.length;
+      updateIter();
+    });
+    document.getElementById('iter-next').addEventListener('click', () => {
+      if (iterIndex === iterSlides.length - 1) {
+        document.getElementById('interaction').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        iterIndex = (iterIndex + 1) % iterSlides.length;
+        updateIter();
+      }
+    });
+
+    updateIter();
+
+    // Volume control → postMessage to iframe
+    const biomeIframe = document.getElementById('biome-iframe');
+    const biomeVol = document.getElementById('biome-vol');
+    function sendVolume() {
+      biomeIframe.contentWindow.postMessage({ type: 'volume', value: parseFloat(biomeVol.value) }, '*');
+    }
+    biomeVol.addEventListener('input', sendVolume);
+    biomeIframe.addEventListener('load', sendVolume);
+
+    // Expand button → fullscreen + landscape lock
+    document.getElementById('biome-expand').addEventListener('click', async () => {
+      const wrap = document.getElementById('ui-wrap');
+      try {
+        await wrap.requestFullscreen();
+        await screen.orientation.lock('landscape');
+      } catch(e) {}
+    });
+    document.getElementById('biome-close').addEventListener('click', () => {
+      document.exitFullscreen();
+    });
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        try { screen.orientation.unlock(); } catch(e) {}
+      }
+    });
+  </script>
+
+</body>
+</html>
