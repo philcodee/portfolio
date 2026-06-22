@@ -31,6 +31,18 @@ customElements.define('site-nav', class extends HTMLElement {
               link('Case Study', 'timer/timer-case-study.html'),
             ],
           },
+          {
+            heading: 'Biome Box',
+            links: [
+              link('Case Study', 'biome-box/biome-box-case-study.html'),
+            ],
+          },
+          {
+            heading: 'Pontifex',
+            links: [
+              link('Case Study', 'pontifex/pontifex-case-study.html'),
+            ],
+          },
         ],
       },
       {

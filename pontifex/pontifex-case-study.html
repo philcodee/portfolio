@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pontifex — Phil Cote</title>
+  <link rel="stylesheet" href="../brutalist-css.css" />
+  <style>
+    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
+
+    .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .outcome-item { background: #fff; }
+    .panel-image { background: hsl(0, 0%, 90%); }
+
+    .ref-img {
+      position: relative;
+      isolation: isolate;
+      margin-bottom: 18px;
+    }
+    .ref-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+    .ref-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 0;
+    }
+
+    .section h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); margin-top: 0; }
+
+    /* ── Algorithm slideshow ──────────────────────────────── */
+    .iter-slide {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      box-sizing: border-box;
+      border-top: 6px solid #000;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      width: 100vw;
+      margin-left: calc(-1 * ((100vw - 100%) / 2 + 2rem));
+    }
+    .iter-slide-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: hsl(0, 0%, 90%);
+      border-bottom: 6px solid #000;
+      padding: 2rem 3rem;
+      flex: none;
+      height: 58vh;
+      height: 58dvh;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .iter-img-wrap {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+    }
+    .iter-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(6px, 10px);
+      background: repeating-conic-gradient(rgba(0,0,0,0.45) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+      z-index: -1;
+    }
+    .iter-img-wrap img {
+      max-height: calc(58dvh - 4rem);
+      height: auto;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 0;
+    }
+    .iter-slide-footer {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem calc(max(0px, (100vw - 900px) / 2) + 2rem) 2rem;
+      gap: 1rem;
+    }
+    .iter-slide-text {
+      order: 2;
+      max-height: 22dvh;
+      overflow-y: auto;
+    }
+    .iter-slide-text h2 {
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+      margin: 0.35rem 0 0.75rem;
+    }
+    .iter-slide-text p { margin: 0; max-width: 80ch; }
+    .iter-slide-controls {
+      order: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    .iter-slide-controls .btn-row { display: flex; }
+
+    /* ── Reflection grid ──────────────────────────────────── */
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 6px solid #000;
+      margin-top: 2rem;
+    }
+    .feedback-cell {
+      padding: 1.75rem 1.5rem;
+      border-right: 3px solid #000;
+      border-bottom: 3px solid #000;
+    }
+    .feedback-cell:nth-child(2n) { border-right: none; }
+    .feedback-cell:nth-child(3),
+    .feedback-cell:nth-child(4) { border-bottom: none; }
+    .feedback-num {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.4;
+      margin-bottom: 0.6rem;
+      font-family: ui-monospace, monospace;
+    }
+    .feedback-cell h4 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.5rem;
+      font-family: ui-monospace, monospace;
+    }
+    .feedback-cell p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      opacity: 0.75;
+      margin: 0;
+    }
+
+    /* ── Story collage ────────────────────────────────────── */
+    .story-collage {
+      position: relative;
+      aspect-ratio: 1;
+      width: 100%;
+      max-width: 640px;
+    }
+    .story-collage img {
+      position: absolute;
+      width: 60%;
+      height: auto;
+      border: none;
+    }
+    .story-book {
+      top: 0%;
+      left: 0%;
+    }
+    .story-cards {
+      bottom: 0%;
+      right: 6%;
+    }
+
+    /* ── Stack list ────────────────────────────────────────── */
+    .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 0; }
+      .panel-text  { order: 2; }
+      .panel-image { order: 1; border-top: none; border-bottom: none; padding: 1rem; }
+      .story-collage { aspect-ratio: auto; display: flex; flex-direction: row; align-items: flex-end; gap: 0.75rem; }
+      .story-collage img { position: static; }
+      .story-collage .story-book { width: 58%; }
+      .story-collage .story-cards { width: 38%; }
+      .panel.alt .panel-text  { order: 2; }
+      .panel.alt .panel-image { order: 1; }
+      .feedback-grid { grid-template-columns: 1fr; }
+      .feedback-cell { border-right: none; border-bottom: 3px solid #000; }
+      .feedback-cell:nth-child(3) { border-bottom: 3px solid #000; }
+      .feedback-cell:last-child { border-bottom: none; }
+
+      .iter-slide {
+        display: grid;
+        grid-template-rows: 38dvh auto 1fr;
+        width: 100%;
+        margin-left: 0;
+        height: 100dvh;
+        scroll-snap-stop: normal;
+        overflow: hidden;
+        position: relative;
+      }
+      .iter-slide-image {
+        grid-row: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem;
+        height: auto;
+        border-bottom: 6px solid #000;
+        overflow: hidden;
+      }
+      .iter-img-wrap { display: inline-flex; width: auto; height: auto; }
+      .iter-img-wrap::after { display: none; }
+      .iter-img-wrap img { max-height: calc(38dvh - 1rem); max-width: calc(100vw - 1rem); width: auto; height: auto; object-fit: contain; }
+      .iter-slide-footer { display: contents; }
+      .iter-slide-controls {
+        grid-row: 2;
+        padding: 0.75rem 1.25rem;
+        margin-top: 0;
+      }
+      .iter-slide-text {
+        grid-row: 3;
+        padding: 0.75rem 1.25rem 1.25rem;
+        max-height: none;
+        overflow-y: auto;
+      }
+      .iter-slide-text p { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <script src="../site-nav.js"></script>
+  <site-nav root="../"></site-nav>
+
+  <!-- ── DOT NAV ───────────────────────────────────────── -->
+  <nav class="dot-nav" aria-label="Page sections">
+    <a href="#intro"       class="dot-nav-item active" data-label="Overview"></a>
+    <a href="#background"  class="dot-nav-item" data-label="The Story"></a>
+    <a href="#process"     class="dot-nav-item" data-label="Process"></a>
+    <a href="#algorithm"   class="dot-nav-item" data-label="The Algorithm"></a>
+    <a href="#modes"       class="dot-nav-item" data-label="Encrypt + Decrypt"></a>
+    <a href="#play"        class="dot-nav-item" data-label="Try It"></a>
+    <a href="#reflection"  class="dot-nav-item" data-label="Reflection"></a>
+  </nav>
+
+  <!-- ── HERO + OUTCOMES ───────────────────────────────── -->
+  <div class="snap-section" id="intro">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="meta">
+            <span class="tag tag--filled">Interaction Design</span>
+            <span class="tag tag--filled">Vibe Coded</span>
+            <span class="tag">p5.js</span>
+          </div>
+          <h1>Pontifex</h1>
+          <p>An interactive visualization of the Solitaire cipher — the pen-and-paper encryption algorithm from Neal Stephenson's <em>Cryptonomicon</em>, designed by Bruce Schneier.</p>
+        </div>
+        <div class="hero-image">
+          <div class="img-frame" data-animate style="width: 100%; max-width: 560px; background: #000; padding: 2rem;">
+            <img src="images/cryptonomicon-logo.png" alt="Cryptonomicon logo" style="width: 100%; height: auto; display: block;" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item" data-animate>
+        <div class="number">2</div>
+        <div class="label">Modes —<br>Encrypt and Decrypt</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">6</div>
+        <div class="label">Steps per keystream number —<br>mapped as a state machine</div>
+      </div>
+      <div class="outcome-item" data-animate>
+        <div class="number">Solitaire</div>
+        <div class="label">The algorithm —<br>designed by Bruce Schneier</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── THE STORY ─────────────────────────────────────── -->
+  <div class="snap-section panel" id="background">
+    <div class="panel-text">
+      <p class="panel-section-label">The Story</p>
+      <h3>A cipher hidden in the back of a novel.</h3>
+      <p>In <em>Cryptonomicon</em>, Randy Waterhouse and Enoch Root need to communicate without being picked up by Van Eck phreaking — surveillance that reads electromagnetic emissions off a monitor. Their solution: a deck of cards and a pen-and-paper cipher called Pontifex.</p>
+      <p>Bruce Schneier designed the Solitaire algorithm specifically for the novel, and Stephenson published the full instructions in the appendix (pgs. 911–917). I'd always been curious about it but never sat down to actually work through it.</p>
+      <p>This project was the excuse.</p>
+    </div>
+    <div class="panel-image">
+      <div class="story-collage">
+        <img class="story-book" src="images/cryptonomicon-book.jpg" alt="Cryptonomicon by Neal Stephenson" />
+        <img class="story-cards" src="images/cards.png" alt="Bicycle playing cards" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROCESS ───────────────────────────────────────── -->
+  <div class="snap-section panel alt" id="process">
+    <div class="panel-text">
+      <p class="panel-section-label">Process</p>
+      <h3>Play it by hand before you code it.</h3>
+      <p>I started by transcribing the algorithm from Schneier's website and the novel, then got out a real deck of cards. The Solitaire I knew from Windows 95 wasn't the right mental model — the cipher operates differently and the joker mechanics took time to internalize.</p>
+      <p>Hours of working through it manually paid off. By the time I started vibe-coding with Figma Make, Claude, and ChatGPT, I could troubleshoot output mismatches because I understood what the correct result should look like at each step.</p>
+      <p>The keystream generator was the hardest part to map — so I drew it out as a state machine first.</p>
+    </div>
+    <div class="panel-image">
+      <div class="ref-img" style="width: 100%;">
+        <img src="images/state-machine-diagram.png" alt="State machine diagram for the keystream generator" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ALGORITHM SLIDESHOW ───────────────────────────── -->
+  <div class="iter-slide" id="algorithm">
+    <div class="iter-slide-image">
+      <div class="iter-img-wrap">
+        <img id="iter-img" src="images/encrypt-decrypt-menu.png" alt="" />
+      </div>
+    </div>
+    <div class="iter-slide-footer">
+      <div class="iter-slide-text">
+        <p class="panel-section-label" id="iter-label" style="margin-bottom: 1rem; opacity: 0.4;">The Algorithm — 00</p>
+        <h2 id="iter-title">Choose your mode.</h2>
+        <div id="iter-body">
+          <p>Encrypt a plaintext message or decrypt a ciphertext. Either way, you'll need a deck of 54 cards and the same starting sequence as the other party.</p>
+        </div>
+      </div>
+      <div class="iter-slide-controls">
+        <div class="btn-row">
+          <button class="secondary" id="iter-prev" style="font-size: 1rem; padding: 0.4rem 0.85rem;" aria-label="Previous">←</button>
+          <button class="secondary" id="iter-next" style="font-size: 1rem; padding: 0.4rem 0.85rem; border-left: none;" aria-label="Next">→</button>
+        </div>
+        <span id="iter-counter" style="font-family: ui-monospace, monospace; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em;">1 / 6</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ENCRYPT + DECRYPT MODES ───────────────────────── -->
+  <div class="snap-section panel" id="modes">
+    <div class="panel-text">
+      <p class="panel-section-label">Encrypt + Decrypt</p>
+      <h3>Two modes. One algorithm. Different starting points.</h3>
+      <p>In Encrypt mode, the user types a plaintext message. A modal tells them exactly how many keystream numbers they'll need to generate — one per character. Once enough keystream is generated, they advance to the Add Modulo 26 step to produce the ciphertext.</p>
+      <p>Decrypt mode inverts this. The user receives an already-encrypted message and a pre-keyed deck — simulating what Enoch Root would hand Randy Waterhouse. They generate keystream from that known deck state and subtract modulo 26 to recover the plaintext.</p>
+    </div>
+    <div class="panel-image" style="flex-direction: column; gap: 1rem; align-items: flex-start;">
+      <div class="ref-img" style="width: 90%;">
+        <img src="images/keystream-required-pop-up.png" alt="Keystream required pop-up in encrypt mode" />
+      </div>
+      <div class="ref-img" style="width: 90%;">
+        <img src="images/decrypt-start.png" alt="Decrypt mode intro with pre-keyed deck" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TRY IT ─────────────────────────────────────────── -->
+  <div class="snap-section section" id="play">
+    <p class="panel-section-label">Try It</p>
+    <h2 data-animate>Run the cipher yourself.</h2>
+    <p data-animate style="max-width: 60ch;">The full game is playable in the browser. Choose encrypt or decrypt, generate your keystream one step at a time, and see the algorithm work. Conversion tables are available in-game if you need them.</p>
+    <div data-animate style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+      <a href="https://philcodee.github.io/hello-world/" target="_blank" rel="noopener" class="btn">Play Pontifex ↗</a>
+    </div>
+    <div class="ref-img" data-animate style="width: 100%; margin-top: 2rem;">
+      <img src="images/conversion-tables.png" alt="In-game conversion tables for card values" />
+    </div>
+  </div>
+
+  <!-- ── REFLECTION ────────────────────────────────────── -->
+  <div class="snap-section section" id="reflection">
+    <p class="panel-section-label">Reflection</p>
+    <h2 data-animate>What held up. What's next.</h2>
+    <div class="feedback-grid" data-animate>
+      <div class="feedback-cell">
+        <div class="feedback-num">01</div>
+        <h4>The animations work</h4>
+        <p>The card deck and step-by-step flow clearly depict keystream generation. Walking the algorithm out one move at a time makes something genuinely opaque feel learnable.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">02</div>
+        <h4>Do the thing before coding it</h4>
+        <p>Playing with a real deck before touching any code was the right call. It made troubleshooting accurate — I could spot wrong output because I knew what right looked like.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">03</div>
+        <h4>Character and narrative</h4>
+        <p>The mechanics are solid, but the connection to the novel — Randy, Enoch, the stakes — is mostly absent from the UI. More of the story could come through.</p>
+      </div>
+      <div class="feedback-cell">
+        <div class="feedback-num">04</div>
+        <h4>Minor bugs remain</h4>
+        <p>Some edge cases in the UI haven't been ironed out. A next version would polish these and explore what other vibe-coding tools produce compared to this stack.</p>
+      </div>
+    </div>
+    <p class="panel-section-label" data-animate style="margin-top: 2.5rem;">The Stack</p>
+    <div class="stack-list" data-animate>
+      <span class="tag tag--filled">p5.js</span>
+      <span class="tag tag--filled">React</span>
+      <span class="tag tag--filled">Vite</span>
+      <span class="tag tag--filled">Figma Make</span>
+      <span class="tag tag--filled">Vibe Coded</span>
+      <span class="tag tag--filled">GitHub Pages</span>
+    </div>
+  </div>
+
+  <script>
+    const animObserver = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll('[data-animate]').forEach(el => animObserver.observe(el));
+
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+    const sections = document.querySelectorAll('.snap-section, .iter-slide');
+    const secObserver = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          dotItems.forEach(d => d.classList.remove('active'));
+          const match = document.querySelector(`.dot-nav-item[href="#${e.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      }),
+      { threshold: 0.4 }
+    );
+    sections.forEach(s => secObserver.observe(s));
+
+    const iterSlides = [
+      {
+        num: '00',
+        title: 'Choose your mode.',
+        body: '<p>Encrypt a plaintext message or decrypt a ciphertext. Either way, you\'ll need a deck of 54 cards and the same starting sequence as the other party.</p>',
+        img: 'images/encrypt-decrypt-menu.png',
+        alt: 'Encrypt / Decrypt mode selection screen'
+      },
+      {
+        num: '01',
+        title: 'Shuffle the deck.',
+        body: '<p>The first step in keystream generation. For a real deck, Schneier suggests at least 10 shuffles. Both parties need identically sequenced decks — the shared secret.</p>',
+        img: 'images/keystream-start.png',
+        alt: 'Shuffle the deck — keystream step 1'
+      },
+      {
+        num: '02',
+        title: 'Move Joker A down one.',
+        body: '<p>Find Joker A and move it one position down in the deck. Think of each joker as a bracket — this sets one end of the section that will be triple-cut.</p>',
+        img: 'images/move-joker-a.png',
+        alt: 'Move Joker A down one position'
+      },
+      {
+        num: '03',
+        title: 'Move Joker B down two.',
+        body: '<p>Find Joker B and move it two positions down. With both jokers placed, the deck now has a defined top section, a middle bracket, and a bottom section ready for the Triple Cut.</p>',
+        img: 'images/move-joker-b.png',
+        alt: 'Move Joker B down two positions'
+      },
+      {
+        num: '04',
+        title: 'Perform a Triple Cut.',
+        body: '<p>Click the top section (above the first joker) and the bottom section (below the second joker). The two outer sections swap. The jokers and everything between them stay in place.</p>',
+        img: 'images/triple-cut.png',
+        alt: 'Triple cut — swap outer sections around the jokers'
+      },
+      {
+        num: '05',
+        title: 'Perform a Count Cut.',
+        body: '<p>Click the bottom card to reveal its value. Count down that many cards from the top, then swap that group with all remaining cards above the bottom card. The bottom card stays.</p>',
+        img: 'images/count-cut.png',
+        alt: 'Count cut — bottom card value determines the cut'
+      },
+      {
+        num: '06',
+        title: 'Find the output card.',
+        body: '<p>Look at the top card and convert it to a number. Count down that many positions. The card at that position is the Output Card — click it and the program records it as your keystream value.</p>',
+        img: 'images/keystream-num-gen.png',
+        alt: 'Output card — keystream number generated'
+      },
+    ];
+
+    let iterIndex = 0;
+    const iterImg = document.getElementById('iter-img');
+    const iterDot = document.querySelector('.dot-nav-item[href="#algorithm"]');
+
+    function updateIter() {
+      const s = iterSlides[iterIndex];
+      document.getElementById('iter-label').textContent = `The Algorithm — ${s.num}`;
+      document.getElementById('iter-title').textContent = s.title;
+      document.getElementById('iter-body').innerHTML = s.body;
+      document.getElementById('iter-counter').textContent = `${iterIndex + 1} / ${iterSlides.length}`;
+      if (iterDot) iterDot.dataset.label = `Algorithm — ${s.num}`;
+      iterImg.src = s.img;
+      iterImg.alt = s.alt;
+    }
+
+    document.getElementById('iter-prev').addEventListener('click', () => {
+      iterIndex = (iterIndex - 1 + iterSlides.length) % iterSlides.length;
+      updateIter();
+    });
+    document.getElementById('iter-next').addEventListener('click', () => {
+      if (iterIndex === iterSlides.length - 1) {
+        document.getElementById('modes').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        iterIndex = (iterIndex + 1) % iterSlides.length;
+        updateIter();
+      }
+    });
+
+    updateIter();
+  </script>
+
+</body>
+</html>
