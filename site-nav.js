@@ -92,7 +92,10 @@ customElements.define('site-nav', class extends HTMLElement {
 
     this.innerHTML = `
       <nav class="global-nav" aria-label="Site">
-        <a class="global-nav-home" href="${root}index.html">Phil Cote</a>
+        <a class="global-nav-home" href="${root}index.html">
+          <img class="global-nav-logo" src="${root}logo.svg" alt="" />
+          Phil Cote
+        </a>
         <div class="global-nav-links">${folderHTML}</div>
         <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">MENU</button>
       </nav>

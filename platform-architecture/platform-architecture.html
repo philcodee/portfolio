@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="../brutalist-css.css" />
   <style>
     /* ── PAGE OVERRIDES ───────────────────────────────── */
-    html { scroll-snap-type: y mandatory; scroll-padding-top: 4.5rem; }
-
     .hero { background: hsl(0, 0%, 90%); color: #000; }
     .hero-image .img-frame { max-width: 75%; margin: 0 auto; }
     .outcome-item { background: #fff; }
@@ -45,7 +43,7 @@
       margin-top: 1rem;
       text-decoration: none;
       background: none;
-      font-family: 'Caprasimo', ui-monospace, monospace;
+      font-family: 'w95fa', ui-monospace, monospace;
       font-size: clamp(1.5rem, 4vw, 2.5rem);
       font-weight: 400;
       color: #000;
@@ -63,8 +61,6 @@
     #nav-demo-frame { position: relative; width: 100%; height: 520px; }
 
     @media (max-width: 768px) {
-      html { scroll-snap-type: none; }
-      body { padding: 0; }
       .box { padding: 1.25rem; }
 
       #nav-demo-frame { height: 480px; }

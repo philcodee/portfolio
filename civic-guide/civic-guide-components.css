@@ -186,10 +186,10 @@
 
   .trust-cards-years span {
     font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     color: rgba(255,255,255,0.5);
     text-align: right;
   }
@@ -396,19 +396,31 @@
   gap: 0.75rem;
 }
 
+/* Typography for .scan-path-label and .scan-path-text p comes from the
+   shared .entry-label / p rules in brutalist-css.css — only layout
+   overrides live here so this can't drift from the site's type scale. */
 .scan-path-label {
-  font-size: 0.7rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  border-bottom: 2px solid #000;
-  padding-bottom: 0.25rem;
+  margin-bottom: 0;
 }
 
 .scan-path-text p {
-  font-size: 0.85rem;
-  line-height: 1.6;
   max-width: 28ch;
+}
+
+@media (max-width: 768px) {
+  .scan-path-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .scan-path-square {
+    order: 1;
+  }
+  .scan-path-text {
+    order: 2;
+  }
+  .scan-path-text p {
+    max-width: none;
+  }
 }
 
 
