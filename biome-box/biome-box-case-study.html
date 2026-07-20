@@ -268,10 +268,11 @@
 
 
     @media (max-width: 768px) {
-      .panel-text  { order: 2; }
-      .panel-image { order: 1; border-bottom: none; border-top: 6px solid #000; }
-      .panel.alt .panel-text  { order: 2; }
-      .panel.alt .panel-image { order: 1; }
+      .panel-text  { order: 2; padding-top: 1.25rem; }
+      .panel-image { order: 1; border-bottom: none; border-top: none; border-left: none; padding: 1.5rem 1.5rem 0; }
+      .panel-image .ref-img { margin-bottom: 10px; }
+      .panel.alt .panel-text  { order: 2; padding-top: 1.25rem; }
+      .panel.alt .panel-image { order: 1; border-right: none; border-bottom: none; border-top: none; padding: 1.5rem 1.5rem 0; }
       .feedback-grid { grid-template-columns: 1fr; }
       .feedback-cell { border-right: none; border-bottom: 3px solid #000; }
       .feedback-cell:last-child { border-bottom: none; }
@@ -328,8 +329,12 @@
     <a href="#intro"      class="dot-nav-item active" data-label="Overview"></a>
     <a href="#problem"    class="dot-nav-item" data-label="The Problem"></a>
     <a href="#research"   class="dot-nav-item" data-label="Research"></a>
+    <a href="#research-voice" class="dot-nav-item" data-label="A Cut Feature"></a>
     <a href="#iterations"  class="dot-nav-item" data-label="Iterations"></a>
     <a href="#interaction" class="dot-nav-item" data-label="How It Works"></a>
+    <a href="#color-mapping" class="dot-nav-item" data-label="Color Mapping"></a>
+    <a href="#sound-design" class="dot-nav-item" data-label="Sound Design"></a>
+    <a href="#stack"       class="dot-nav-item" data-label="The Stack"></a>
     <a href="#assets"      class="dot-nav-item" data-label="Visual Design"></a>
     <a href="#feedback"    class="dot-nav-item" data-label="Feedback"></a>
     <a href="#outcome"    class="dot-nav-item" data-label="What's Next"></a>
@@ -346,11 +351,11 @@
             <span class="tag">SVA · Graduate Work</span>
           </div>
           <h1>Biome Box</h1>
-          <p>A tactile device to get parents and kids playing together without a screen in sight — built from foam core, piezos, a joystick, and a lot of iteration.</p>
+          <p>An interactive screensaver for parents to use with their kids — one that turns a TV into a virtual biome explorer, built from foam core, piezos, a joystick, and a lot of iteration.</p>
         </div>
         <div class="hero-image">
           <div class="img-frame" data-animate style="width: 100%; max-width: 720px;">
-            <div class="img-placeholder">Photo — final Biome Box device</div>
+            <img src="Assets/biome-box.png" alt="The final Biome Box device — a black foam-core box with four colored circles and a center joystick">
           </div>
         </div>
       </div>
@@ -366,7 +371,7 @@
       </div>
       <div class="outcome-item" data-animate>
         <div class="number">E‑AIMS</div>
-        <div class="label">Design framework —<br>mirror the real world</div>
+        <div class="label">Design framework —<br>engaging, active, meaningful, social</div>
       </div>
     </div>
   </div>
@@ -375,9 +380,9 @@
   <div class="snap-section panel" id="problem">
     <div class="panel-text">
       <p class="panel-section-label">The Problem</p>
-      <h3>Finding engaging, screen-free play is harder than it sounds.</h3>
-      <p>As a parent, I wanted to stay genuinely present when playing with Henry — not just supervising. Most alternatives to screens either weren't engaging enough for me or weren't engaging enough for him.</p>
-      <p>That sent me looking for a framework to define what "good" interactive play actually looks like. The E-AIMS model gave me a clear design directive: mirror the real world. That became my north star.</p>
+      <h3>Finding play that engages both of us is harder than it sounds.</h3>
+      <p>As a parent, I wanted to stay genuinely present when playing with Henry — not just supervising. But I wanted to be engaged too, as a person, not just watching him have fun. Most alternatives to screens weren't engaging enough for either of us — and the alternatives to those alternatives were usually screens.</p>
+      <p>That sent me looking for a framework to define what "good" interactive play actually looks like. The E-AIMS model — engaging, active, meaningful, social — gave me a clearer target. My own takeaway from it: the closer an experience mirrors real-world interaction, the more of those four boxes it tends to check.</p>
       <blockquote>
         <p>"Content is engaging, kids are actively involved, it feels meaningful — and it's social. So ideally, you or another family member is watching it with them."</p>
         <cite>— NPR, on the E-AIMS model for interactive media</cite>
@@ -385,7 +390,7 @@
     </div>
     <div class="panel-image">
       <div class="ref-img" style="width: 100%; max-width: 560px;">
-        <div class="img-placeholder">Photo — Henry playing / reference image</div>
+        <img src="Assets/henry-testing.png" alt="Henry playing with the Biome Box, connected to a laptop running the UI">
       </div>
     </div>
   </div>
@@ -397,11 +402,27 @@
       <h3>What kids respond to — and what I already knew from the floor.</h3>
       <p>I looked at what was already in our house: a Yoto Player, a Terra Busy Board. Research on learning environments pointed to tactile, exploratory materials that draw children's attention through physical interaction.</p>
       <p>I'd also spent hours playing with Henry — enough to know that novelty wears off fast and physical interaction holds his attention longer than passive content.</p>
+    </div>
+    <div class="panel-image" style="gap: 1rem;">
+      <div class="ref-img" style="width: 100%; max-width: 260px;">
+        <img src="Assets/yoto-player.png" alt="Yoto Player — reference toy in Henry's room">
+      </div>
+      <div class="ref-img" style="width: 100%; max-width: 260px;">
+        <img src="Assets/terra-busy-board.png" alt="Terra Busy Board — reference toy in Henry's room">
+      </div>
+    </div>
+  </div>
+
+  <div class="snap-section panel" id="research-voice">
+    <div class="panel-text">
+      <p class="panel-section-label">A Cut Feature</p>
+      <h3>A voice element, cut for simplicity.</h3>
       <p>That pointed me toward sensors and a microprocessor. I landed on a joystick and piezos as the core input system and started experimenting with form.</p>
+      <p>Early on, I also prototyped a voice element — a small recordable sound module so a sound could be captured and played back on demand. It worked, but it added a layer of complexity that didn't earn its keep next to the tactile interaction, so I cut it in favor of something simpler and more legible.</p>
     </div>
     <div class="panel-image">
       <div class="ref-img" style="width: 100%; max-width: 560px;">
-        <div class="img-placeholder">Photo — Yoto Player / Busy Board reference</div>
+        <img src="Assets/sampler.png" alt="The recordable sound module tested for the voice element, before it was cut for simplicity">
       </div>
     </div>
   </div>
@@ -428,35 +449,70 @@
           <button class="secondary" id="iter-prev" style="font-size: 1rem; padding: 0.4rem 0.85rem;" aria-label="Previous">←</button>
           <button class="secondary" id="iter-next" style="font-size: 1rem; padding: 0.4rem 0.85rem; border-left: none;" aria-label="Next">→</button>
         </div>
-        <span id="iter-counter" style="font-family: ui-monospace, monospace; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em;">1 / 4</span>
+        <span id="iter-counter" style="font-family: ui-monospace, monospace; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em;">1 / 3</span>
       </div>
     </div>
   </div>
 
-  <!-- ── HOW IT WORKS ─────────────────────────────────── -->
+  <!-- ── HOW IT WORKS (technical, three isolated beats) ──── -->
   <div class="snap-section panel" id="interaction">
     <div class="panel-text">
       <p class="panel-section-label">How It Works</p>
-      <h3>Tap a creature. Move it through its world.</h3>
-      <p>Each of the 4 piezo contacts maps to a creature card in the left sidebar. Tap a contact and that creature's sound starts looping — and its sprite becomes the cursor on screen.</p>
-      <p>The joystick moves that creature around the biome landscape with eased, drifting movement — like guiding an animal through its environment. Press the joystick button and the scene shifts to the next biome, sounds stop, and you start fresh.</p>
-      <p>The four colored circles on the physical device match the four colored circles on the UI cards — green, blue, purple, red. That one-to-one mapping is what Henry locked onto: he could look at the box and know which tap would summon which animal.</p>
+      <h3>Tap a card. Move it through its world.</h3>
+      <p>To activate biome sounds: tap the corresponding colored circle on Biome Box to hear sounds; tap again to turn the sound off. To switch between biomes: press down on the joystick. You can turn ambient sound on or off once you're in a new biome.</p>
     </div>
-    <div class="panel-image" style="flex-direction: column; gap: 1rem; align-items: flex-start;">
+    <div class="panel-image">
       <div class="ref-img" style="width: 100%; max-width: 560px;">
-        <div class="img-placeholder" style="aspect-ratio: 3/2;">Photo — device showing 4 colored circles</div>
+        <img src="Assets/biome-box-interior-full.png" alt="The Biome Box opened up, showing the Arduino/breadboard half and the lid with four labeled contact-mic pads">
       </div>
+    </div>
+  </div>
+
+  <div class="snap-section panel" id="color-mapping">
+    <div class="panel-text">
+      <p class="panel-section-label">The Color Mapping</p>
+      <h3>Color is the whole interface.</h3>
+      <p>The design solution was two-fold. First, the four colored circles on the box had to match the four colored circles on the UI exactly, with no labels. That forces a toddler to rely on color memory and on remembering what each image actually is — or to ask a parent. Either way, the parent stays in the loop. It's also the mapping Henry locked onto: he could look at the box and know which tap would trigger which card.</p>
+    </div>
+    <div class="panel-image">
       <div class="ref-img" style="width: 100%; max-width: 560px;">
-        <div class="img-placeholder" style="aspect-ratio: 3/2;">Screenshot — UI sidebar with matching color cards</div>
+        <img src="Assets/biome-box-interior-right.png" alt="Interior detail — four contact mics glued in a square pattern, labeled A2 through A5, each matched to a color">
       </div>
+    </div>
+  </div>
+
+  <div class="snap-section panel" id="sound-design">
+    <div class="panel-text">
+      <p class="panel-section-label">The Sound Design</p>
+      <h3>Real sounds, sourced carefully.</h3>
+      <p>Second, every image needed a sound matched as closely as I could find to the real thing. In the space biome, some of those came straight from NASA's YouTube channel — Earth, the Sun, the satellite. The alien, on the other hand, triggers the X-Files theme. Not exactly "real world," but Henry didn't seem to mind.</p>
+    </div>
+    <div class="panel-image">
+      <div class="ref-img" style="width: 100%; max-width: 560px;">
+        <img src="Assets/biome-box-interior-left.png" alt="Interior detail — joystick mount and Arduino breadboard wiring, the brains behind each sound">
+      </div>
+    </div>
+  </div>
+
+  <div class="snap-section section" id="stack">
+    <p class="panel-section-label">The Stack</p>
+    <div class="stack-list" data-animate>
+      <span class="tag tag--filled">Arduino</span>
+      <span class="tag tag--filled">4× Piezo Contact Mics</span>
+      <span class="tag tag--filled">Joystick</span>
+      <span class="tag tag--filled">Breadboard</span>
+      <span class="tag tag--filled">Foam Core</span>
+      <span class="tag tag--filled">Midjourney</span>
+      <span class="tag tag--filled">Vibecoded UI + Firmware</span>
+      <span class="tag tag--filled">Recorded Biome Audio</span>
     </div>
   </div>
 
   <!-- ── THE UI (live embed) ───────────────────────────── -->
   <div class="snap-section section" id="assets">
     <p class="panel-section-label">The UI</p>
-    <h2 data-animate>Four worlds. Sixteen creatures.</h2>
-    <p data-animate style="max-width: 60ch;">Each biome background and creature was generated with Midjourney. Click the biome tabs or the creature cards on the left to explore — no Arduino required.</p>
+    <h2 data-animate>Four biomes. Sixteen cards.</h2>
+    <p data-animate style="max-width: 60ch;">Each biome background and card image was generated with Midjourney. Click the biome tabs or the cards on the left to explore — no Arduino required.</p>
     <div id="ui-wrap" data-animate style="width: 100%; margin-top: 1.5rem;">
       <iframe
         id="biome-iframe"
@@ -483,7 +539,7 @@
       <div class="feedback-cell">
         <div class="feedback-num">01</div>
         <h4>Tactility was the hook</h4>
-        <p>Users found the physical form factor engaging and comfortable. Keeping input physical — not screen-mediated — was the right call.</p>
+        <p>Users found the physical form factor engaging and comfortable. Keeping the input physical — not buried in a menu — was the right call, even once a screen entered the picture.</p>
       </div>
       <div class="feedback-cell">
         <div class="feedback-num">02</div>
@@ -492,35 +548,24 @@
       </div>
       <div class="feedback-cell">
         <div class="feedback-num">03</div>
-        <h4>E-AIMS came in at midterm</h4>
-        <p>The paper prototype didn't yet follow the research framework. The shift to biome-based UI was how analogous, real-world relationships came back in.</p>
+        <h4>Two concrete usability fixes</h4>
+        <p>The UI was still fairly abstract at midterm. Critique pushed two specific changes: give parents a way to change the sounds, and make the content itself more educational — not just decorative. It's also when I noticed the paper prototype wasn't yet following E-AIMS; the shift to biome-based content was how those real-world, analogous relationships came back in.</p>
       </div>
       <div class="feedback-cell">
         <div class="feedback-num">04</div>
-        <h4>Engagement has a half-life</h4>
-        <p>Henry recognized the circles on the device matched the screen — a win. But he lost interest quickly, pointing to a depth problem the next version would need to solve.</p>
+        <h4>Novelty wears off fast</h4>
+        <p>Henry's attention held longest when the interaction was physical and legible, but it still faded quickly once the novelty did — a depth problem the next version will need to solve.</p>
       </div>
     </div>
   </div>
 
-  <!-- ── OUTCOMES + STACK ───────────────────────────────── -->
+  <!-- ── OUTCOMES ───────────────────────────────────────── -->
   <div class="snap-section section" id="outcome">
     <p class="panel-section-label">Outcomes</p>
-    <h2 data-animate>Tactile first. Screen optional.</h2>
+    <h2 data-animate>Tactile first, screen in step.</h2>
     <p data-animate style="max-width: 60ch;">The final Biome Box used 4 contact mics glued in a square pattern, an integrated joystick, and a foam core enclosure with laminated colored paper. The UI was rebuilt around biome imagery — giving Henry a real-world analogy to hold onto.</p>
     <p data-animate style="max-width: 60ch;">When he recognized the circles on the device matched the screen, something clicked. That moment — a physical thing mapping to something on screen — is what the E-AIMS framework asks for.</p>
     <p data-animate style="max-width: 60ch;"><strong>Next:</strong> Solve the depth problem. Novelty fades fast — the next version needs loops, progression, or surprise to hold attention past the first session.</p>
-    <p class="panel-section-label" data-animate style="margin-top: 2.5rem;">The Stack</p>
-    <div class="stack-list" data-animate>
-      <span class="tag tag--filled">Arduino</span>
-      <span class="tag tag--filled">4× Piezo Contact Mics</span>
-      <span class="tag tag--filled">Joystick</span>
-      <span class="tag tag--filled">Breadboard</span>
-      <span class="tag tag--filled">Foam Core</span>
-      <span class="tag tag--filled">Midjourney</span>
-      <span class="tag tag--filled">Vibecoded UI + Firmware</span>
-      <span class="tag tag--filled">Recorded Biome Audio</span>
-    </div>
   </div>
 
   <script>
@@ -550,35 +595,21 @@
         title: 'Floor pad with FSR + recorder.',
         body: '<p>Step on it, record a sample. In theory, fun. In practice, too complicated — FSRs are too fragile at this scale and the interaction wasn\'t legible. Henry confirmed it wasn\'t working.</p>',
         status: 'Scrapped',
-        img: null, alt: 'Version 1 — floor pad prototype'
+        img: 'Assets/design-iteration-01.png', alt: 'Version 1 — floor pad prototype'
       },
       {
         num: '02',
         title: 'Rubber bands + piezos.',
         body: '<p>Shifted focus to vibration picked up by contact mics. Plucking rubber bands to trigger piezos felt more like something buildable — and more like something a kid would want to touch. The tactile direction locked in here.</p>',
         status: 'More promising',
-        img: null, alt: 'Version 2 — rubber bands and piezos'
+        img: 'Assets/design-iteration-02.png', alt: 'Version 2 — rubber bands and piezos'
       },
       {
         num: '03',
         title: 'Vibration + light + mic + ribbon.',
         body: '<p>Layered in more: things lit up, a ribbon changed pitch, a mic captured sound, on-screen feedback appeared. The critique said keep it tactile — but the controls were unclear. Users guessed at what the joystick did.</p>',
         status: 'Controls need rethink',
-        img: null, alt: 'Version 3 — layered prototype with light and ribbon'
-      },
-      {
-        num: '04',
-        title: 'Biome Box — final.',
-        body: '<p>Rethought the enclosure: 4 contact mics glued in a square pattern, joystick integrated, foam core box with laminated colored paper. UI rebuilt around biome imagery. Arduino firmware and UI both vibecoded.</p>',
-        status: 'Shipped',
-        img: null, alt: 'Version 4 — final Biome Box'
-      },
-      {
-        num: '05',
-        title: 'Space biome — a software iteration.',
-        body: '<p>Hardware was locked. But iteration continued on the software side. Space was added after the initial three biomes — alien, earth, satellite, sun. Worth noting: it\'s the only biome that breaks the E-AIMS "mirror the real world" directive. Space is real, but it\'s not analog in the way farm or woodland are. A productive tension.</p>',
-        status: 'Software iteration',
-        img: null, alt: 'Space biome — alien, earth, satellite, sun'
+        img: 'Assets/design-iteration-03.png', alt: 'Version 3 — layered prototype with light and ribbon'
       },
     ];
 
