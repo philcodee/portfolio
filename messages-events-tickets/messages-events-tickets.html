@@ -7,10 +7,32 @@
   <link rel="stylesheet" href="../brutalist-css.css" />
   <style>
     .hero { background: hsl(0, 0%, 90%); color: #000; }
+    .hero-image .img-frame { max-width: 75%; margin: 0 auto; }
     .outcome-item { background: #fff; }
     .panel-image { background: hsl(0, 0%, 90%); }
 
     figure { margin: 3.5rem 0; }
+
+    /* Next case study link */
+    .next-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      background: none;
+      font-family: 'w95fa', ui-monospace, monospace;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: #000;
+      line-height: 1.1;
+      transition: opacity 150ms ease;
+    }
+    .next-link:hover {
+      background: none;
+      color: #000;
+      opacity: 0.5;
+      text-decoration: none;
+    }
+    .next-link:visited { color: #000; opacity: 1; }
 
     @media (max-width: 768px) {
       .box { padding: 1.25rem; }
@@ -29,11 +51,11 @@
     <a href="#the-problem"       class="dot-nav-item" data-label="The Problem"></a>
     <a href="#panel-insight"     class="dot-nav-item" data-label="The Insight"></a>
     <a href="#panel-events"      class="dot-nav-item" data-label="Events &amp; Tickets"></a>
-    <a href="#panel-channels"    class="dot-nav-item" data-label="Four Channels"></a>
     <a href="#panel-views"       class="dot-nav-item" data-label="Global &amp; Account Views"></a>
     <a href="#panel-notifs"      class="dot-nav-item" data-label="Notifications"></a>
     <a href="#panel-thread"      class="dot-nav-item" data-label="Ticket Thread"></a>
     <a href="#outcome"           class="dot-nav-item" data-label="Validation"></a>
+    <a href="#next"              class="dot-nav-item" data-label="Next"></a>
   </nav>
 
   <!-- ── HERO + OUTCOMES ────────────────────────────────── -->
@@ -52,7 +74,7 @@
         </div>
         <div class="hero-image">
           <div class="img-frame" data-animate>
-            <div class="panel-placeholder">[ Screen — Messages Overview ]</div>
+            <img src="assets/hero-image.png" alt="Messages, Events &amp; Tickets — overview screen">
           </div>
         </div>
       </div>
@@ -63,8 +85,8 @@
         <div class="label">All communication, history, and activity consolidated under a single account identifier per insured</div>
       </div>
       <div class="outcome-item" data-animate>
-        <div class="number">4 Channels</div>
-        <div class="label">Named communication channels replace an undifferentiated inbox — each routes to the right team</div>
+        <div class="number">2 Views</div>
+        <div class="label">One Messages system serves a global queue across all accounts and a scoped view for a single insured</div>
       </div>
       <div class="outcome-item" data-animate>
         <div class="number">HubSpot</div>
@@ -81,7 +103,7 @@
       <div>
         <div class="entry" data-animate>
           <p class="entry-label">What I Owned</p>
-          <p>I led UX direction and design for the Messages system, Events/Tickets framework, and Notifications architecture — including the system model distinguishing Events from Tickets and the four-channel routing structure.</p>
+          <p>I led UX direction and design for the Messages system, Events/Tickets framework, and Notifications architecture — including the system model distinguishing Events from Tickets and the global-to-account view structure.</p>
         </div>
       </div>
       <div>
@@ -128,84 +150,70 @@
     <div class="panel-text">
       <p class="panel-section-label" data-animate>Key Decision 01</p>
       <h3 data-animate>Events and Tickets as Distinct Concepts</h3>
-      <p data-animate><strong>Events</strong> are system-generated. Any action on an account — policy issuance, cancellation, reinstatement, status change — auto-generates an event. Agents don't initiate them; they're a running log of what the platform did and when.</p>
+      <p data-animate><strong>Events</strong> are system-generated. Any action on an account — policy issuance, cancellation, reinstatement, status change — auto-generates an event, which also surfaces as a notification on the Messages page or the account's Messages tab. Agents don't initiate them; they're a running log of what the platform did and when.</p>
       <p data-animate style="margin-top: 1rem;"><strong>Tickets</strong> are human-initiated. They bridge the gap between the platform and external communication — the phone calls and emails that previously happened outside the system with no record. An agent files a ticket, and two things happen: a thread opens in their Tickets view, and a new ticket opens in HubSpot where an admin is notified directly.</p>
       <p data-animate style="margin-top: 1rem;">The distinction gives agents two different ways to scan their queue: what happened automatically, and what needs a human response.</p>
     </div>
     <div class="panel-image">
       <div class="card-stack" data-animate>
         <div class="img-frame">
-          <div class="panel-placeholder">[ Screen — Events View ]</div>
+          <img src="assets/messages-events.png" alt="Screen — Events View">
         </div>
         <div class="img-frame">
-          <div class="panel-placeholder">[ Screen — Tickets View ]</div>
+          <img src="assets/messages-tickets.png" alt="Screen — Tickets View">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── DECISION 2: Four Channels ─────────────────────── -->
-  <div class="panel snap-section" id="panel-channels">
+  <!-- ── DECISION 2: Global & Account Views ────────────── -->
+  <div class="panel snap-section" id="panel-views">
     <div class="panel-text">
       <p class="panel-section-label" data-animate>Key Decision 02</p>
-      <h3 data-animate>Four Channels, Each with a Purpose</h3>
-      <p data-animate>Rather than a single inbox, the system routes communication through four named channels:</p>
-      <p data-animate style="margin-top: 1rem;"><strong>Producer Comment</strong> — General notes about a quote or policy. The agent equivalent of a sticky note on a file.</p>
-      <p data-animate style="margin-top: 0.75rem;"><strong>Underwriting</strong> — For queries that require underwriter review. Scoped deliberately so underwriting-specific threads don't get lost in general noise.</p>
-      <p data-animate style="margin-top: 0.75rem;"><strong>Billing</strong> — Payment issues, commission discrepancies, billing model questions.</p>
-      <p data-animate style="margin-top: 0.75rem;"><strong>Support</strong> — Platform bugs, discrepancies, and technical issues.</p>
-      <p data-animate style="margin-top: 1rem;">Naming the channels reduced the ambiguity of "send a message" — agents knew where their question was going and who was expected to respond.</p>
-    </div>
-    <div class="panel-image">
-      <div class="panel-placeholder" data-animate>[ Screen — Channel Selection ]</div>
-    </div>
-  </div>
-
-  <!-- ── DECISION 3: Global & Account Views ────────────── -->
-  <div class="panel alt snap-section" id="panel-views">
-    <div class="panel-text">
-      <p class="panel-section-label" data-animate>Key Decision 03</p>
-      <h3 data-animate>Account-Level and Global Views</h3>
-      <p data-animate>The Messages system exists in two places simultaneously:</p>
-      <p data-animate style="margin-top: 1rem;"><strong>Global Messages page</strong> — All events and tickets across all accounts, filterable. The default view shows Events and Tickets side by side. New tickets can be created from here.</p>
-      <p data-animate style="margin-top: 0.75rem;"><strong>Account Messages tab</strong> — The same capabilities, scoped to a single insured. Accessible by clicking an account number from anywhere in the platform.</p>
-      <p data-animate style="margin-top: 1rem;">An agent doing a quarterly review of a specific account sees only that account's history. An agent doing morning triage sees everything. Same system, two appropriate contexts.</p>
+      <h3 data-animate>Global and Account-Scoped Views</h3>
+      <p data-animate>Messages lives in two places. The <strong>Global Messages page</strong> shows Events and Tickets across every account, filterable by type — built for triage, where an agent scans everything and narrows down. The <strong>Account Messages tab</strong> shows the same view scoped to one insured, reached by clicking an account number anywhere in the platform — built for focused review, where an agent sees only that account's history.</p>
+      <p data-animate style="margin-top: 1rem;">Filing a ticket from the global view replaces the old "add a note" action. Since the global page has no account context of its own, the composer adds an account dropdown alongside the subject and description fields. Clicking Send opens a new thread in the agent's Tickets view and files a matching ticket in HubSpot, notifying an admin directly.</p>
+      <p data-animate style="margin-top: 1rem;">One system, two contexts, each suited to how the agent is working.</p>
     </div>
     <div class="panel-image">
       <div class="card-stack" data-animate>
         <div class="img-frame">
-          <div class="panel-placeholder">[ Screen — Global Messages Page ]</div>
+          <img src="assets/global-messages-tab.png" alt="Screen — Global Messages Page">
         </div>
         <div class="img-frame">
-          <div class="panel-placeholder">[ Screen — Account Messages Tab ]</div>
+          <img src="assets/account-messages-tab.png" alt="Screen — Account Messages Tab">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── DECISION 4: Notifications ─────────────────────── -->
-  <div class="panel snap-section" id="panel-notifs">
+  <!-- ── DECISION 3: Notifications ─────────────────────── -->
+  <div class="panel alt snap-section" id="panel-notifs">
     <div class="panel-text">
-      <p class="panel-section-label" data-animate>Key Decision 04</p>
+      <p class="panel-section-label" data-animate>Key Decision 03</p>
       <h3 data-animate>Notifications as a Persistent Queue</h3>
       <p data-animate>The notifications bell in global navigation opens a side drawer — available from anywhere in the platform — showing a running history of all events and tickets. Agents can navigate to specific items, filter by type, and see at a glance what's new since they last checked.</p>
       <p data-animate style="margin-top: 1rem;">Status-based triggers make the queue meaningful without requiring the agent to go looking. Policy bound, policy at risk, NOC issued, submission declined, quote entering or exiting underwriting review — each generates a notification that surfaces automatically.</p>
     </div>
     <div class="panel-image">
-      <div class="panel-placeholder" data-animate>[ Screen — Notifications Side Drawer ]</div>
+      <div class="img-frame" data-animate>
+        <img src="assets/notifications-sidebar.png" alt="Screen — Notifications Side Drawer">
+      </div>
     </div>
   </div>
 
-  <!-- ── DECISION 5: Ticket Thread ─────────────────────── -->
-  <div class="panel alt snap-section" id="panel-thread">
+  <!-- ── DECISION 4: Ticket Thread ─────────────────────── -->
+  <div class="panel snap-section" id="panel-thread">
     <div class="panel-text">
-      <p class="panel-section-label" data-animate>Key Decision 05</p>
+      <p class="panel-section-label" data-animate>Key Decision 04</p>
       <h3 data-animate>Ticket Thread Design</h3>
       <p data-animate>Once a ticket is open, the agent sees a structured view: ticket number, status, priority, response thread, and basic formatting tools.</p>
       <p data-animate style="margin-top: 1rem;">The structured metadata was designed for both audiences simultaneously. The agent needs to track status across multiple open tickets. The admin needs to triage and prioritize from the HubSpot side without context-switching to the platform to understand what they're looking at.</p>
     </div>
     <div class="panel-image">
-      <div class="panel-placeholder" data-animate>[ Screen — Ticket Thread View ]</div>
+      <div class="img-frame" data-animate>
+        <img src="assets/ticket-thread-reply.png" alt="Screen — Ticket Thread View">
+      </div>
     </div>
   </div>
 
@@ -232,6 +240,12 @@
       <p class="entry-label">Good IA Is Invisible</p>
       <p>The Messages redesign was the most invisible part of the platform. When information architecture is working, it disappears — nobody notices the structure because the experience just makes sense. Fixing the structure fixed the experience.</p>
     </div>
+  </section>
+
+  <!-- ── NEXT CASE STUDY ──────────────────────────────────── -->
+  <section class="section snap-section" id="next" style="display:flex; flex-direction:column; justify-content:center;">
+    <p class="panel-section-label" data-animate>Series · Part 1 of 3</p>
+    <a href="../platform-architecture/platform-architecture.html" class="next-link" data-animate>Platform Architecture &amp; Navigation →</a>
   </section>
 
   <script>

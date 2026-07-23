@@ -13,34 +13,28 @@ customElements.define('site-nav', class extends HTMLElement {
         label: 'Graduate Work',
         groups: [
           {
-            heading: 'CivicGuide',
+            heading: 'AI / LLM',
             links: [
-              link('Case Study', 'civic-guide/civic-guide-case-study.html'),
-              link('Research Foundations', 'civic-guide/civic-trust-research.html'),
+              link('CivicGuide: Helping people fill out government forms', 'civic-guide/civic-guide-case-study.html'),
             ],
           },
           {
-            heading: 'Chunk: A Dada Manifesto',
+            heading: 'Physical Computing',
             links: [
-              link('Case Study', 'chunk-manifesto/chunk-manifesto.html'),
+              link('Timer: ArUco tag enabled timer for smart classroom', 'timer/timer-case-study.html'),
+              link('Biome Box: Tactile controller for interactive screensaver', 'biome-box/biome-box-case-study.html'),
             ],
           },
           {
-            heading: 'Timer',
+            heading: 'Games',
             links: [
-              link('Case Study', 'timer/timer-case-study.html'),
+              link('Pontifex: Encrypt/decrypt messages using Solitaire', 'pontifex/pontifex-case-study.html'),
             ],
           },
           {
-            heading: 'Biome Box',
+            heading: 'Typography / Conceptual',
             links: [
-              link('Case Study', 'biome-box/biome-box-case-study.html'),
-            ],
-          },
-          {
-            heading: 'Pontifex',
-            links: [
-              link('Case Study', 'pontifex/pontifex-case-study.html'),
+              link('Chunk: A Dada manifesto', 'chunk-manifesto/chunk-manifesto.html'),
             ],
           },
         ],
@@ -49,7 +43,7 @@ customElements.define('site-nav', class extends HTMLElement {
         label: 'UX Design',
         groups: [
           {
-            heading: 'Cover Whale — Platform Redesign',
+            heading: 'Platform Redesign',
             links: [
               link('Platform Architecture &amp; Navigation', 'platform-architecture/platform-architecture.html'),
               link('The Quote Application', 'quote-application/quote-application.html'),
@@ -116,12 +110,19 @@ customElements.define('site-nav', class extends HTMLElement {
     };
     navFolders.forEach(folder => {
       const trigger = folder.querySelector('.global-nav-folder-trigger');
+      const panel = folder.querySelector('.global-nav-panel');
       trigger.addEventListener('click', (e) => {
         e.stopPropagation();
         const isOpen = folder.classList.contains('is-open');
         closeAllDropdowns(folder);
         folder.classList.toggle('is-open', !isOpen);
         trigger.setAttribute('aria-expanded', String(!isOpen));
+        panel.style.left = '';
+        if (!isOpen) {
+          const margin = 16;
+          const overflow = panel.getBoundingClientRect().right - (window.innerWidth - margin);
+          if (overflow > 0) panel.style.left = `${-overflow}px`;
+        }
       });
     });
     document.addEventListener('click', () => closeAllDropdowns(null));
