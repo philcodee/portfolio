@@ -206,6 +206,21 @@
       .search-slide-text p { max-width: 100%; }
     }
 
+    .next-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      background: none;
+      font-family: 'w95fa', ui-monospace, monospace;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: #000;
+      line-height: 1.1;
+      transition: opacity 150ms ease;
+    }
+    .next-link:hover { background: none; color: #000; opacity: 0.5; text-decoration: none; }
+    .next-link:visited { color: #000; opacity: 1; }
+
     @media (max-width: 480px) {
       .iteration-grid { grid-template-columns: 1fr; }
       .iteration-cell { border-right: none; border-bottom: 3px solid #000; }
@@ -383,6 +398,12 @@
     <p data-animate style="max-width: 60ch;">A timer that lives in the room turns a solitary action into a shared one. That's the core of what this is.</p>
     <p data-animate style="max-width: 60ch;"><strong>Next:</strong> Rethink the physical tags so they communicate their affordances to people, not just to the camera. Explore sound. Find a home for the camera that doesn't block the board.</p>
   </div>
+
+  <!-- ── NEXT CASE STUDY ────────────────────────────────── -->
+  <section class="section snap-section" id="next" style="display:flex; flex-direction:column; justify-content:center;">
+    <p class="panel-section-label" data-animate>Next Case Study</p>
+    <a href="../biome-box/biome-box-case-study.html" class="next-link" data-animate>Biome Box →</a>
+  </section>
 
   <script>
     const animObserver = new IntersectionObserver(

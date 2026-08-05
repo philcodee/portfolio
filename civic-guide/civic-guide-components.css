@@ -828,3 +828,19 @@
   gap: var(--sp-03);
   align-items: center;
 }
+
+/* ── NEXT CASE STUDY LINK ─────────────────────────────── */
+.next-link {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  background: none;
+  font-family: 'w95fa', ui-monospace, monospace;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  color: #000;
+  line-height: 1.1;
+  transition: opacity 150ms ease;
+}
+.next-link:hover { background: none; color: #000; opacity: 0.5; text-decoration: none; }
+.next-link:visited { color: #000; opacity: 1; }

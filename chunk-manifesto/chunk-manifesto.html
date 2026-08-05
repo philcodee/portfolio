@@ -111,6 +111,21 @@
       .iteration-cell:nth-child(2) { border-bottom: 3px solid #000; }
     }
 
+    .next-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      background: none;
+      font-family: 'w95fa', ui-monospace, monospace;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: #000;
+      line-height: 1.1;
+      transition: opacity 150ms ease;
+    }
+    .next-link:hover { background: none; color: #000; opacity: 0.5; text-decoration: none; }
+    .next-link:visited { color: #000; opacity: 1; }
+
     @media (max-width: 480px) {
       .iteration-grid { grid-template-columns: 1fr; }
       .iteration-cell { border-right: none; border-bottom: 3px solid #000; }
@@ -273,6 +288,12 @@
       <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">AI-generated: Chunk market booth — "Objects for Stillness." Some hallucinations as Dadaist offerings: <em>"Fown follows, funeten."</em></p>
     </div>
   </div>
+
+  <!-- ── NEXT CASE STUDY ────────────────────────────────── -->
+  <section class="section snap-section" id="next" style="display:flex; flex-direction:column; justify-content:center;">
+    <p class="panel-section-label" data-animate>Next Case Study</p>
+    <a href="../green-thumb/green-thumb-case-study.html" class="next-link" data-animate>GreenThumb Community Gardens →</a>
+  </section>
 
   <script>
     const installSlides = [

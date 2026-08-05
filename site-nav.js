@@ -13,6 +13,12 @@ customElements.define('site-nav', class extends HTMLElement {
         label: 'Graduate Work',
         groups: [
           {
+            heading: 'Service Design / Research',
+            links: [
+              link('GreenThumb: Volunteer onboarding across 550+ community gardens', 'green-thumb/green-thumb-case-study.html'),
+            ],
+          },
+          {
             heading: 'AI / LLM',
             links: [
               link('CivicGuide: Helping people fill out government forms', 'civic-guide/civic-guide-case-study.html'),
