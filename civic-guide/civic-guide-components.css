@@ -136,10 +136,10 @@
   }
 
   .pa-label {
+    text-transform: uppercase;
     font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
     font-size: 0.75rem;
     font-weight: 900;
-    text-transform: uppercase;
     letter-spacing: 0.12em;
     opacity: 0.45;
     margin: 0;
@@ -185,10 +185,10 @@
   }
 
   .trust-cards-years span {
+    text-transform: uppercase;
     font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
     font-size: 0.75rem;
     font-weight: 900;
-    text-transform: uppercase;
     letter-spacing: 0.12em;
     color: rgba(255,255,255,0.5);
     text-align: right;
@@ -400,6 +400,7 @@
    shared .entry-label / p rules in brutalist-css.css — only layout
    overrides live here so this can't drift from the site's type scale. */
 .scan-path-label {
+  text-transform: uppercase;
   margin-bottom: 0;
 }
 
@@ -441,12 +442,12 @@
   flex-shrink: 0;
 }
 .cg-chrome-label {
+  text-transform: uppercase;
   font-family: var(--ff-mono);
   font-size: 0.6rem;
   font-weight: 400;
   color: #555;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   margin-left: var(--sp-02);
 }
 

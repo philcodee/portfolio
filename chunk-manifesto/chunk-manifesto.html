@@ -35,9 +35,126 @@
       position: relative;
       z-index: 0;
     }
-    .grid-2.ref-grid {
+    /* Work titles italicize; the global `em` rule is a black highlight instead. */
+    em.title {
+      font-style: italic;
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+
+    /* Section headings are <h2> so the outline is not flat; sized like .panel-text h3. */
+    .panel-text h2 {
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+      margin-top: 0;
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── STACKED FULL-BLEED SECTIONS (Brief, Outcomes) ─── */
+    /* Text block over a full-width image row, instead of the side-by-side
+       .panel layout. --stack-w is the shared measure: head, grid and note all
+       use it so their left edges line up. The vh term in it caps the image row
+       so tall portrait art doesn't blow past one screen. */
+    .stack-section {
+      box-sizing: border-box;
+      width: 100vw;
+      margin-left: calc(-1 * ((100vw - 100%) / 2 + 2rem));
+      border-top: 6px solid #000;
+      background: hsl(0, 0%, 90%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 5rem; /* match .panel-text */
+    }
+    .stack-head {
+      width: var(--stack-w);
+      margin: 0 auto 2.5rem;
+    }
+    .stack-head .panel-section-label {
+      margin-bottom: 2rem;
+    }
+    .stack-head h2 {
+      margin-top: 0.5rem;
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    }
+    .stack-head p {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      max-width: 56ch;
+      margin-bottom: 0;
+    }
+    .stack-grid {
+      display: grid;
+      gap: clamp(1.5rem, 4vw, 3rem);
       align-items: start;
+      width: var(--stack-w);
+      margin: 0 auto;
+    }
+    .stack-note {
+      width: var(--stack-w);
+      margin: 1.5rem auto 0;
+    }
+
+    /* Outcomes: two panels, equal 1224x1584. */
+    .statements { --stack-w: min(1000px, 92vw, 100vh); }
+    .statements .stack-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .statements .img-frame { margin-bottom: 18px; }
+
+    /* Brief: two posters, both 2184 tall — widths 1500 / 1608 keep them
+       the same visual height, so the row is sized off the taller ratio. */
+    .brief-stack { --stack-w: min(1000px, 92vw, 80vh); }
+    .brief-stack .stack-grid {
       grid-template-columns: 1500fr 1608fr;
+      align-items: end;
+    }
+
+    /* ── QUOTE SCREEN ───────────────────────────────────── */
+    /* A step darker than the section gray, quotes at display size. */
+    .quote-screen {
+      box-sizing: border-box;
+      width: 100vw;
+      margin-left: calc(-1 * ((100vw - 100%) / 2 + 2rem));
+      border-top: 6px solid #000;
+      background: hsl(0, 0%, 80%); /* a step down from the 90% section gray */
+      color: #000;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 5rem;
+    }
+    .quote-stack {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(2.5rem, 6vh, 4.5rem);
+    }
+    .quote-screen blockquote {
+      border-left: none;
+      background: none;
+      color: inherit;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+    .quote-screen blockquote p {
+      font-family: 'w95fa', ui-monospace, monospace;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 4vw, 3.6rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      text-indent: -0.4em; /* hang the opening quote mark */
+    }
+    .quote-screen blockquote cite {
+      display: block;
+      margin-top: 1.25rem;
+      font-size: 0.75rem;
+      font-weight: 900;
+      font-style: normal;
+      letter-spacing: 0.12em;
+      opacity: 0.6;
     }
 
     .iteration-grid {
@@ -53,18 +170,18 @@
     }
     .iteration-cell:last-child { border-right: none; }
     .iteration-num {
+      text-transform: uppercase;
       font-size: 0.65rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.14em;
       opacity: 0.4;
       margin-bottom: 0.6rem;
       font-family: ui-monospace, monospace;
     }
     .iteration-cell h4 {
+      text-transform: uppercase;
       font-size: 0.95rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: -0.01em;
       margin-bottom: 0.5rem;
       font-family: ui-monospace, monospace;
@@ -86,7 +203,6 @@
       justify-content: center;
       font-size: 0.65rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.1em;
       opacity: 0.35;
       font-family: ui-monospace, monospace;
@@ -105,6 +221,10 @@
       .panel-image { order: 1; border-bottom: none; border-top: 6px solid #000; }
       .panel.alt .panel-text { order: 2; }
       .panel.alt .panel-image { order: 1; }
+      .stack-section, .quote-screen { padding: 3rem 1.25rem; }
+      .stack-grid { grid-template-columns: 1fr; width: 100%; }
+      .brief-stack .stack-grid { grid-template-columns: 1fr; }
+      .stack-head, .stack-note { width: 100%; }
       .iteration-grid { grid-template-columns: repeat(2, 1fr); }
       .iteration-cell:nth-child(2) { border-right: none; }
       .iteration-cell:nth-child(1),
@@ -142,10 +262,12 @@
   <nav class="dot-nav" aria-label="Page contents">
     <a href="#intro"    class="dot-nav-item" data-label="Overview"></a>
     <a href="#brief"    class="dot-nav-item" data-label="The Brief"></a>
+    <a href="#quote"    class="dot-nav-item" data-label="The Quote"></a>
     <a href="#iter-01"  class="dot-nav-item" data-label="01 — The Book"></a>
     <a href="#iter-02"  class="dot-nav-item" data-label="02 — Tile Print"></a>
     <a href="#iter-03"  class="dot-nav-item" data-label="03 — As Product"></a>
     <a href="#iter-04"  class="dot-nav-item" data-label="04 — Installation"></a>
+    <a href="#survived" class="dot-nav-item" data-label="What Survived"></a>
     <a href="#outcome"  class="dot-nav-item" data-label="What I Got Out of It"></a>
   </nav>
 
@@ -161,7 +283,7 @@
             <span class="tag">Conceptual</span>
           </div>
           <h1>Chunk: A Dada Manifesto</h1>
-          <p>A Dada-influenced manifesto about art, technology, and public space — iterated across four formats until only two statements survived.</p>
+          <p>A Dada-influenced manifesto about art, technology, and public space — iterated across four formats until only two panels survived.</p>
         </div>
         <div class="hero-image">
           <div class="img-frame" data-animate style="width: 100%;">
@@ -177,7 +299,7 @@
       </div>
       <div class="outcome-item" data-animate>
         <div class="number">9 → 2</div>
-        <div class="label">Manifesto statements — edited down to the two that felt universal</div>
+        <div class="label">Manifesto panels — edited down to the two that felt universal</div>
       </div>
       <div class="outcome-item" data-animate>
         <div class="number">1 Rock</div>
@@ -187,26 +309,34 @@
   </div>
 
   <!-- ── THE BRIEF ──────────────────────────────────────── -->
-  <div class="snap-section panel" id="brief">
-    <div class="panel-text">
+  <div class="snap-section stack-section brief-stack" id="brief">
+    <div class="stack-head">
       <p class="panel-section-label">The Brief</p>
-      <h3>Write a manifesto.<br>Choose typography that expresses it holistically.</h3>
-      <p>After researching various art and design manifestos, I landed on Dada and the <em>Why Cheap Art?</em> manifesto — evoking a sense of nonsensical craft. The work blurs the line between saying something and solving something.</p>
-      <blockquote>
-        "They use the same tools — words, pictures, colors. The difference, as you'll be seeing, as you'll be showing me, is how."
-        <cite>— The Cheese Monkeys</cite>
-      </blockquote>
+      <h2>Write a manifesto.<br>Choose typography that expresses it holistically.</h2>
+      <p>After researching various art and design manifestos, I landed on Dada and the <em class="title">Why Cheap Art?</em> manifesto — evoking a sense of nonsensical craft. The work blurs the line between saying something and solving something.</p>
     </div>
-    <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
-      <div class="grid-2 ref-grid" style="width: 100%; align-items: end;">
-        <div class="ref-img">
-          <img src="assets/bread-and-puppet.png" alt="Why Cheap Art? — Bread & Puppet, 1984">
-        </div>
-        <div class="ref-img">
-          <img src="assets/dada-manifesto.png" alt="Manifeste Dada 1918">
-        </div>
+    <div class="stack-grid">
+      <div class="ref-img" data-animate>
+        <img src="assets/bread-and-puppet.png" alt="Why Cheap Art? — Bread &amp; Puppet, 1984">
       </div>
-      <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">The typography and aesthetic of the Bread &amp; Puppet poster helped to define how I would approach the making: cheap &amp; visually rich; the attitude towards the work would be determined by the "Anti-Manifesto" Dadaists: contradictory, absurdist, non-sensical.</p>
+      <div class="ref-img" data-animate>
+        <img src="assets/dada-manifesto.png" alt="Manifeste Dada 1918">
+      </div>
+    </div>
+    <p class="caption stack-note">The typography and aesthetic of the Bread &amp; Puppet poster helped to define how I would approach the making: cheap &amp; visually rich; the attitude towards the work would be determined by the "Anti-Manifesto" Dadaists: contradictory, absurdist, non-sensical.</p>
+  </div>
+
+  <!-- ── QUOTE ──────────────────────────────────────────── -->
+  <div class="snap-section quote-screen" id="quote">
+    <div class="quote-stack">
+      <blockquote>
+        <p>"The contradiction and unity of poles in a single toss can be the truth."</p>
+        <cite>— Tristan Tzara, <em class="title">Dada Manifesto</em>, 1918</cite>
+      </blockquote>
+      <blockquote>
+        <p>"They [art & design] use the same tools — words, pictures, colors. The difference, as you'll be seeing, as you'll be showing me, is how."</p>
+        <cite>— Chip Kidd, <em class="title">The Cheese Monkeys</em>, 2001</cite>
+      </blockquote>
     </div>
   </div>
 
@@ -214,7 +344,7 @@
   <div class="snap-section panel" id="iter-01">
     <div class="panel-text">
       <p class="panel-section-label">Exploration 01</p>
-      <h3>The Book</h3>
+      <h2>The Book</h2>
       <p>The first iteration. A hand-assembled book — pre-Chunk burn mark included. Format raised the first question: does a manifesto need to be read, or just experienced?</p>
     </div>
     <div class="panel-image">
@@ -228,7 +358,7 @@
   <div class="snap-section panel alt" id="iter-02">
     <div class="panel-text">
       <p class="panel-section-label">Exploration 02</p>
-      <h3>Tile Print</h3>
+      <h2>Tile Print</h2>
       <p>Nine color panels — cheap, visually rich, clipped to the wall. Each panel carries one statement. The format introduced the idea of manifesto as installation.</p>
     </div>
     <div class="panel-image">
@@ -242,7 +372,7 @@
   <div class="snap-section panel" id="iter-03">
     <div class="panel-text">
       <p class="panel-section-label">Exploration 03</p>
-      <h3>Manifesto as Product</h3>
+      <h2>Manifesto as Product</h2>
       <p>The Chunk paperweight. Formal letters on grey stock. An invitation — taken straight from the dictionary — to go somewhere, do something. The manifesto becomes a thing you can hold.</p>
     </div>
     <div class="panel-image">
@@ -256,7 +386,7 @@
   <div class="snap-section panel alt" id="iter-04">
     <div class="panel-text">
       <p class="panel-section-label">Exploration 04</p>
-      <h3>Public Installation</h3>
+      <h2>Public Installation</h2>
       <p>A folding table, snacks, flyers, and the Chunk box in a park. Relying on foot traffic alone didn't get as much engagement as expected. The flyer also proved ineffective.</p>
     </div>
     <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
@@ -273,19 +403,36 @@
     </div>
   </div>
 
-  <!-- ── OUTCOMES ───────────────────────────────────────── -->
+  <!-- ── OUTCOMES: THE TWO THAT SURVIVED ────────────────── -->
+  <div class="snap-section stack-section statements" id="survived">
+    <div class="stack-head">
+      <p class="panel-section-label">Outcomes</p>
+      <h2 class="h2--flush">The Less Said, the Better</h2>
+      <p>I removed more content than I started with. Of the original nine panels, these two survived — the only ones that felt universal enough to share when someone asked what the work meant.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="img-frame" data-animate>
+        <img src="assets/final-01.png" alt="Manifesto panel: “Human experiences happen both with and without technology. I often interact with ghosts of a digital analog; paper becomes light.”">
+      </div>
+      <div class="img-frame" data-animate>
+        <img src="assets/final-02.png" alt="Manifesto panel: “I want interactions that are a not-for-profit. A public park, a hidden path, a simple surprise.”">
+      </div>
+    </div>
+    <p class="caption stack-note">Not just universal, I see these as applicable in art, design, or simply, lived experience.</p>
+  </div>
+
+  <!-- ── OUTCOMES: WHAT I GOT OUT OF IT ─────────────────── -->
   <div class="snap-section panel" id="outcome">
     <div class="panel-text">
-      <p class="panel-section-label">Outcomes</p>
-      <h3>The Less Said, the Better</h3>
-      <p>I removed more content than I started with. Of the original nine panels, two statements felt universal enough to share when asked for meaning behind the work.</p>
+      <p class="panel-section-label">What I Got Out of It</p>
+      <h2>Inspiration to Scale</h2>
       <p>Cycling through formats arrived at something with real audience participation potential — and a richer foundation for future work using AI-assisted image and content generation.</p>
     </div>
     <div class="panel-image" style="flex-direction: column; align-items: flex-start;">
       <div class="img-frame" style="width: 100%;">
         <img src="assets/booth.png" alt="AI-generated Chunk market booth">
       </div>
-      <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">AI-generated: Chunk market booth — "Objects for Stillness." Some hallucinations as Dadaist offerings: <em>"Fown follows, funeten."</em></p>
+      <p class="caption" style="margin-top: 1rem; max-width: 100%; width: 100%;">AI-generated: Chunk market booth — "Objects for Stillness." Some hallucinations as Dadaist offerings.</p>
     </div>
   </div>
 

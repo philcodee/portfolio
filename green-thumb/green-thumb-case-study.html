@@ -13,11 +13,11 @@
 
     figure { margin: 3rem 0; }
     figcaption {
+      text-transform: uppercase;
       font-family: ui-monospace, monospace;
       font-size: 0.75rem;
       font-weight: 900;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
       opacity: 0.55;
       margin-top: 0.75rem;
       line-height: 1.5;
@@ -80,12 +80,22 @@
     .panel-image { flex-direction: column; }
     .panel-image .img-frame { width: min(100%, 600px, 55vh); }
     .panel-image .img-frame img { width: 100%; height: auto; }
+
+    /* 1-bit pixel art: scale with nearest-neighbour so the grid stays hard.
+       Source is 768px = a 384px native grid at 2x. Width is pinned to a multiple
+       of 192 so that on a 2x display every art pixel gets the same whole number of
+       device pixels. 768 is the next such multiple up; below ~1804px viewports it
+       clamps to the column width instead (50vw minus 4rem padding each side), which
+       is off-multiple and rounds slightly unevenly. Filling the column is worth that
+       here — the art is high-contrast and the unevenness reads only on thin tips. */
+    .img-frame.pixel-art { width: min(100%, 768px); }
+    .img-frame.pixel-art img { image-rendering: pixelated; }
     .panel-caption {
+      text-transform: uppercase;
       font-family: ui-monospace, monospace;
       font-size: 0.75rem;
       font-weight: 900;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
       line-height: 1.5;
       opacity: 0.55;
       max-width: min(100%, 600px, 55vh);
@@ -144,10 +154,10 @@
     .ratio-chart { position: relative; }
     .ratio-row + .ratio-row { margin-top: 1.75rem; }
     .ratio-label {
+      text-transform: uppercase;
       font-family: ui-monospace, monospace;
       font-size: 0.72rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.12em;
       margin: 0 0 0.3rem;
       max-width: none;
@@ -193,10 +203,10 @@
     }
     .sb-cell { padding: 0.7rem 0.6rem; border-left: 1px solid #000; border-top: 1px solid #000; }
     .sb-stage {
+      text-transform: uppercase;
       background: #000;
       color: #fff;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.08em;
       text-align: center;
       border-top: none;
@@ -204,9 +214,9 @@
     }
     .sb-corner { background: #000; border: none; }
     .sb-lane {
+      text-transform: uppercase;
       background: hsl(0, 0%, 90%);
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.06em;
       font-size: 0.68rem;
       border-left: none;
@@ -225,22 +235,22 @@
       margin-right: 0.4rem;
     }
     .sb-line {
+      text-transform: uppercase;
       grid-column: 1 / -1;
       text-align: center;
       padding: 0.35rem;
       font-size: 0.62rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.14em;
       border-top: 2px dashed #000;
       background: hsl(0, 0%, 90%);
     }
     .sb-line--broken { background: #000; color: #fff; border-top-color: #fff; }
     .sb-caption {
+      text-transform: uppercase;
       font-family: ui-monospace, monospace;
       font-size: 0.7rem;
       font-weight: 900;
-      text-transform: uppercase;
       letter-spacing: 0.1em;
       opacity: 0.55;
       margin: 0.9rem 0 2.5rem;
@@ -253,17 +263,18 @@
       .sb-grid { display: block; }
       .sb-corner, .sb-stage { display: none; }
       .sb-lane {
+        text-transform: uppercase;
         padding: 0.6rem;
         border-top: 3px solid #000;
         border-left: none;
       }
       .sb-cell { border-left: none; padding: 0.7rem 0.75rem; }
       .sb-cell .sb-stage-tag {
+        text-transform: uppercase;
         display: block;
         font-size: 0.6rem;
         font-weight: 900;
         letter-spacing: 0.14em;
-        text-transform: uppercase;
         opacity: 0.5;
         margin-bottom: 0.2rem;
       }
@@ -675,32 +686,34 @@
     </div>
   </section>
 
-
+  <!--When people don't understand a garden's origins, purpose, or the relationships that shaped it, it becomes harder for them to recognize what they're being asked to protect or contribute to. Without that shared story, newcomers may feel disconnected from the neighborhood context and unsure how their involvement fits into the ongoing narrative. This gap makes it difficult for gardens to build on what already exists — local knowledge, community history, and informal systems that are rarely captured in printed materials. A clear, accessible story helps people see themselves in the garden's past and future, strengthening both belonging and long-term stewardship.-->
+ 
   <!-- ── INSIGHT 01 ─────────────────────────────────────── -->
   <div class="panel snap-section" id="insight-01">
     <div class="panel-text">
       <p class="panel-section-label" data-animate>Insight 01</p>
       <h3 data-animate>Every Garden Has a Story to Tell</h3>
-      <p data-animate>When people don't understand a garden's origins, purpose, or the relationships that shaped it, it becomes harder for them to recognize what they're being asked to protect or contribute to. Without that shared story, newcomers may feel disconnected from the neighborhood context and unsure how their involvement fits into the ongoing narrative. This gap makes it difficult for gardens to build on what already exists — local knowledge, community history, and informal systems that are rarely captured in printed materials. A clear, accessible story helps people see themselves in the garden's past and future, strengthening both belonging and long-term stewardship.</p>
+      <p data-animate>At Green Oasis, volunteers hear the garden's history before they journal or map it — knowledge that isn't written down anywhere else. That story can motivate volunteers toward long-term stewardship.</p>
     </div>
     <div class="panel-image">
-      <div class="insight-plate" data-animate aria-hidden="true">
-        <span class="insight-num">01</span>
+      <div class="img-frame pixel-art" data-animate>
+        <img src="images/insights-01.png" alt="A single root system spreading underground and rising into a dozen distinct garden plots above the soil line — each plot planted differently, all fed by the same roots." />
       </div>
     </div>
   </div>
 
+  <!--When gardens don't have clear ways to surface volunteers' skills and interests early on, it becomes harder to connect people to meaningful contributions over time. Even highly interested volunteers can struggle to see their growth or their role in the larger ecosystem, making it harder for them to stay engaged and rooted in the community. Without this early moment of connection, gardens lose the chance to invite volunteers onto a clear growth path — one that deepens engagement, builds skills, and strengthens long-term participation.-->
 
   <!-- ── INSIGHT 02 ─────────────────────────────────────── -->
   <div class="panel alt snap-section" id="insight-02">
     <div class="panel-text">
       <p class="panel-section-label" data-animate>Insight 02</p>
       <h3 data-animate>Early Skill Pathways Grow Roots</h3>
-      <p data-animate>When gardens don't have clear ways to surface volunteers' skills and interests early on, it becomes harder to connect people to meaningful contributions over time. Even highly interested volunteers can struggle to see their growth or their role in the larger ecosystem, making it harder for them to stay engaged and rooted in the community. Without this early moment of connection, gardens lose the chance to invite volunteers onto a clear growth path — one that deepens engagement, builds skills, and strengthens long-term participation.</p>
+      <p data-animate>Kyleen's team already sees skilled volunteers leave after a short stretch. Nothing asks what they're good at before they're given a task. That gap keeps them from growing into larger roles.</p>
     </div>
     <div class="panel-image">
-      <div class="insight-plate" data-animate aria-hidden="true">
-        <span class="insight-num">02</span>
+      <div class="img-frame pixel-art" data-animate>
+        <img src="images/insights-02.png" alt="A lone gardener standing at the foot of five stems that branch upward from them. Each stem opens into a medallion holding a basic skill — turning soil, potting seedlings, hand tools, watering, digging — and a dashed arrow carries each one further up to what it grows into: a raised bed, a flowering basket, a young tree, a full flower border, a loaded wheelbarrow." />
       </div>
     </div>
   </div>
@@ -717,15 +730,18 @@
   </section>
   -->
 
+  <!--We considered other formats — a visualization of a volunteer's impact on the garden ecosystem, a redesigned onboarding workshop. Both required something the system doesn't have: coordination capacity, or a screen.
+      A pamphlet fits the process that already exists. The garden leader introduces the space and shares its history; the pamphlet gets handed out before work starts. It's tangible, low-barrier, and scalable across 550+ gardens without a portal, a login, or a minimum commitment — which is the only kind of thing that survives Kyleen's accessibility constraint.
+      Three parts, each aimed at something the map exposed. The garden's history and mission up front, because right now that story is told from memory and leaves when its teller does. A task breakdown pairing each job with the tools it uses and the benefit it produces. And a blank reflection page the volunteer keeps — so they no longer leave with nothing in hand.-->
 
   <!-- ── PROTOTYPE ──────────────────────────────────────── -->
   <div class="panel snap-section" id="prototype">
     <div class="panel-text">
       <p class="panel-section-label" data-animate>The Prototype</p>
       <h3 data-animate>A Pamphlet, Not a Platform</h3>
-      <p data-animate>We considered other formats — a visualization of a volunteer's impact on the garden ecosystem, a redesigned onboarding workshop. Both required something the system doesn't have: coordination capacity, or a screen.</p>
-      <p data-animate style="margin-top:1.25rem;">A pamphlet fits the process that already exists. The garden leader introduces the space and shares its history; the pamphlet gets handed out before work starts. It's tangible, low-barrier, and scalable across 550+ gardens without a portal, a login, or a minimum commitment — which is the only kind of thing that survives Kyleen's accessibility constraint.</p>
-      <p data-animate style="margin-top:1.25rem;">Three parts, each aimed at something the map exposed. The garden's history and mission up front, because right now that story is told from memory and leaves when its teller does. A task breakdown pairing each job with the tools it uses and the benefit it produces. And a blank reflection page the volunteer keeps — so they no longer leave with nothing in hand.</p>
+      <p data-animate>Two formats came up: an ecosystem visualization, a workshop redesign. Both need a screen or capacity we lack.</p>
+      <p data-animate style="margin-top:1.25rem;">A pamphlet fits what's already in place: handed out as the leader introduces the garden. It needs no portal or login, meeting Kyleen's constraint.</p>
+      <p data-animate style="margin-top:1.25rem;">Three parts follow the research: history and mission, since that story lives in memory and leaves with its teller; tasks paired with tools and benefit; a reflection page volunteers keep.</p>
     </div>
     <div class="panel-image">
       <div class="img-frame" data-animate>
