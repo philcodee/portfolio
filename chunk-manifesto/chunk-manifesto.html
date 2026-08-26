@@ -221,7 +221,13 @@
       .panel-image { order: 1; border-bottom: none; border-top: 6px solid #000; }
       .panel.alt .panel-text { order: 2; }
       .panel.alt .panel-image { order: 1; }
-      .stack-section, .quote-screen { padding: 3rem 1.25rem; }
+      /* Body padding drops to 0 on mobile, so the full-bleed offset would
+         over-shift these left by 2rem. Reset like .hero / .panel do. */
+      .stack-section, .quote-screen {
+        width: auto;
+        margin-left: 0;
+        padding: 3rem 1.25rem;
+      }
       .stack-grid { grid-template-columns: 1fr; width: 100%; }
       .brief-stack .stack-grid { grid-template-columns: 1fr; }
       .stack-head, .stack-note { width: 100%; }
