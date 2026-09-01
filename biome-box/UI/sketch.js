@@ -290,13 +290,19 @@ function handleSerialData(data) {
 }
 
 function selectControl(index) {
+  // Tapping the card that is already playing stops it. The sounds loop, so
+  // without this there is no way to turn one off short of changing biome.
+  if (currentControl === index) {
+    stopAllSounds();
+    currentControl = -1;
+    return;
+  }
+
   currentControl = index;
   stopAllSounds();
 
   let control = biomes[currentBiome].controls[index];
   if (control.sound && control.sound.isLoaded()) control.sound.loop();
-
-  console.log(`Now playing: ${control.name}`);
 }
 
 function draw() {
@@ -507,6 +513,15 @@ function drawInfoOverlay() {
 
 function mousePressed() {
   handlePress(mouseX, mouseY);
+}
+
+// Handle touch explicitly rather than leaning on p5's mouse fallback, which is
+// unreliable inside an iframe. Returning false stops the browser turning the
+// tap into a scroll or a synthesised second click.
+function touchStarted() {
+  if (touches.length) handlePress(touches[0].x, touches[0].y);
+  else handlePress(mouseX, mouseY);
+  return false;
 }
 
 function handlePress(px, py) {
