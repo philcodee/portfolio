@@ -703,6 +703,14 @@
 
     const fsElement = () => document.fullscreenElement || document.webkitFullscreenElement;
 
+    // #ui-wrap carries its own inline width/margin, which outranks any
+    // stylesheet rule -- so the expanded geometry has to be inline too, or the
+    // element stays in flow at the body's 900px measure instead of filling the
+    // screen. dvh keeps it honest under mobile browser chrome.
+    let uiWrapStyle = null;
+    const EXPANDED_STYLE = 'position:fixed;top:0;left:0;right:0;bottom:0;' +
+      'width:100vw;height:100vh;height:100dvh;margin:0;padding:0;max-width:none;z-index:9999;';
+
     function enterExpanded() {
       if (uiWrap.classList.contains('is-expanded')) return;
       // Teleport #ui-wrap to <body> so position:fixed is relative to the viewport,
@@ -712,6 +720,8 @@
       document.body.appendChild(uiWrap);
 
       uiWrap.classList.add('is-expanded');
+      uiWrapStyle = uiWrap.getAttribute('style') || '';
+      uiWrap.setAttribute('style', uiWrapStyle + ';' + EXPANDED_STYLE);
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
       if (siteNav) siteNav.style.display = 'none';
@@ -736,6 +746,7 @@
     function exitExpanded() {
       if (!uiWrap.classList.contains('is-expanded')) return;
       uiWrap.classList.remove('is-expanded');
+      if (uiWrapStyle !== null) { uiWrap.setAttribute('style', uiWrapStyle); uiWrapStyle = null; }
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       if (siteNav) siteNav.style.display = '';
