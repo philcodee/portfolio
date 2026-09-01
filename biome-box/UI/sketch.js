@@ -290,19 +290,13 @@ function handleSerialData(data) {
 }
 
 function selectControl(index) {
-  // Tapping the card that is already playing stops it. The sounds loop, so
-  // without this there is no way to turn one off short of changing biome.
-  if (currentControl === index) {
-    stopAllSounds();
-    currentControl = -1;
-    return;
-  }
-
   currentControl = index;
   stopAllSounds();
 
   let control = biomes[currentBiome].controls[index];
   if (control.sound && control.sound.isLoaded()) control.sound.loop();
+
+  console.log(`Now playing: ${control.name}`);
 }
 
 function draw() {
@@ -516,14 +510,6 @@ function mousePressed() {
 }
 
 function handlePress(px, py) {
-  // Browsers create the audio context suspended and only let it resume inside
-  // a user gesture. Without this the cards select silently -- which reads as
-  // the sprites not being tappable at all, since sound is their only feedback.
-  if (typeof getAudioContext === 'function' && getAudioContext().state !== 'running') {
-    const ctx = getAudioContext();
-    if (ctx.resume) Promise.resolve(ctx.resume()).catch(() => {});
-  }
-
   let scaleFactor = width / 1280;
   let mx = px / scaleFactor;
   let my = py / scaleFactor;
