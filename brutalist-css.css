@@ -1625,6 +1625,21 @@ body.nav-open {
 .lightbox-stage.is-zoomed img {
   cursor: grab;
 }
+
+/* Zoomed, the picture gets the whole surface. The framing border, the body
+   inset and the footer all belong to the fitted state -- left in place they
+   read as a box clipping the zoom, and the border scales with the transform
+   into a heavy black frame. */
+.lightbox.is-zoomed .lightbox-body {
+  padding: 0;
+}
+.lightbox.is-zoomed .lightbox-stage img {
+  border-width: 0;
+}
+.lightbox.is-zoomed .lightbox-nav,
+.lightbox.is-zoomed .lightbox-footer {
+  display: none;
+}
 /* Zoom to fit. The exact size is set in JS from the file's real dimensions:
    pure CSS can upscale or preserve the ratio here, but not both while keeping
    the border wrapped tight to the picture.

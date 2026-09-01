@@ -192,16 +192,27 @@
   }
 
   function setZoom(next, smooth) {
+    const was = zoom;
     zoom = Math.max(1, Math.min(MAX_ZOOM, next));
-    if (zoom === 1) { tx = ty = 0; }
+    if (zoom === 1) {
+      tx = ty = 0;
+      // Coming back to fit restores the body inset and footer, so the stage
+      // shrinks again -- and any resize while zoomed was deliberately skipped.
+      if (was > 1.01) requestAnimationFrame(refit);
+    }
     else clampPan();
     applyTransform(smooth);
-    stage.classList.toggle('is-zoomed', zoom > 1.01);
+    const on = zoom > 1.01;
+    stage.classList.toggle('is-zoomed', on);
+    // Also on the overlay, so the chrome can get out of the way: the framing
+    // border, body inset and footer are all for the fitted state.
+    overlay.classList.toggle('is-zoomed', on);
   }
 
   function resetZoom() {
     zoom = 1; tx = ty = 0;
     stage.classList.remove('is-zoomed');
+    overlay.classList.remove('is-zoomed');
     const img = stage.querySelector('img');
     if (img) { img.style.transition = ''; img.style.transform = ''; }
   }
