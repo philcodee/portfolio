@@ -94,6 +94,7 @@
     overlay.addEventListener('click', e => {
       if (swallowClick) { swallowClick = false; return; }
       if (e.target.closest('.lightbox-bar, .lightbox-nav')) return;
+      if (isPinched()) { setZoom(1, true); return; }   // unzoom before dismissing
       close();
     });
 
@@ -105,11 +106,13 @@
       window.visualViewport.addEventListener('resize', refit);
     }
     bindSwipe();
+    bindZoom();
   }
 
   function render() {
     // Any live node from the previous frame goes home before we reuse the stage.
     restoreBorrowed();
+    resetZoom();
     stage.innerHTML = '';
 
     const item = items[index];
@@ -148,14 +151,132 @@
     const box = stage.getBoundingClientRect();
     if (!box.width || !box.height) return;
     const scale = Math.min(box.width / img.naturalWidth, box.height / img.naturalHeight);
-    img.style.width  = Math.floor(img.naturalWidth  * scale) + 'px';
-    img.style.height = Math.floor(img.naturalHeight * scale) + 'px';
+    // Aspect-ratio lock: the ratio plus ONE dimension. Height stays auto and
+    // is derived from the ratio, so the two axes cannot be constrained
+    // independently -- if anything clamps the width, the height follows it
+    // instead of the picture stretching. Setting both explicitly is what let
+    // rotation squash the image.
+    img.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+    img.style.width  = Math.floor(img.naturalWidth * scale) + 'px';
+    img.style.height = '';
   }
 
-  // Pinch-zoom must win. While the visual viewport is scaled the user is
-  // inspecting detail, and refitting would resize the picture out from under
-  // the gesture. Fitting resumes when they pinch back to 1.
-  const isPinched = () => !!(window.visualViewport && window.visualViewport.scale > 1.01);
+  /* ── zoom & pan ──────────────────────────────────────────── */
+  // Zoom belongs to the picture, not the page: browser pinch would scale the
+  // CLOSE bar along with everything else. The stage takes touch-action:none
+  // so these gestures are ours, and the image is moved with a transform while
+  // the chrome stays put.
+
+  const MAX_ZOOM = 4;
+  let zoom = 1, tx = 0, ty = 0;
+  const isPinched = () => zoom > 1.01;
+
+  function applyTransform(smooth) {
+    const img = stage.querySelector('img');
+    if (!img) return;
+    img.style.transition = smooth ? 'transform 180ms ease' : '';
+    img.style.transform = `translate(${tx}px, ${ty}px) scale(${zoom})`;
+  }
+
+  // Keep the picture from drifting off into the margins: at any scale it may
+  // only travel as far as its own overhang past the stage.
+  function clampPan() {
+    const img = stage.querySelector('img');
+    if (!img) return;
+    const box = stage.getBoundingClientRect();
+    const w = img.offsetWidth * zoom, h = img.offsetHeight * zoom;
+    const maxX = Math.max(0, (w - box.width) / 2);
+    const maxY = Math.max(0, (h - box.height) / 2);
+    tx = Math.max(-maxX, Math.min(maxX, tx));
+    ty = Math.max(-maxY, Math.min(maxY, ty));
+  }
+
+  function setZoom(next, smooth) {
+    zoom = Math.max(1, Math.min(MAX_ZOOM, next));
+    if (zoom === 1) { tx = ty = 0; }
+    else clampPan();
+    applyTransform(smooth);
+    stage.classList.toggle('is-zoomed', zoom > 1.01);
+  }
+
+  function resetZoom() {
+    zoom = 1; tx = ty = 0;
+    stage.classList.remove('is-zoomed');
+    const img = stage.querySelector('img');
+    if (img) { img.style.transition = ''; img.style.transform = ''; }
+  }
+
+  function bindZoom() {
+    let pinchDist = 0, pinchStartZoom = 1;
+    let panX = 0, panY = 0, panning = false;
+    let lastTap = 0;
+    // A double-tap is two still, one-finger gestures. Without tracking this,
+    // the touchend that ends a pinch or a pan counts as the second tap and
+    // silently throws the zoom away.
+    let gestureMoved = false, maxTouches = 0;
+
+    const dist = t => Math.hypot(
+      t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+
+    stage.addEventListener('touchstart', e => {
+      if (maxTouches === 0) gestureMoved = false;
+      maxTouches = Math.max(maxTouches, e.touches.length);
+      if (e.touches.length === 2) {
+        pinchDist = dist(e.touches);
+        pinchStartZoom = zoom;
+        panning = false;
+      } else if (e.touches.length === 1 && zoom > 1.01) {
+        panning = true;
+        panX = e.touches[0].clientX; panY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    // Not passive: these gestures are ours, and letting them through would
+    // hand the browser a page zoom or a scroll.
+    stage.addEventListener('touchmove', e => {
+      // Any movement at all disqualifies the gesture from being a tap --
+      // including a plain swipe at zoom 1, which neither pinches nor pans.
+      // Without this, two quick swipes read as a double-tap and zoom.
+      gestureMoved = true;
+      if (e.touches.length === 2 && pinchDist) {
+        e.preventDefault();
+        setZoom(pinchStartZoom * (dist(e.touches) / pinchDist), false);
+      } else if (panning && e.touches.length === 1) {
+        e.preventDefault();
+        tx += e.touches[0].clientX - panX;
+        ty += e.touches[0].clientY - panY;
+        panX = e.touches[0].clientX; panY = e.touches[0].clientY;
+        clampPan();
+        applyTransform(false);
+      }
+    }, { passive: false });
+
+    stage.addEventListener('touchend', e => {
+      if (e.touches.length > 0) return;      // fingers still down, gesture unfinished
+      const wasStillSingleTap = maxTouches === 1 && !gestureMoved;
+      pinchDist = 0; panning = false; maxTouches = 0;
+
+      // Double-tap toggles between fit and a close look. Only a still,
+      // one-finger gesture qualifies -- never the tail of a pinch or pan.
+      if (!wasStillSingleTap) { lastTap = 0; return; }
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        swallowClick = true;
+        setTimeout(() => { swallowClick = false; }, 400);
+        setZoom(zoom > 1.01 ? 1 : 2.5, true);
+        lastTap = 0;
+      } else {
+        lastTap = now;
+      }
+    }, { passive: true });
+
+    // Trackpad / mouse wheel zoom for desktop.
+    stage.addEventListener('wheel', e => {
+      if (!e.ctrlKey) return;          // pinch on a trackpad arrives as ctrl+wheel
+      e.preventDefault();
+      setZoom(zoom * (e.deltaY < 0 ? 1.12 : 0.89), false);
+    }, { passive: false });
+  }
 
   let refitQueued = false;
   function refit() {
@@ -201,6 +322,7 @@
 
   function close() {
     if (!overlay.classList.contains('is-open')) return;
+    resetZoom();
     restoreBorrowed();
     overlay.classList.remove('is-open');
     document.body.classList.remove('nav-open');
@@ -218,7 +340,7 @@
 
   function onKeydown(e) {
     if (!overlay.classList.contains('is-open')) return;
-    if (e.key === 'Escape')     { close(); return; }
+    if (e.key === 'Escape')     { if (isPinched()) setZoom(1, true); else close(); return; }
     if (e.key === 'ArrowLeft')  { step(-1); return; }
     if (e.key === 'ArrowRight') { step(1);  return; }
     if (e.key !== 'Tab') return;
