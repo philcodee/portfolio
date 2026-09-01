@@ -516,6 +516,14 @@ function mousePressed() {
 }
 
 function handlePress(px, py) {
+  // Browsers create the audio context suspended and only let it resume inside
+  // a user gesture. Without this the cards select silently -- which reads as
+  // the sprites not being tappable at all, since sound is their only feedback.
+  if (typeof getAudioContext === 'function' && getAudioContext().state !== 'running') {
+    const ctx = getAudioContext();
+    if (ctx.resume) Promise.resolve(ctx.resume()).catch(() => {});
+  }
+
   let scaleFactor = width / 1280;
   let mx = px / scaleFactor;
   let my = py / scaleFactor;
