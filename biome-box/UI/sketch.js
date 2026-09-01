@@ -515,15 +515,6 @@ function mousePressed() {
   handlePress(mouseX, mouseY);
 }
 
-// Handle touch explicitly rather than leaning on p5's mouse fallback, which is
-// unreliable inside an iframe. Returning false stops the browser turning the
-// tap into a scroll or a synthesised second click.
-function touchStarted() {
-  if (touches.length) handlePress(touches[0].x, touches[0].y);
-  else handlePress(mouseX, mouseY);
-  return false;
-}
-
 function handlePress(px, py) {
   let scaleFactor = width / 1280;
   let mx = px / scaleFactor;
