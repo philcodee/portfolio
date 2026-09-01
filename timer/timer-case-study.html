@@ -232,6 +232,7 @@
 <body>
 
   <script src="../site-nav.js"></script>
+<script src="../lightbox.js" defer></script>
   <site-nav root="../"></site-nav>
 
   <!-- ── DOT NAV ───────────────────────────────────────── -->
@@ -443,6 +444,11 @@
         img: 'assets/hand-detection.png', alt: 'Hand detection — MediaPipe hand tracking in camera view'
       },
     ];
+    // Publish the slide images so the lightbox can page through all of them
+    // (the DOM only ever holds the one visible <img>).
+    document.getElementById('iter-01').dataset.lightboxSlides =
+      JSON.stringify(searchSlides.map(s => ({ src: s.img, alt: s.alt, caption: s.title })));
+
     let searchIndex = 0;
     const searchImg = document.getElementById('search-img');
     const searchDot = document.querySelector('.dot-nav-item[href="#iter-01"]');
@@ -467,12 +473,8 @@ document.getElementById('search-prev').addEventListener('click', () => {
       updateSearch();
     });
     document.getElementById('search-next').addEventListener('click', () => {
-      if (searchIndex === searchSlides.length - 1) {
-        document.getElementById('system').scrollIntoView({ behavior: 'smooth' });
-      } else {
-        searchIndex = (searchIndex + 1) % searchSlides.length;
-        updateSearch();
-      }
+      searchIndex = (searchIndex + 1) % searchSlides.length;
+      updateSearch();
     });
   </script>
 

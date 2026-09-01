@@ -262,6 +262,7 @@
 <body>
 
   <script src="../site-nav.js"></script>
+<script src="../lightbox.js" defer></script>
   <site-nav root="../"></site-nav>
 
   <!-- ── DOT NAV ───────────────────────────────────────── -->
@@ -453,6 +454,11 @@
       { src: 'assets/table-setup.jpg', alt: 'Park table setup with Chunk materials' },
       { src: 'assets/participant.jpg',  alt: 'Participant engaging with Chunk table' }
     ];
+    // Publish the slide images so the lightbox can page through all of them
+    // (the DOM only ever holds the one visible <img>).
+    document.getElementById('install-slide').dataset.lightboxSlides =
+      JSON.stringify(installSlides);
+
     let installIndex = 0;
     const installImg = document.getElementById('install-img');
     const installCounter = document.getElementById('install-counter');

@@ -336,6 +336,7 @@
 <body>
 
   <script src="../site-nav.js"></script>
+<script src="../lightbox.js" defer></script>
   <site-nav root="../"></site-nav>
 
   <!-- ── DOT NAV ───────────────────────────────────────── -->
@@ -633,6 +634,11 @@
       },
     ];
 
+    // Publish the slide images so the lightbox can page through all of them
+    // (the DOM only ever holds the one visible <img>).
+    document.getElementById('iterations').dataset.lightboxSlides =
+      JSON.stringify(iterSlides.map(s => ({ src: s.img, alt: s.alt, caption: s.title })));
+
     let iterIndex = 0;
     const iterImg = document.getElementById('iter-img');
     const iterPlaceholder = document.getElementById('iter-img-placeholder');
@@ -664,12 +670,8 @@
       updateIter();
     });
     document.getElementById('iter-next').addEventListener('click', () => {
-      if (iterIndex === iterSlides.length - 1) {
-        document.getElementById('interaction').scrollIntoView({ behavior: 'smooth' });
-      } else {
-        iterIndex = (iterIndex + 1) % iterSlides.length;
-        updateIter();
-      }
+      iterIndex = (iterIndex + 1) % iterSlides.length;
+      updateIter();
     });
 
     updateIter();

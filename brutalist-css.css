@@ -414,7 +414,7 @@ input[type="submit"]:hover {
 
 button:active,
 input[type="submit"]:active {
-  transform: translate(2px, 2px);
+  transform: translate(1px, 1px);
 }
 
 button.secondary {
@@ -1369,7 +1369,14 @@ body:has(site-nav) {
   background: var(--white);
   border-bottom: var(--border-heavy);
   overflow-y: auto;
-  max-height: calc(100vh - 3.5rem);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  /* dvh tracks the viewport as mobile browser chrome shows and hides; vh is
+     the retracted-chrome height, which is why the last link ended up behind
+     the address bar. The offset is the nav's own height (4.5rem), not 3.5. */
+  max-height: calc(100vh - 4.5rem);
+  max-height: calc(100dvh - 4.5rem);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 site-nav.is-open .nav-mobile-panel {
   display: block;
@@ -1539,6 +1546,201 @@ body.nav-open {
 }
 
 
+/* ── LIGHTBOX ────────────────────────────────────────────── */
+/* Shares the iframe modal's language: white ground, CLOSE bar, Esc.        */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: var(--gray-mid); /* same ground as the page behind it */
+  flex-direction: column;
+}
+.lightbox.is-open {
+  display: flex;
+}
+.lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: var(--border);
+  background: var(--gray-mid);
+  flex-shrink: 0;
+  min-height: 3.5rem;
+}
+.lightbox-counter,
+.lightbox-caption {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro",
+               Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.lightbox-close {
+  flex-shrink: 0;
+  background: var(--black);
+  color: var(--white);
+  border: var(--border);
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro",
+               Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.lightbox-close:hover {
+  background: var(--white);
+  color: var(--black);
+}
+/* The arrows float over the stage rather than sitting beside it — as flex
+   siblings they stole ~a third of a phone's width from the image. */
+.lightbox-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  min-height: 0;
+}
+.lightbox-stage {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+/* Zoom to fit. The exact size is set in JS from the file's real dimensions:
+   pure CSS can upscale or preserve the ratio here, but not both while keeping
+   the border wrapped tight to the picture.
+   The max-* pair is the pre-load state — without it the image paints at its
+   natural size for a frame before JS can measure it, which flashes as a
+   stretch. Both being maxima, they scale down in proportion, never distort. */
+.lightbox-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border: 3px solid #000;
+}
+/* The whole surface dismisses, so say so. */
+.lightbox-body { cursor: zoom-out; }
+.lightbox-bar,
+.lightbox-nav { cursor: default; }
+/* Centred with auto margins, not translateY(-50%) — the global
+   `button:active { transform: … }` would replace a centring transform and
+   drop the button by half its height on every press. */
+.lightbox-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-block: auto;
+  height: fit-content;
+  z-index: 2;
+  background: var(--white);
+  color: var(--black);
+  border: var(--border);
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0.75rem 0.9rem;
+  cursor: pointer;
+}
+.lightbox-prev { left: 0.75rem; }
+.lightbox-next { right: 0.75rem; }
+.lightbox-nav:hover {
+  background: var(--black);
+  color: var(--white);
+}
+.lightbox-nav[hidden] {
+  display: none;
+}
+/* Caption and note live on their own fixed-height surface. Reserving the space
+   means a caption that wraps to two lines never resizes the image above it, and
+   the global `p { max-width: 70ch }` is overridden so text can run full width. */
+.lightbox-footer {
+  flex-shrink: 0;
+  height: 4.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+  padding: 0 1.25rem;
+  overflow: hidden;
+}
+.lightbox-caption {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+.lightbox-caption:empty {
+  display: none;
+}
+/* Provenance note under the caption — quieter than the caption itself. */
+.lightbox-note {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro",
+               Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+}
+.lightbox-note:empty {
+  display: none;
+}
+
+/* A live mock on loan to the overlay drops its page-level sizing. */
+.lightbox-stage .cg-mock-frame.is-lightboxed {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0;
+  aspect-ratio: auto;
+}
+
+/* Affordances. Keyed off the class the lightbox actually applies, so anything
+   it binds gets the cursor — slideshow images included, which sit in their own
+   wrappers rather than .img-frame. */
+.is-openable {
+  cursor: zoom-in;
+}
+.is-openable:focus-visible {
+  outline: 3px solid var(--black);
+  outline-offset: 3px;
+}
+/* Card stacks expand on touch only; on desktop the click is the shuffle. */
+.card-stack.has-lightbox-mobile { cursor: pointer; }
+
+@media (max-width: 640px) {
+  /* Paging is a swipe here, so the arrows are redundant chrome — dropping
+     them hands their space back to the image. The counter still tracks
+     position. */
+  .lightbox-nav { display: none; }
+  .lightbox-body { padding: 0.5rem; }
+  .lightbox-caption { font-size: 0.7rem; }
+  .lightbox-bar { min-height: 3rem; padding: 0.5rem 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox, .lightbox-stage img { transition: none !important; }
+}
+
+
 /* ── NAV RESPONSIVE ──────────────────────────────────────── */
 
 @media (max-width: 640px) {
@@ -1560,6 +1762,19 @@ body.nav-open {
   }
   .nav-hamburger {
     display: block;
+  }
+  /* Cap the whole bar at the visible viewport and let the panel take whatever
+     the nav leaves, so a wrapped nav can't push the menu off-screen either.
+     This drops the hardcoded offset above. */
+  site-nav {
+    max-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-mobile-panel {
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: none;
   }
 }
 
