@@ -17,7 +17,7 @@
   const MOBILE = '(max-width: 640px)';
   const isMobile = () => window.matchMedia(MOBILE).matches;
 
-  let overlay, stage, bar, counter, caption, note, footer, closeBtn, prevBtn, nextBtn;
+  let overlay, stage, bar, bodyEl, counter, caption, note, footer, closeBtn, prevBtn, nextBtn;
 
   // The caption is the copy already written beside the image on the page --
   // a .caption element, or a slide's own title. Never the alt attribute:
@@ -76,6 +76,7 @@
 
     stage    = overlay.querySelector('.lightbox-stage');
     bar      = overlay.querySelector('.lightbox-bar');
+    bodyEl   = overlay.querySelector('.lightbox-body');
     counter  = overlay.querySelector('.lightbox-counter');
     caption  = overlay.querySelector('.lightbox-caption');
     note     = overlay.querySelector('.lightbox-note');
@@ -98,7 +99,11 @@
 
     document.addEventListener('keydown', onKeydown);
     window.addEventListener('resize', refit);
-    window.addEventListener('orientationchange', refit);
+    window.addEventListener('orientationchange', refitAfterRotate);
+    if (window.visualViewport) {
+      // Fires when the viewport actually settles, and when a pinch ends.
+      window.visualViewport.addEventListener('resize', refit);
+    }
     bindSwipe();
   }
 
@@ -147,9 +152,30 @@
     img.style.height = Math.floor(img.naturalHeight * scale) + 'px';
   }
 
+  // Pinch-zoom must win. While the visual viewport is scaled the user is
+  // inspecting detail, and refitting would resize the picture out from under
+  // the gesture. Fitting resumes when they pinch back to 1.
+  const isPinched = () => !!(window.visualViewport && window.visualViewport.scale > 1.01);
+
+  let refitQueued = false;
   function refit() {
-    const img = stage.querySelector('img');
-    if (img) fitImage(img);
+    if (refitQueued) return;
+    refitQueued = true;
+    requestAnimationFrame(() => {
+      refitQueued = false;
+      if (isPinched()) return;
+      const img = stage.querySelector('img');
+      if (img) fitImage(img);
+    });
+  }
+
+  // orientationchange fires BEFORE the viewport reports its new size, so a
+  // refit here alone measures the old box. visualViewport's resize fires
+  // after the change lands; the timeout covers browsers without it.
+  function refitAfterRotate() {
+    refit();
+    setTimeout(refit, 150);
+    setTimeout(refit, 400);
   }
 
   function restoreBorrowed() {
@@ -207,26 +233,61 @@
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
+  // Paging gesture. Bound to the whole body, not the image: a fitted picture
+  // rarely fills the stage, and a swipe through the empty space beside it is
+  // still a swipe. Deliberately inert while pinch-zoomed, where a drag means
+  // pan, and on multi-touch.
+  const SWIPE_MIN   = 45;   // px of travel before it counts as a swipe
+  const SWIPE_SLOPE = 1.2;  // how much more horizontal than vertical it must be
+  const DRAG_SLOP   = 10;   // past this, the gesture is a drag and not a tap
+
   function bindSwipe() {
-    let x0 = null, y0 = null, dragged = false;
-    stage.addEventListener('touchstart', e => {
-      if (e.touches.length !== 1) return;
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dragged = false;
+    let x0 = null, y0 = null, dragged = false, multi = false;
+
+    bodyEl.addEventListener('touchstart', e => {
+      // Only the click synthesised by the gesture that armed it should be
+      // swallowed. A drag that doesn't page (vertical, or too short) would
+      // otherwise leave this armed and eat the next genuine tap.
+      swallowClick = false;
+      if (e.touches.length !== 1) { multi = true; x0 = null; return; }
+      multi = false; dragged = false;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
     }, { passive: true });
-    stage.addEventListener('touchmove', e => {
-      if (x0 === null || e.touches.length !== 1) return;
-      if (Math.abs(e.touches[0].clientX - x0) > 10 ||
-          Math.abs(e.touches[0].clientY - y0) > 10) dragged = true;
-    }, { passive: true });
-    stage.addEventListener('touchend', e => {
+
+    bodyEl.addEventListener('touchmove', e => {
+      if (e.touches.length !== 1) { multi = true; return; }
       if (x0 === null) return;
+      if (Math.abs(e.touches[0].clientX - x0) > DRAG_SLOP ||
+          Math.abs(e.touches[0].clientY - y0) > DRAG_SLOP) dragged = true;
+    }, { passive: true });
+
+    bodyEl.addEventListener('touchend', e => {
+      if (x0 === null || multi) { x0 = y0 = null; multi = false; return; }
       const t = e.changedTouches[0];
       const dx = t.clientX - x0, dy = t.clientY - y0;
-      // A drag is never a dismiss tap: touch ends synthesise a click, and
-      // without this a swipe pages the gallery and then closes it.
-      if (dragged) swallowClick = true;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
       x0 = y0 = null;
+
+      // A drag is never a dismiss tap: touch ends synthesise a click, and
+      // without this a swipe pages the gallery and then closes it. The timer
+      // is a safety net so a gesture that never produces a click cannot leave
+      // this armed against a later one.
+      if (dragged) {
+        swallowClick = true;
+        setTimeout(() => { swallowClick = false; }, 400);
+      }
+
+      // Zoomed in, a horizontal drag is the user panning around the picture.
+      if (isPinched()) return;
+
+      if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * SWIPE_SLOPE) {
+        step(dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    // A cancelled touch (system gesture, call, notification) must not leave
+    // stale start coordinates that turn the next tap into a phantom swipe.
+    bodyEl.addEventListener('touchcancel', () => {
+      x0 = y0 = null; dragged = false; multi = false;
     }, { passive: true });
   }
 
