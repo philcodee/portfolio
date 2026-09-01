@@ -730,15 +730,14 @@
       // Real fullscreen where it exists, so mobile browser chrome actually
       // gets out of the way. The fixed-position styling above is the fallback
       // for iOS Safari, which won't fullscreen a non-video element.
+      // Safari's webkit- variant returns undefined rather than a Promise, so
+      // chaining off it fires before fullscreen is actually active. The
+      // orientation lock is handled on fullscreenchange instead, which is the
+      // only point it is permitted.
+      const enabled = document.fullscreenEnabled || document.webkitFullscreenEnabled;
       const req = uiWrap.requestFullscreen || uiWrap.webkitRequestFullscreen;
-      if (req) {
-        Promise.resolve(req.call(uiWrap))
-          // Orientation lock is only permitted inside fullscreen, and it
-          // rejects as a Promise -- try/catch never caught it.
-          .then(() => screen.orientation && screen.orientation.lock
-            ? screen.orientation.lock('landscape') : null)
-          .catch(() => {})
-          .finally(resizeSketch);
+      if (enabled && req) {
+        try { Promise.resolve(req.call(uiWrap)).catch(() => {}); } catch (e) {}
       }
       resizeSketch();
     }
@@ -771,7 +770,19 @@
     // Leaving fullscreen by a system gesture or Esc must not strand the page
     // with its nav hidden and scrolling locked.
     ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt =>
-      document.addEventListener(evt, () => { if (!fsElement()) exitExpanded(); }));
+      document.addEventListener(evt, () => {
+        if (fsElement()) {
+          // Only now is an orientation lock permitted.
+          try {
+            const r = screen.orientation && screen.orientation.lock
+              && screen.orientation.lock('landscape');
+            if (r && r.catch) r.catch(() => {});
+          } catch (e) {}
+          resizeSketch();
+        } else {
+          exitExpanded();
+        }
+      }));
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') exitExpanded();
     });
