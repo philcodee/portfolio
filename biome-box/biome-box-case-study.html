@@ -200,6 +200,10 @@
       background: #000;
     }
     #ui-wrap.is-expanded::after { display: none; }
+    /* In real fullscreen the element is the viewport; be explicit so the
+       iframe has a definite height to flex into. */
+    #ui-wrap:fullscreen,
+    #ui-wrap:-webkit-full-screen { width: 100vw; height: 100vh; }
     #ui-wrap.is-expanded iframe {
       aspect-ratio: auto !important;
       flex: 1;
@@ -690,7 +694,17 @@
     const dotNav  = document.querySelector('.dot-nav');
     let uiWrapAnchor = null; // placeholder to restore position
 
-    document.getElementById('biome-expand').addEventListener('click', () => {
+    // Nudge the sketch to re-measure once the new layout has settled.
+    const resizeSketch = () => {
+      [0, 100, 350].forEach(d => setTimeout(() => {
+        try { biomeIframe.contentWindow.postMessage({ type: 'resize' }, '*'); } catch (e) {}
+      }, d));
+    };
+
+    const fsElement = () => document.fullscreenElement || document.webkitFullscreenElement;
+
+    function enterExpanded() {
+      if (uiWrap.classList.contains('is-expanded')) return;
       // Teleport #ui-wrap to <body> so position:fixed is relative to the viewport,
       // not trapped in any ancestor stacking context or scroll-snap container
       uiWrapAnchor = document.createComment('ui-wrap-anchor');
@@ -702,12 +716,25 @@
       document.body.style.overflow = 'hidden';
       if (siteNav) siteNav.style.display = 'none';
       if (dotNav)  dotNav.style.display  = 'none';
-      try { screen.orientation.lock('landscape'); } catch(e) {}
-      // Tell the iframe to resize its canvas after CSS settles
-      setTimeout(() => biomeIframe.contentWindow.postMessage({ type: 'resize' }, '*'), 100);
-    });
 
-    document.getElementById('biome-close').addEventListener('click', () => {
+      // Real fullscreen where it exists, so mobile browser chrome actually
+      // gets out of the way. The fixed-position styling above is the fallback
+      // for iOS Safari, which won't fullscreen a non-video element.
+      const req = uiWrap.requestFullscreen || uiWrap.webkitRequestFullscreen;
+      if (req) {
+        Promise.resolve(req.call(uiWrap))
+          // Orientation lock is only permitted inside fullscreen, and it
+          // rejects as a Promise -- try/catch never caught it.
+          .then(() => screen.orientation && screen.orientation.lock
+            ? screen.orientation.lock('landscape') : null)
+          .catch(() => {})
+          .finally(resizeSketch);
+      }
+      resizeSketch();
+    }
+
+    function exitExpanded() {
+      if (!uiWrap.classList.contains('is-expanded')) return;
       uiWrap.classList.remove('is-expanded');
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
@@ -719,9 +746,27 @@
         uiWrapAnchor.parentNode.removeChild(uiWrapAnchor);
         uiWrapAnchor = null;
       }
-      try { screen.orientation.unlock(); } catch(e) {}
-      // Restore canvas to embed size
-      setTimeout(() => biomeIframe.contentWindow.postMessage({ type: 'resize' }, '*'), 100);
+      try { screen.orientation && screen.orientation.unlock(); } catch (e) {}
+      if (fsElement()) {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) Promise.resolve(exit.call(document)).catch(() => {});
+      }
+      resizeSketch();
+    }
+
+    document.getElementById('biome-expand').addEventListener('click', enterExpanded);
+    document.getElementById('biome-close').addEventListener('click', exitExpanded);
+
+    // Leaving fullscreen by a system gesture or Esc must not strand the page
+    // with its nav hidden and scrolling locked.
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt =>
+      document.addEventListener(evt, () => { if (!fsElement()) exitExpanded(); }));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') exitExpanded();
+    });
+    // The sketch letterboxes to its window, so it needs to re-measure on rotate.
+    window.addEventListener('orientationchange', () => {
+      if (uiWrap.classList.contains('is-expanded')) resizeSketch();
     });
   </script>
 
